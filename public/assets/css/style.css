@@ -1,0 +1,333 @@
+/* أنيميشن الظهور التدريجي */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.animate-delay-200 {
+    animation-delay: 0.2s;
+    opacity: 0;
+}
+
+/* تحسينات الأنيميشن للسلاسة - استخدام cubic-bezier مخصص */
+.smooth-transform {
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.ultra-smooth {
+    transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform-origin: center center;
+    will-change: transform, box-shadow, opacity;
+}
+
+.floating-card {
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center center;
+    will-change: transform;
+}
+
+/* تأثيرات الهوفر المحسنة - تحويلات معقدة */
+.image-container:hover .background-gradient {
+    transform: rotate(8deg) scale(1.05);
+}
+
+.image-container:hover .main-image-wrapper {
+    transform: scale(1.08) translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.image-container:hover .floating-card-left {
+    transform: translateX(-8px) translateY(-12px) rotate(-3deg) scale(1.1);
+}
+
+.image-container:hover .floating-card-right {
+    transform: translateX(8px) translateY(12px) rotate(3deg) scale(1.1);
+}
+
+.image-container:hover .main-image {
+    transform: scale(1.02);
+    filter: brightness(1.05) contrast(1.05);
+}
+
+/* تأثير النبض للبطاقات - أنيميشن مخصص */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
+    }
+}
+
+.pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* تأثير التموج - pseudo-element مع أنيميشن */
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.ripple-effect::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, transparent 70%);
+    animation: ripple 2s ease-out infinite;
+}
+
+/* تحسين الأداء - GPU acceleration */
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* ===== تحسينات الاستجابة (Responsive) ===== */
+
+/* تحسين الشبكة للشاشات المختلفة */
+@media (max-width: 1024px) {
+    .grid.lg\\:grid-cols-2 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* تحسين المساحات للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .py-12.md\\:py-16 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .text-3xl.md\\:text-4xl.lg\\:text-5xl {
+        font-size: 2rem !important;
+        line-height: 2.5rem !important;
+    }
+    
+    .text-lg {
+        font-size: 1rem !important;
+        line-height: 1.5rem !important;
+    }
+    
+    .space-y-5 > * + * {
+        margin-top: 1rem !important;
+    }
+}
+
+/* تحسين ارتفاع القسم ليتناسب مع الشاشة */
+@media (min-height: 600px) {
+    .relative.py-12.md\\:py-16 {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* تحسين البطاقات العائمة للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .floating-card-left {
+        top: -1rem !important;
+        left: -1rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .floating-card-right {
+        bottom: -1rem !important;
+        right: -1rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .floating-card .text-2xl {
+        font-size: 1.5rem !important;
+    }
+    
+    .floating-card .text-xs {
+        font-size: 0.625rem !important;
+    }
+}
+
+/* تحسين الأيقونات والعناصر للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .w-10.h-10 {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+    
+    .w-5.h-5 {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+    
+    .mr-6.rtl\\:ml-6 {
+        margin-right: 1rem !important;
+    }
+    
+    .text-lg {
+        font-size: 1rem !important;
+    }
+    
+    .text-sm {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* تحسين الزر للشاشات الصغيرة */
+@media (max-width: 640px) {
+    .btn.btn-primary {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.875rem !important;
+    }
+}
+
+/* تحسين الصورة للشاشات المختلفة */
+@media (max-width: 1024px) {
+    .image-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .image-container {
+        max-width: 350px;
+    }
+    
+    .main-image-wrapper {
+        padding: 0.75rem !important;
+    }
+}
+
+/* تحسين الخلفية المتحركة */
+@media (max-width: 768px) {
+    .absolute.top-1\\/4.right-10.w-96.h-96 {
+        width: 12rem !important;
+        height: 12rem !important;
+        right: 1rem !important;
+    }
+    
+    .absolute.bottom-1\\/4.left-10.w-80.h-80 {
+        width: 10rem !important;
+        height: 10rem !important;
+        left: 1rem !important;
+    }
+}
+
+/* تحسين الأداء للأجهزة المحمولة */
+@media (max-width: 768px) {
+    .gpu-accelerated {
+        transform: none;
+        will-change: auto;
+    }
+    
+    .ultra-smooth,
+    .smooth-transform,
+    .floating-card {
+        transition-duration: 0.3s;
+    }
+    
+    /* تقليل التأثيرات المعقدة على الأجهزة المحمولة */
+    .pulse-glow {
+        animation: none;
+    }
+    
+    .ripple-effect::before {
+        display: none;
+    }
+}
+
+/* تحسين التباعد العمودي */
+.space-y-5 > * + * {
+    margin-top: 1.25rem;
+}
+
+@media (max-width: 640px) {
+    .space-y-5 > * + * {
+        margin-top: 1rem;
+    }
+}
+
+/* تحسين الحاويات للشاشات الكبيرة */
+@media (min-width: 1280px) {
+    .max-w-7xl {
+        max-width: 1200px;
+    }
+}
+
+/* تحسين النصوص للقراءة */
+.leading-relaxed {
+    line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+    .leading-relaxed {
+        line-height: 1.5;
+    }
+}
+
+/* تحسين الظلال للشاشات عالية الدقة */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* تحسين الانتقالات للأجهزة التي تفضل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up,
+    .animate-delay-200,
+    .ultra-smooth,
+    .smooth-transform,
+    .floating-card {
+        animation: none;
+        transition: none;
+    }
+    
+    .pulse-glow {
+        animation: none;
+    }
+    
+    .ripple-effect::before {
+        display: none;
+    }
+}
+
+
+.card-hover-scal {
+    transition: all 0.4s;
+}
+.card-hover-scal:hover {
+    transform: scale(1.5);
+}
+
+
+
+.plan-icon-rotate {
+    transform: rotate(180deg);
+}
+
+
+.hero-section-height {
+    height: calc(100vh - 124px);
+    margin-top:118px;
+}

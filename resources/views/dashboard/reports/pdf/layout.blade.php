@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'تقرير')</title>
+    <style>
+        @page {
+            margin: 20mm;
+            size: A4 landscape;
+        }
+        
+        body {
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: #333;
+            direction: rtl;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 15px;
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+        
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .report-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 10px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .report-info div {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .report-info strong {
+            color: #2563eb;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 9px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: right;
+        }
+        
+        th {
+            background-color: #2563eb;
+            color: white;
+            font-weight: bold;
+            font-size: 9px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 8px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        .summary {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 10px;
+        }
+        
+        .summary h3 {
+            margin: 0 0 8px 0;
+            color: #2563eb;
+            font-size: 12px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 5px;
+            background: white;
+            border-radius: 3px;
+        }
+        
+        .summary-item strong {
+            display: block;
+            font-size: 14px;
+            color: #2563eb;
+        }
+        
+        .summary-item span {
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .status {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-shipped {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-delivered {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-completed {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .payment-status {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        
+        .payment-paid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .payment-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .payment-failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+    @yield('styles')
+</head>
+<body>
+    @yield('content')
+    
+    <div class="footer">
+        <p>تم إنشاء هذا التقرير تلقائياً من نظام الإدارة - {{ now()->format('Y-m-d H:i:s') }}</p>
+        <p>جميع الحقوق محفوظة © {{ date('Y') }}</p>
+    </div>
+</body>
+</html>

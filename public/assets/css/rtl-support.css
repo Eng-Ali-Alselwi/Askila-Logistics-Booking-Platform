@@ -1,0 +1,194 @@
+/* RTL Support for Arabic Language */
+
+/* Base RTL Styles */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .rtl\:text-right {
+    text-align: right;
+}
+
+[dir="rtl"] .rtl\:text-left {
+    text-align: left;
+}
+
+/* Form Inputs RTL */
+[dir="rtl"] .form-input,
+[dir="rtl"] input[type="text"],
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="password"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Input Icons RTL */
+[dir="rtl"] .relative .absolute.inset-y-0.left-0 {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .relative .absolute.inset-y-0.right-0 {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] .pl-10 {
+    padding-left: 0;
+    padding-right: 2.5rem;
+}
+
+[dir="rtl"] .pr-10 {
+    padding-right: 0;
+    padding-left: 2.5rem;
+}
+
+/* Margins and Padding RTL */
+[dir="rtl"] .mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-3 {
+    margin-right: 0;
+    margin-left: 0.75rem;
+}
+
+[dir="rtl"] .ml-3 {
+    margin-left: 0;
+    margin-right: 0.75rem;
+}
+
+/* Flexbox RTL */
+[dir="rtl"] .flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
+/* Button Icons RTL */
+[dir="rtl"] .inline {
+    display: inline;
+}
+
+/* [dir="rtl"] button svg,
+[dir="rtl"] a svg {
+    margin-right: 0;
+    margin-left: 0.5rem;
+} */
+
+/* Navigation RTL */
+[dir="rtl"] .nav-link {
+    text-align: right;
+}
+
+/* Card RTL */
+[dir="rtl"] .card {
+    text-align: right;
+}
+
+/* Error Messages RTL */
+[dir="rtl"] .error-message {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Success Messages RTL */
+[dir="rtl"] .success-message {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Form Labels RTL */
+[dir="rtl"] label {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Checkbox and Radio RTL */
+[dir="rtl"] .flex.items-center input[type="checkbox"],
+[dir="rtl"] .flex.items-center input[type="radio"] {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+/* Footer RTL */
+[dir="rtl"] .footer {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Responsive RTL */
+@media (max-width: 768px) {
+    [dir="rtl"] .mobile-menu {
+        text-align: right;
+        direction: rtl;
+    }
+    
+    [dir="rtl"] .mobile-menu ul {
+        text-align: right;
+    }
+}
+
+/* Arabic Font Support */
+[dir="rtl"] {
+    font-family: 'IBM Plex Sans Arabic', 'Arial', sans-serif;
+}
+
+/* Special RTL Classes */
+.rtl-flip {
+    transform: scaleX(-1);
+}
+
+.rtl-float-left {
+    float: right;
+}
+
+.rtl-float-right {
+    float: left;
+}
+
+/* Custom RTL Utilities */
+.rtl-mr-auto {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.rtl-ml-auto {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* RTL Animation Support */
+[dir="rtl"] .slide-in-right {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+[dir="rtl"] .slide-in-left {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
