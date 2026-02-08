@@ -13,12 +13,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/aos.css') }}">
 @endpush
 @section('content')
-    <!-- banner section -->
-    <!-- Hero Section -->
     @include('front.home.sections.hero')
     @include('front.home.sections.about')
     @include('front.home.sections.services')
     @include('front.home.sections.how-it-works')
     @include('front.home.sections.stats')
-    <!-- @include('front.home.sections.why-us') -->
+    @include('front.contact.sections.form')
 @endsection

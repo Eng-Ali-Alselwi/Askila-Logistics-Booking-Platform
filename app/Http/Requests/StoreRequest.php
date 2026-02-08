@@ -28,21 +28,13 @@ class StoreRequest extends FormRequest
             'passenger_id_number' => 'nullable|string|max:20',
             'passport_number' => 'nullable|string|max:20',
             'image' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
-            'passport_issue_date' => 'nullable|date',
-            'passport_expiry_date' => 'nullable|date|after:passport_issue_date',
-            'nationality' => 'nullable|string|max:100',
-            'date_of_birth' => 'nullable|date',
-            'current_residence_country' => 'nullable|string|max:100',
-            'destination_country' => 'nullable|string|max:100',
             'phone_sudan' => 'nullable|string|max:20',
-            'travel_date' => 'nullable|date|after_or_equal:today',
             'ticket_type' => 'required|in:one_way,round_trip',
             'seat_class' => 'required|string',
-            'cabin_type' => 'nullable|string|max:100',
             'number_of_passengers' => 'required|integer|min:1|max:9',
             'passenger_details' => 'nullable|array',
             'special_requests' => 'nullable|string|max:1000',
-            'payment_method' => 'required|in:paypal,credit_card,whatsapp'
+            'payment_method' => 'required|in:on_arrival,whatsapp,tap_payment'
         ];
     }
 

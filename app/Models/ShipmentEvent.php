@@ -14,11 +14,6 @@ class ShipmentEvent extends Model
 
     protected $guarded = [];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -41,9 +36,6 @@ class ShipmentEvent extends Model
         return $q->orderByDesc('happened_at');
     }
 
-    /**
-     * Get the status label for this event
-     */
     protected function statusLabel(): Attribute
     {
         return Attribute::get(function(){

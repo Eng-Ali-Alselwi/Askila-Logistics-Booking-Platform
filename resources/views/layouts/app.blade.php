@@ -152,12 +152,8 @@
     </button>
   </div>
 
-  <!--======= Header area start =======-->
-  {{-- <header class=" fixed dark:bg-lightGrey10-dark top-0 inset-x-0 z-[999999999] shadow-header h-[55px] lg:h-[73px]"> --}}
-    {{-- @include('front.includes.header') --}}
     @include('front.includes.header2')
-  {{-- </header> --}}
-  @include('front.includes.marketing-strip')
+    @include('front.includes.marketing-strip')
   {{-- <header class=" fixed dark:bg-lightGrey10-dark top-0 inset-x-0 z-[999999999] shadow-header h-[55px] lg:h-[73px]">
     @include('front.includes.header')
   </header> --}}

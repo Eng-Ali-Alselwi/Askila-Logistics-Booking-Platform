@@ -5,15 +5,6 @@
         <!-- Professional Login Card -->
         <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden">
             
-            <!-- Header with Logo and Company Info -->
-            <!-- <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-8 text-center">
-                <div class="mb-4">
-                    <img src="{{ asset('assets/images/logo/light.png') }}" class="h-12 mx-auto" alt="Askila Logo">
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">{{ t('Welcome Back') }}</h2>
-                <p class="text-primary-100 text-sm">{{ t('Professional Logistics backed by 25 years of excellence') }}</p>
-            </div> -->
-
             <!-- Login Form -->
             <div class="px-8 py-8">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center">

@@ -57,34 +57,32 @@ class FlightController extends Controller
     public function search(Request $request)
     {
         $request->validate([
-            'departure' => 'required|string',
-            'arrival' => 'required|string',
-            'departure_date' => 'required|date|after_or_equal:today',
-            'passengers' => 'required|integer|min:1|max:9',
+            'departure' => 'nullable|string',
+            'arrival' => 'nullable|string',
+            'departure_date' => 'nullable|date|after_or_equal:today',
+            'passengers' => 'nullable|integer|min:1|max:9',
             'return_date' => 'nullable|date|after:departure_date'
         ]);
 
+        // بناء استعلام رحلات الذهاب
         $departureFlights = Flight::active()
             ->upcoming()
-            ->byRoute($request->departure, $request->arrival)
-            ->byDate($request->departure_date)
-            ->where('available_seats', '>=', $request->passengers)
+            ->when($request->departure, function ($q) use ($request) {
+                return $q->where('departure_city', $request->departure);
+            })
+            ->when($request->arrival, function ($q) use ($request) {
+                return $q->where('arrival_city', $request->arrival);
+            })
+            ->when($request->departure_date, function ($q) use ($request) {
+                return $q->byDate($request->departure_date);
+            })
+            ->when($request->passengers, function ($q) use ($request) {
+                return $q->where('available_seats', '>=', $request->passengers);
+            })
             ->orderBy('departure_time')
-            ->get();
+            ->paginate(12);
 
-        $returnFlights = collect();
-        
-        if ($request->filled('return_date')) {
-            $returnFlights = Flight::active()
-                ->upcoming()
-                ->byRoute($request->arrival, $request->departure)
-                ->byDate($request->return_date)
-                ->where('available_seats', '>=', $request->passengers)
-                ->orderBy('departure_time')
-                ->get();
-        }
-
-        return view('front.flights.search-results', compact('departureFlights', 'returnFlights'));
+        return view('front.flights.index', ['flights' => $departureFlights]);
     }
 
     public function show(Flight $flight)

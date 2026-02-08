@@ -12,57 +12,57 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/aos.css') }}">
-<style>
-    .timeline-step {
-        transition: all 0.3s ease;
-    }
-
-    .timeline-step:hover {
-        transform: translateY(-2px);
-    }
-
-    .pulse-animation {
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
+    <style>
+        .timeline-step {
+            transition: all 0.3s ease;
         }
-        50% {
-            opacity: 0.5;
+
+        .timeline-step:hover {
+            transform: translateY(-2px);
         }
-    }
 
-    .skeleton {
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-    }
-
-    .dark .skeleton {
-        background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
-        background-size: 200% 100%;
-    }
-
-    @keyframes loading {
-        0% {
-            background-position: 200% 0;
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
-        100% {
-            background-position: -200% 0;
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
         }
-    }
 
-    .fade-in {
-        animation: fadeIn 0.5s ease-in;
-    }
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+        .dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <div class="px-10">
+    <div class="container px-10 mb-8">
         @if($errors->any())
             <!-- Error Message -->
             <div class="max-w-2xl mx-auto mb-8">
@@ -164,9 +164,9 @@
 
                         <!-- Timeline -->
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+                            <!-- <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
                                 {{ __('messages.shipment_progress') }}
-                            </h3>
+                            </h3> -->
                             <div class="relative">
                                 @php
                                     $timeline = $shipment->canonicalTimeline2();

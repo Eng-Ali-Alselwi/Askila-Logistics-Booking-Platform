@@ -12,14 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Shipment extends Model
 {
-    /** @use HasFactory<\Database\Factories\ShipmentFactory> */
     use HasFactory, HasUlids, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'tracking_number', 
         'sender_name', 
@@ -35,11 +29,6 @@ class Shipment extends Model
         'destination_branch_id'
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -67,7 +56,7 @@ class Shipment extends Model
         $status = $status instanceof ShipmentStatus ? $status->value : $status;
         $this->current_status = $status;
 
-        if ($status === ShipmentStatus::SHIPPED_JED_PORT->value && is_null($this->shipped_at)) {
+        if ($status === ShipmentStatus::IN_TRANSIT->value && is_null($this->shipped_at)) {
             $this->shipped_at = now();
         }
 
@@ -182,41 +171,6 @@ class Shipment extends Model
         return $steps;
     }
 
-    // public function canonicalTimeline(): array
-    // {
-    //     $order = \App\Enums\ShipmentStatus::timeline();
-    //     $orderedValues = array_map(fn($c) => $c->value, $order);
-
-    //     // أول ظهور لكل حالة حسب الزمن
-    //     $firstSeen = [];
-    //     foreach ($this->events()->orderBy('happened_at')->get(['status','happened_at']) as $ev) {
-    //         if (!isset($firstSeen[$ev->status])) {
-    //             $firstSeen[$ev->status] = $ev->happened_at;
-    //         }
-    //     }
-
-    //     // الحالة الحالية من الشحنة أو آخر حدث
-    //     $current = $this->current_status;
-    //     if (!$current) {
-    //         $last = $this->events()->latest('happened_at')->first();
-    //         $current = $last?->status;
-    //     }
-    //     $currentIdx = is_string($current) ? array_search($current, $orderedValues, true) : false;
-
-    //     // بناء الخط الستّي بدون تكرار
-    //     $steps = [];
-    //     foreach ($order as $i => $case) {
-    //         $val = $case->value;
-    //         $steps[] = [
-    //             'status'      => $val,
-    //             'label'       => $case->label(),
-    //             'reached'     => array_key_exists($val, $firstSeen),
-    //             'is_current'  => ($currentIdx !== false && $i === $currentIdx),
-    //             'is_future'   => ($currentIdx !== false && $i > $currentIdx),
-    //         ];
-    //     }
-    //     return $steps;
-    // }
 
 
     public function canonicalTimeline(): array

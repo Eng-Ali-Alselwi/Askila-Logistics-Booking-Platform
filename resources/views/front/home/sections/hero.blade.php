@@ -34,7 +34,7 @@
 
             <!-- Call-to-Action Buttons (exactly two) -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animate-delay-400">
-                <a href="{{ route('shipment.track2') }}" class="py-3 px-8 text-lg font-semibold text-white border-2 border-white/60 hover:border-white/80 bg-blue-600 hover:bg-blue-700 rounded-2xl shadow-xl transition">{{ __('messages.btn_track_shipment') }}</a>
+                <a href="{{ route('shipment.track') }}" class="py-3 px-8 text-lg font-semibold text-white border-2 border-white/60 hover:border-white/80 bg-blue-600 hover:bg-blue-700 rounded-2xl shadow-xl transition">{{ __('messages.btn_track_shipment') }}</a>
                 <a href="{{ route('flights.index') }}" class="py-3 px-8 text-lg font-semibold text-white/90 border-2 border-white/60 hover:border-white/80 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-md transition">{{ __('messages.btn_book_flight') }}</a>
             </div>
 

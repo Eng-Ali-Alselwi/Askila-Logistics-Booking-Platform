@@ -3,37 +3,81 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>رقم الحجز</title>
+    <title>تأكيد استلام طلب الحجز</title>
     <style>
-        body { font-family: Tahoma, Arial, sans-serif; background:#f7f7f9; color:#222; margin:0; padding:0; direction: rtl; unicode-bidi: plaintext; text-align: right; }
-        .container { max-width:600px; margin:24px auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.06); direction: rtl; text-align: right; }
-        .header { background:#0ea5e9; color:#fff; padding:16px 24px; font-size:18px; font-weight:bold; }
-        .content { padding:24px; line-height:1.8; direction: rtl; text-align: right; }
-        .code { display:inline-block; background:#f1f5f9; color:#0f172a; padding:8px 14px; border-radius:6px; font-weight:700; letter-spacing:0.5px; }
-        .meta { margin-top:16px; font-size:14px; color:#475569; direction: rtl; text-align: right; }
-        .footer { padding:16px 24px; font-size:12px; color:#64748b; border-top:1px solid #e2e8f0; background:#fafafa; }
-        .btn { display:inline-block; margin-top:16px; padding:10px 16px; background:#0ea5e9; color:#fff !important; text-decoration:none; border-radius:6px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; direction: rtl; }
+        .wrapper { width: 100%; table-layout: fixed; background-color: #f4f7fa; padding: 40px 0; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+        .header { background: linear-gradient(135deg, #0284c7, #0369a1); padding: 30px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 24px; font-weight: bold; }
+        .content { padding: 40px; line-height: 1.6; }
+        .welcome-text { font-size: 18px; margin-bottom: 20px; color: #1e293b; }
+        .reference-box { background-color: #f0f9ff; border: 2px dashed #0ea5e9; border-radius: 8px; padding: 20px; text-align: center; margin: 25px 0; }
+        .reference-label { font-size: 14px; color: #0369a1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .reference-code { font-size: 32px; font-weight: 800; color: #0c4a6e; font-family: monospace; letter-spacing: 2px; }
+        .details-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .details-table td { padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .details-label { color: #64748b; font-size: 14px; }
+        .details-value { font-weight: 600; color: #1e293b; text-align: left; }
+        .instructions { background-color: #fffbeb; border-right: 4px solid #f59e0b; padding: 15px; margin: 20px 0; font-size: 14px; color: #92400e; }
+        .footer { background-color: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+        .btn { display: inline-block; padding: 12px 30px; background-color: #0ea5e9; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 20px; }
     </style>
-    </head>
+</head>
 <body>
-    <div class="container">
-        <div class="header">ASKILA - رقم الحجز</div>
-        <div class="content">
-            <p>مرحباً {{ $booking->passenger_name }},</p>
-            <p>رقم الحجز الخاص بك هو <span class="code">{{ $booking->booking_reference }}</span>.</p>
-            <p>سيتم إشعارك فور موافقة الإدارة على الحجز وإتمام إجراءات التأكيد.</p>
-            <div class="meta">
-                <div>رحلة: {{ optional($booking->flight)->flight_number }} — {{ optional($booking->flight)->airline }}</div>
-                <div>عدد المسافرين: {{ $booking->number_of_passengers }}</div>
-                <div>التاريخ: {{ optional($booking->travel_date)?->format('Y-m-d') }}</div>
+    <div class="wrapper">
+        <div class="container">
+            <div class="header">
+                <h1>{{ config('app.name') }}</h1>
+                <p>تأكيد استلام طلب الحجز</p>
             </div>
-            <a class="btn" href="{{ url('/') }}">العودة للموقع</a>
-        </div>
-        <div class="footer">
-            إذا لم تقم بهذا الإجراء، يمكن تجاهل هذه الرسالة.
+            
+            <div class="content">
+                <p class="welcome-text">مرحباً {{ $booking->passenger_name }}،</p>
+                <p>شكراً لاختيارك {{ config('app.name') }}. لقد تلقينا طلب الحجز الخاص بك وهو الآن قيد المعالجة.</p>
+                
+                <div class="reference-box">
+                    <div class="reference-label">رقم مرجع الحجز</div>
+                    <div class="reference-code">{{ $booking->booking_reference }}</div>
+                </div>
+
+                <div class="instructions">
+                    @if($booking->payment_method === 'whatsapp')
+                        <strong>ملاحظة:</strong> لقد اخترت الدفع عبر الواتساب. سيقوم فريقنا بالتواصل معك قريباً لإكمال إجراءات الدفع وتأكيد الحجز.
+                    @elseif($booking->payment_method === 'on_arrival')
+                        <strong>ملاحظة:</strong> لقد اخترت الدفع عند الحضور. يرجى التوجه إلى مكتبنا مع رقم مرجع الحجز لإتمام عملية الدفع.
+                    @endif
+                </div>
+
+                <table class="details-table">
+                    <tr>
+                        <td class="details-label">رقم الرحلة:</td>
+                        <td class="details-value">{{ optional($booking->flight)->flight_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="details-label">الوجهة:</td>
+                        <td class="details-value">{{ optional($booking->flight)->departure_city }} ➔ {{ optional($booking->flight)->arrival_city }}</td>
+                    </tr>
+                    <tr>
+                        <td class="details-label">عدد الركاب:</td>
+                        <td class="details-value">{{ $booking->number_of_passengers }}</td>
+                    </tr>
+                    <tr>
+                        <td class="details-label">تاريخ السفر:</td>
+                        <td class="details-value">{{ optional($booking->travel_date)?->format('Y-m-d') ?? 'سيتم تحديده لاحقاً' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="details-label">إجمالي المبلغ:</td>
+                        <td class="details-value">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee) }} ريال سعودي</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="footer">
+                <p>هذا البريد الإلكتروني مرسل بشكل تلقائي، يرجى عدم الرد عليه.</p>
+                <p>&copy; {{ date('Y') }} {{ config('app.name') }}. جميع الحقوق محفوظة.</p>
+            </div>
         </div>
     </div>
-    </body>
+</body>
 </html>
-
-

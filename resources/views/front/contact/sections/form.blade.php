@@ -1,4 +1,4 @@
-<section class="contact-section py-4 mt-34 mb-10 relative overflow-hidden">
+<section id="contact" class="contact-section py-4 mt-34 mb-10 relative overflow-hidden">
     <!-- Background decorative elements -->
     <div class="absolute inset-0 bg-gradient-to-br from-primary-50/20 via-transparent to-secondary-50/20 dark:from-primary-900/10 dark:via-transparent dark:to-secondary-900/10"></div>
     <div class="absolute top-10 right-5 w-20 h-20 bg-primary-200/20 dark:bg-primary-800/20 rounded-full blur-2xl"></div>

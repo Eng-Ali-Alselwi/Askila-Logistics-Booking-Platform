@@ -1,5 +1,5 @@
 <div id="marketing-strip" class="fixed top-0 left-0 w-full bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 text-white z-[9999]">
-  <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center justify-between gap-3 text-sm">
+  <div class="max-w-screen-xl mx-auto  py-2 flex items-center justify-between gap-3 text-sm">
     <div class="flex items-center gap-3">
       <span class="hidden md:inline font-semibold">{{ t('Stay connected with Askilah Group') }}</span>
       <span class="hidden font-semibold">{{ t('Connect with us') }}</span>

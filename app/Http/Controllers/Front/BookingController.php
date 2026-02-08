@@ -37,17 +37,6 @@ class BookingController extends Controller
             'branch_id' => 'required_if:payment_method,manual_whatsapp|exists:branches,id'
         ]);
 
-        // التحقق من وجود الحجز
-        if (!$booking) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'الحجز غير موجود'
-                ], 404);
-            }
-            return redirect()->route('home')->with('error', 'الحجز غير موجود.');
-        }
-
         if ($booking->isPaid()) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -59,19 +48,9 @@ class BookingController extends Controller
                 ->with('info', 'تم دفع هذا الحجز مسبقاً.');
         }
 
-        // معالجة الدفع عبر PayPal
-        if ($request->payment_method === 'paypal') {
-            return $this->processPayPalPayment($request, $booking);
-        }
-
         // معالجة الدفع عبر الواتساب
         if ($request->payment_method === 'manual_whatsapp') {
             return $this->processWhatsAppPayment($request, $booking);
-        }
-
-        // معالجة الدفع بالبطاقة الائتمانية
-        if (in_array($request->payment_method, ['credit_card', 'mada', 'visa', 'mastercard'])) {
-            return $this->processCreditCardPayment($request, $booking);
         }
 
         try {
@@ -184,47 +163,6 @@ class BookingController extends Controller
     {
         // محاكاة نجاح الدفع بنسبة 90%
         return rand(1, 10) <= 9;
-    }
-
-    private function processPayPalPayment(Request $request, Booking $booking)
-    {
-        try {
-            DB::beginTransaction();
-
-            // إنشاء سجل الدفع المعلق
-            $payment = Payment::create([
-                'payable_type' => Booking::class,
-                'payable_id' => $booking->id,
-                'amount' => $booking->total_amount + $booking->tax_amount + $booking->service_fee,
-                'currency' => $booking->currency,
-                'payment_method' => 'paypal',
-                'status' => 'processing',
-                'gateway_transaction_id' => 'PAYPAL_' . time() . '_' . rand(1000, 9999),
-                'processed_by' => null
-            ]);
-
-            // تحديث حالة الحجز
-            $booking->update([
-                'payment_status' => 'processing',
-                'payment_method' => 'paypal',
-                'status' => 'pending'
-            ]);
-
-            DB::commit();
-
-            // توجيه إلى PayPal
-            return redirect()->route('paypal.payment', [
-                'booking_id' => $booking->id,
-                'amount' => $booking->total_amount + $booking->tax_amount + $booking->service_fee,
-                'currency' => $booking->currency
-            ]);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            
-            return back()->withErrors(['error' => 'حدث خطأ أثناء معالجة طلب PayPal. يرجى المحاولة مرة أخرى.'])
-                ->withInput();
-        }
     }
 
     private function processWhatsAppPayment(Request $request, Booking $booking)
@@ -392,59 +330,69 @@ class BookingController extends Controller
      * اختيار طريقة الدفع وإنشاء الحجز
      */
     public function choosePayment(StoreRequest $request, Flight $flight)
-{
-    // ✅ التحقق من صحة البيانات
-    $validatedData = $request->validated();
+    {
+        // ✅ التحقق من صحة البيانات
+        $validatedData = $request->validated();
 
-    // ✅ التحقق من توفر المقاعد
-    if (!$flight->canBook($request->number_of_passengers)) {
-        \Log::error('Cannot book: insufficient seats', [
-            'available_seats' => $flight->available_seats,
-            'requested_seats' => $request->number_of_passengers
-        ]);
-
-        return back()->withErrors(['error' => 'لا توجد مقاعد متاحة كافية للرحلة المحددة.'])
-            ->withInput();
-    }
-
-    try {
-        DB::beginTransaction();
-
-        \Log::info('Starting booking process', [
-            'payment_method' => $request->payment_method,
-            'flight_id' => $flight->id
-        ]);
-
-        // ✅ رفع الصورة باسم عشوائي أو استخدام الصورة الافتراضية
-        if ($request->hasFile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');
-            $stored = $request->file('image')->storeAs('bookings', $randomName, 'public');
-            $imagePath = $stored ?: 'bookings/default-booking.png';
-        } else {
-            $imagePath = 'bookings/default-booking.png';
+        // ✅ التحقق من وجود صورة الجواز (إلزامي)
+        if (!$request->hasFile('image')) {
+            return back()->withErrors(['image' => 'يجب إرفاق صورة جواز السفر أو الإقامة.'])
+                ->withInput();
         }
 
-        // ✅ حساب الأسعار
-        $pricePerSeat = $flight->getPriceForClass($request->seat_class);
-        $totalAmount = $pricePerSeat * $request->number_of_passengers;
-        $taxAmount = $totalAmount * 0.15; // 15% ضريبة
-        $serviceFee = 50 * $request->number_of_passengers; // رسوم الخدمة
-        $finalTotal = $totalAmount + $taxAmount + $serviceFee;
+    // ✅ التحقق من توفر المقاعد
+        if (!$flight->canBook($request->number_of_passengers)) {
+            \Log::error('Cannot book: insufficient seats', [
+                'available_seats' => $flight->available_seats,
+                'requested_seats' => $request->number_of_passengers
+            ]);
 
-        // ✅ إنشاء أو العثور على العميل
-        $customer = Customer::firstOrCreate(
-            ['email' => $request->passenger_email],
-            [
-                'name' => $request->passenger_name,
-                'phone' => $request->passenger_phone,
-                'is_active' => true
-            ]
-        );
+            return back()->withErrors(['error' => 'لا توجد مقاعد متاحة كافية للرحلة المحددة.'])
+                ->withInput();
+        }
 
-        // ✅ اختيار طريقة الدفع
-        if ($request->payment_method === 'whatsapp') {
-            // 🔹 إنشاء حجز مباشر (واتساب)
+        try {
+            DB::beginTransaction();
+
+            \Log::info('Starting booking process', [
+                'payment_method' => $request->payment_method,
+                'flight_id' => $flight->id
+            ]);
+
+            // ✅ رفع صورة الجواز (إلزامي)
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');
+            $imagePath = $request->file('image')->storeAs('bookings', $randomName, 'public');
+
+            if (!$imagePath) {
+                throw new \Exception('فشل رفع صورة الجواز. يرجى المحاولة مرة أخرى.');
+            }
+
+            // ✅ حساب الأسعار
+            $pricePerSeat = $flight->getPriceForClass($request->seat_class);
+            $totalAmount = $pricePerSeat * $request->number_of_passengers;
+            $taxAmount = $totalAmount * 0.15; // 15% ضريبة
+            $serviceFee = 50 * $request->number_of_passengers; // رسوم الخدمة
+            $finalTotal = $totalAmount + $taxAmount + $serviceFee;
+
+            // ✅ إنشاء أو العثور على العميل
+            $customer = Customer::firstOrCreate(
+                ['email' => $request->passenger_email],
+                [
+                    'name' => $request->passenger_name,
+                    'phone' => $request->passenger_phone,
+                    'is_active' => true
+                ]
+            );
+
+            // ✅ تحديد حالة الحجز بناءً على طريقة الدفع
+            $bookingStatus = 'pending';
+            $paymentStatus = 'pending';
+            
+            // جميع طرق الدفع الحالية تُعامل بنفس الطريقة (حجز مباشر)
+            // Tap Payment سيتم تفعيله لاحقاً
+            
+            // ✅ إنشاء الحجز
             $booking = Booking::create([
                 'flight_id' => $flight->id,
                 'customer_id' => $customer->id,
@@ -453,28 +401,20 @@ class BookingController extends Controller
                 'passenger_phone' => $request->passenger_phone,
                 'passenger_id_number' => $request->passenger_id_number,
                 'passport_number' => $request->passport_number,
-                'passport_issue_date' => $request->passport_issue_date,
-                'passport_expiry_date' => $request->passport_expiry_date,
-                'nationality' => $request->nationality,
-                'date_of_birth' => $request->date_of_birth,
-                'current_residence_country' => $request->current_residence_country,
-                'destination_country' => $request->destination_country,
                 'phone_sudan' => $request->phone_sudan,
-                'travel_date' => $request->travel_date,
                 'ticket_type' => $request->ticket_type,
                 'seat_class' => $request->seat_class,
-                'cabin_type' => $request->cabin_type,
                 'number_of_passengers' => $request->number_of_passengers,
                 'passenger_details' => $request->passenger_details,
                 'total_amount' => $totalAmount,
                 'tax_amount' => $taxAmount,
                 'service_fee' => $serviceFee,
                 'currency' => 'SAR',
-                'status' => 'pending',
-                'payment_status' => 'pending',
-                'payment_method' => 'whatsapp',
+                'status' => $bookingStatus,
+                'payment_status' => $paymentStatus,
+                'payment_method' => $request->payment_method,
                 'special_requests' => $request->special_requests,
-                'image' => $imagePath, // ✅ الصورة هنا
+                'image' => $imagePath,
                 'created_by' => auth()->id() ?? null
             ]);
 
@@ -483,248 +423,69 @@ class BookingController extends Controller
 
             DB::commit();
 
-            // إرسال بريد برقم الحجز (بدون تأكيد) لطلب واتساب
+            // ✅ إرسال بريد إلكتروني برقم الحجز لجميع طرق الدفع
             try {
                 if (!empty($booking->passenger_email)) {
                     Mail::to($booking->passenger_email)->send(new BookingCodeMail($booking));
+                    
+                    \Log::info('Booking confirmation email sent successfully', [
+                        'booking_id' => $booking->id,
+                        'email' => $booking->passenger_email,
+                        'payment_method' => $booking->payment_method
+                    ]);
                 }
             } catch (\Throwable $e) {
-                \Log::warning('Failed to send booking code email (WhatsApp)', [
+                \Log::warning('Failed to send booking confirmation email', [
                     'booking_id' => $booking->id,
                     'error' => $e->getMessage(),
                 ]);
             }
 
-            \Log::info('WhatsApp booking created successfully', [
+            \Log::info('Booking created successfully', [
                 'booking_id' => $booking->id,
-                'status' => $booking->status,
-                'payment_status' => $booking->payment_status
-            ]);
-
-            // ✅ إعادة التوجيه إلى صفحة النجاح
-            return redirect()->route('booking.track.success')
-                ->with('success', 'تم الحجز بنجاح! سيتم التواصل معك عبر الواتساب قريباً، رقم الحجز الخاص بك هو ' . $booking->booking_reference)
-                ->with('booking_reference', $booking->booking_reference);
-        } 
-        else {
-            // 🔹 إنشاء حجز مؤقت (دفع إلكتروني)
-            $booking = Booking::create([
-                'flight_id' => $flight->id,
-                'customer_id' => $customer->id,
-                'passenger_name' => $request->passenger_name,
-                'passenger_email' => $request->passenger_email,
-                'passenger_phone' => $request->passenger_phone,
-                'passenger_id_number' => $request->passenger_id_number,
-                'passport_number' => $request->passport_number,
-                'passport_issue_date' => $request->passport_issue_date,
-                'passport_expiry_date' => $request->passport_expiry_date,
-                'nationality' => $request->nationality,
-                'date_of_birth' => $request->date_of_birth,
-                'current_residence_country' => $request->current_residence_country,
-                'destination_country' => $request->destination_country,
-                'phone_sudan' => $request->phone_sudan,
-                'travel_date' => $request->travel_date,
-                'ticket_type' => $request->ticket_type,
-                'seat_class' => $request->seat_class,
-                'cabin_type' => $request->cabin_type,
-                'number_of_passengers' => $request->number_of_passengers,
-                'passenger_details' => $request->passenger_details,
-                'total_amount' => $totalAmount,
-                'tax_amount' => $taxAmount,
-                'service_fee' => $serviceFee,
-                'currency' => 'SAR',
-                'status' => 'temporary',
-                'payment_status' => 'awaiting_payment',
-                'payment_method' => $request->payment_method,
-                'special_requests' => $request->special_requests,
-                'image' => $imagePath, // ✅ الصورة هنا أيضًا
-                'created_by' => auth()->id() ?? null
-            ]);
-
-            // ✅ تحديث المقاعد المتاحة
-            $flight->updateAvailableSeats(-$request->number_of_passengers);
-
-            DB::commit();
-
-            \Log::info('Temporary booking created successfully', [
-                'booking_id' => $booking->id,
+                'booking_reference' => $booking->booking_reference,
                 'status' => $booking->status,
                 'payment_status' => $booking->payment_status,
                 'payment_method' => $booking->payment_method
             ]);
 
-            // ✅ إعادة التوجيه بناءً على طريقة الدفع
-            if ($request->payment_method === 'paypal') {
-                \Log::info('Redirecting to PayPal', [
-                    'booking_id' => $booking->id,
-                    'amount' => $finalTotal
-                ]);
-
-                return redirect()->route('paypal.payment', [
-                    'booking_id' => $booking->id,
-                    'amount' => $finalTotal,
-                    'currency' => 'SAR'
-                ]);
-            } else {
-                \Log::info('Redirecting to credit card payment', [
-                    'booking_id' => $booking->id
-                ]);
-
-                return redirect()->route('payment.credit-card', ['booking' => $booking->id]);
+            // ✅ رسالة النجاح بناءً على طريقة الدفع
+            $successMessage = '';
+            
+            switch ($request->payment_method) {
+                case 'on_arrival':
+                    $successMessage = 'تم الحجز بنجاح! يمكنك الدفع عند الحضور إلى المكتب. رقم الحجز الخاص بك: ' . $booking->booking_reference;
+                    break;
+                    
+                case 'whatsapp':
+                    $successMessage = 'تم الحجز بنجاح! سيتم التواصل معك عبر الواتساب قريباً. رقم الحجز الخاص بك: ' . $booking->booking_reference;
+                    break;
+                    
+                case 'tap_payment':
+                    $successMessage = 'تم الحجز بنجاح! رقم الحجز الخاص بك: ' . $booking->booking_reference . ' (ملاحظة: Tap Payment سيتم تفعيله قريباً)';
+                    break;
+                    
+                default:
+                    $successMessage = 'تم الحجز بنجاح! رقم الحجز الخاص بك: ' . $booking->booking_reference;
             }
-        }
-    } 
-    catch (\Exception $e) {
-        DB::rollBack();
 
-        \Log::error('Booking creation failed: ' . $e->getMessage(), [
-            'exception' => $e,
-            'request_data' => $request->all()
-        ]);
+            // ✅ إعادة التوجيه إلى صفحة النجاح
+            return redirect()->route('booking.track.success')
+                ->with('success', $successMessage)
+                ->with('booking_reference', $booking->booking_reference);
+                
+        } 
+        catch (\Exception $e) {
+            DB::rollBack();
 
-        return back()->withErrors(['error' => 'حدث خطأ أثناء إنشاء الحجز: ' . $e->getMessage()])
-            ->withInput();
-    }
-}
-
-
-    /**
-     * صفحة الدفع بالبطاقة الائتمانية
-     */
-    public function creditCardPayment(Booking $booking)
-    {
-        // التحقق من حالة الحجز
-        if ($booking->isPaid()) {
-            return redirect()->route('booking.confirmation', $booking)
-                ->with('info', 'تم دفع هذا الحجز مسبقاً.');
-        }
-
-        $booking->load(['flight', 'customer']);
-        
-        return view('front.payments.credit-card', compact('booking'));
-    }
-
-    /**
-     * صفحة تأكيد الحجز عبر الواتساب
-     */
-    public function whatsappConfirmation(Booking $booking)
-    {
-        // التحقق من حالة الحجز
-        if ($booking->isPaid()) {
-            return redirect()->route('booking.confirmation', $booking)
-                ->with('info', 'تم دفع هذا الحجز مسبقاً.');
-        }
-
-        $booking->load(['flight', 'customer']);
-        
-        return view('front.bookings.whatsapp-confirmation', compact('booking'));
-    }
-
-    /**
-     * معالجة الدفع بالبطاقة الائتمانية
-     */
-    private function processCreditCardPayment(Request $request, Booking $booking)
-    {
-        try {
-            DB::beginTransaction();
-
-            // إنشاء سجل الدفع
-            $payment = Payment::create([
-                'payable_type' => Booking::class,
-                'payable_id' => $booking->id,
-                'amount' => $booking->total_amount + $booking->tax_amount + $booking->service_fee,
-                'currency' => $booking->currency,
-                'payment_method' => $request->payment_method,
-                'status' => 'processing',
-                'gateway_transaction_id' => 'STRIPE_' . time() . '_' . rand(1000, 9999),
-                'processed_by' => null
+            \Log::error('Booking creation failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'request_data' => $request->except(['image']) // استبعاد الصورة من اللوج
             ]);
 
-            // محاكاة معالجة الدفع (في التطبيق الحقيقي، هنا ستكون استدعاءات Stripe API)
-            $paymentSuccess = $this->simulateStripePayment($request);
-
-            if ($paymentSuccess) {
-                $payment->markAsCompleted($payment->gateway_transaction_id, [
-                    'status' => 'success',
-                    'transaction_id' => $payment->gateway_transaction_id,
-                    'processed_at' => now()->toISOString()
-                ]);
-
-                // تحديث حالة الدفع فقط دون تأكيد الحجز
-                $booking->update([
-                    'payment_status' => 'confirmed',
-                    'payment_method' => $request->payment_method,
-                    'payment_reference' => $payment->payment_reference,
-                    'payment_date' => now(),
-                    'status' => 'pending' // الحجز يبقى معلقاً حتى موافقة الأدمن
-                ]);
-
-                DB::commit();
-
-                // إرسال بريد برقم الحجز بعد نجاح الدفع الإلكتروني (بدون تأكيد)
-                try {
-                    if (!empty($booking->passenger_email)) {
-                        Mail::to($booking->passenger_email)->send(new BookingCodeMail($booking));
-                    }
-                } catch (\Throwable $e) {
-                    \Log::warning('Failed to send booking code email (card)', [
-                        'booking_id' => $booking->id,
-                        'error' => $e->getMessage(),
-                    ]);
-                }
-
-                return redirect()->route('booking.track.success')
-                    ->with('success', 'تم الدفع بنجاح! سيتم تأكيد حجزك قريباً، رقم الحجز الخاص بك هو ' . $booking->booking_reference)
-                    ->with('booking_reference', $booking->booking_reference);
-            } else {
-                $payment->markAsFailed('فشل في معالجة الدفع', [
-                    'status' => 'failed',
-                    'error' => 'Payment processing failed'
-                ]);
-
-                // حذف الحجز المؤقت عند فشل الدفع
-                if ($booking->status === 'temporary') {
-                    $flight = $booking->flight;
-                    $booking->delete();
-                    
-                    // إعادة المقاعد المتاحة
-                    if ($flight) {
-                        $flight->increment('available_seats', $booking->number_of_passengers);
-                    }
-                }
-
-                DB::rollBack();
-
-                return redirect()->route('flights.show', $booking->flight)
-                    ->withErrors(['error' => 'عملية الدفع لم تتم بالشكل الصحيح يجب عليك المحاولة مرة أخرى']);
-            }
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            
-            // حذف الحجز المؤقت عند حدوث خطأ
-            if (isset($booking) && $booking->status === 'temporary') {
-                $flight = $booking->flight;
-                $booking->delete();
-                
-                // إعادة المقاعد المتاحة
-                if ($flight) {
-                    $flight->increment('available_seats', $booking->number_of_passengers);
-                }
-            }
-            
-            return redirect()->route('flights.show', $booking->flight ?? $flight)
-                ->withErrors(['error' => 'عملية الدفع لم تتم بالشكل الصحيح يجب عليك المحاولة مرة أخرى']);
+            return back()->withErrors(['error' => 'حدث خطأ أثناء إنشاء الحجز: ' . $e->getMessage()])
+                ->withInput();
         }
     }
 
-    /**
-     * محاكاة معالجة الدفع عبر Stripe
-     */
-    private function simulateStripePayment($request)
-    {
-        // محاكاة نجاح الدفع بنسبة 90%
-        // في التطبيق الحقيقي، هنا ستكون استدعاءات Stripe API
-        return rand(1, 10) <= 9;
-    }
 }

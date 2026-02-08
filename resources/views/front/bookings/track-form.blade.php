@@ -115,15 +115,13 @@
         </div>
     @endif
     
-    <!-- Search Form - بدون بطاقة -->
     <div class="mb-4">
         <div class="container mx-auto p-4">
             <form action="{{ route('booking.track.search') }}" method="POST" class="max-w-2xl mx-auto">
                 @csrf
                 <div class="flex flex-row gap-4">
                     <div class="flex-1">
-                        <!-- <label class="text-sm font-medium text-gray-700 mb-2">{{ __('messages.booking_reference_label') }} *</label> -->
-                        <input type="text" name="booking_reference" required 
+                        <input type="text" name="booking_reference"  
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                                 placeholder="{{ __('messages.enter_booking_reference') }}"
                                 value="{{ old('booking_reference', request('booking_reference')) }}">
@@ -173,7 +171,6 @@
                     </div>
                     <!-- Body -->
                     <div>
-                        <!-- Desktop Table (768px and above) -->
                         <div class="hidden md:block">
                             <div class="overflow-hidden">
                                 <table class="w-full">
@@ -495,31 +492,7 @@
             </div>
             
             <!-- Payment Methods -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <!-- PayPal Method -->
-                <div class="payment-method-card bg-white border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:shadow-lg transition-all duration-300" 
-                     onclick="selectPaymentMethod('paypal')">
-                    <div class="text-center">
-                        <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fab fa-paypal text-blue-600 text-xl"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">PayPal</h4>
-                        <p class="text-sm text-gray-600 mb-4">الدفع الآمن عبر PayPal</p>
-                    </div>
-                </div>
-                
-                <!-- Credit Card Method -->
-                <div class="payment-method-card bg-white border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-purple-500 hover:shadow-lg transition-all duration-300" 
-                     onclick="selectPaymentMethod('credit_card')">
-                    <div class="text-center">
-                        <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-credit-card text-purple-600 text-xl"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-gray-800 mb-2">البطاقة الائتمانية</h4>
-                        <p class="text-sm text-gray-600 mb-4">الدفع الآمن بالبطاقة</p>
-                    </div>
-                </div>
-                
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <!-- WhatsApp Method -->
                 <div class="payment-method-card bg-white border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300" 
                      onclick="selectPaymentMethod('whatsapp')">
@@ -529,6 +502,18 @@
                         </div>
                         <h4 class="text-lg font-bold text-gray-800 mb-2">واتساب</h4>
                         <p class="text-sm text-gray-600 mb-4">التواصل عبر الواتساب</p>
+                    </div>
+                </div>
+                
+                <!-- Tap Payment Method (Disabled) -->
+                <div class="payment-method-card bg-gray-50 border-2 border-gray-300 rounded-xl p-4 cursor-not-allowed opacity-60 transition-all duration-300">
+                    <div class="text-center">
+                        <div class="bg-gray-200 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-credit-card text-gray-500 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-700 mb-2">Tap Payment</h4>
+                        <p class="text-sm text-gray-500 mb-2">الدفع الإلكتروني</p>
+                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full">قريباً</span>
                     </div>
                 </div>
             </div>
@@ -553,14 +538,6 @@
             once: true
         });
     }
-
-    // تنسيق رقم الحجز
-    document.querySelector('input[name="booking_reference"]').addEventListener('input', function(e) {
-        let value = e.target.value.toUpperCase();
-        // إزالة أي أحرف غير صالحة
-        value = value.replace(/[^A-Z0-9]/g, '');
-        e.target.value = value;
-    });
 
     // إضافة تأثير التركيز
     document.querySelector('input[name="booking_reference"]').addEventListener('focus', function() {
@@ -630,71 +607,31 @@
         
         // التحقق من وجود بيانات الحجز
         @if(isset($booking) && $booking)
-        if (method === 'paypal') {
-            // توجيه إلى PayPal
-            const bookingId = {{ $booking->id }};
-            const amount = {{ $booking->total_amount + $booking->tax_amount + $booking->service_fee }};
-            
-            // إنشاء form وإرساله
-            const form = document.createElement('form');
-            form.method = 'GET';
-            form.action = '{{ route("paypal.payment") }}';
-            
-            const bookingIdInput = document.createElement('input');
-            bookingIdInput.type = 'hidden';
-            bookingIdInput.name = 'booking_id';
-            bookingIdInput.value = bookingId;
-            
-            const amountInput = document.createElement('input');
-            amountInput.type = 'hidden';
-            amountInput.name = 'amount';
-            amountInput.value = amount;
-            
-            const currencyInput = document.createElement('input');
-            currencyInput.type = 'hidden';
-            currencyInput.name = 'currency';
-            currencyInput.value = 'SAR';
-            
-            form.appendChild(bookingIdInput);
-            form.appendChild(amountInput);
-            form.appendChild(currencyInput);
-            
-            document.body.appendChild(form);
-            form.submit();
-            
-        } else if (method === 'credit_card') {
-            // توجيه إلى صفحة الدفع بالبطاقة الائتمانية
-            window.location.href = '{{ route("payment.credit-card", $booking) }}';
-            
-        } else if (method === 'whatsapp') {
-            // توجيه إلى WhatsApp
-            const bookingRef = '{{ $booking->booking_reference }}';
-            const amount = {{ $booking->total_amount + $booking->tax_amount + $booking->service_fee }};
-            const passengerName = '{{ $booking->passenger_name }}';
-            const flightNumber = '{{ $booking->flight->flight_number }}';
-            
-            const message = `مرحباً، أريد إتمام الدفع للحجز التالي:
-            
-رقم الحجز: ${bookingRef}
-اسم المسافر: ${passengerName}
-رقم الرحلة: ${flightNumber}
-المبلغ المطلوب: ${amount.toLocaleString()} ريال سعودي
+            if (method === 'whatsapp') {
+                // توجيه إلى WhatsApp
+                const bookingRef = '{{ $booking->booking_reference }}';
+                const amount = {{ $booking->total_amount + $booking->tax_amount + $booking->service_fee }};
+                const passengerName = '{{ $booking->passenger_name }}';
+                const flightNumber = '{{ $booking->flight->flight_number }}';
+                
+                const message = `مرحباً، أريد إتمام الدفع للحجز التالي:
+                
+                رقم الحجز: ${bookingRef}
+                اسم المسافر: ${passengerName}
+                رقم الرحلة: ${flightNumber}
+                المبلغ المطلوب: ${amount.toLocaleString()} ريال سعودي
 
-يرجى تأكيد استلام الدفع وتحديث حالة الحجز.
+                يرجى تأكيد استلام الدفع وتحديث حالة الحجز.
 
-شكراً لكم`;
+                شكراً لكم`;
 
-            const whatsappUrl = `https://wa.me/967772734012?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
+                const whatsappUrl = `https://wa.me/967772734012?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
         @else
         // إظهار رسالة خطأ إذا لم تكن بيانات الحجز متاحة
-        alert('لا يمكن إتمام الدفع: بيانات الحجز غير متاحة');
+            alert('لا يمكن إتمام الدفع: بيانات الحجز غير متاحة');
         @endif
-    }
-
-    function showComingSoon() {
-        alert('هذه الطريقة ستكون متاحة قريباً جداً!');
     }
 
     // إغلاق Modal عند النقر خارجها

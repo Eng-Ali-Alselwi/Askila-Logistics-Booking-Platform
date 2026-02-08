@@ -16,16 +16,6 @@
     <!-- نموذج البحث والفلاتر -->
     <div class="">
         <div class="container mx-auto px-4 py-4 md:py-6">
-            <!-- عنوان القسم -->
-            <!-- <div class="mb-4" data-aos="fade-up">
-                <div class="flex items-center justify-between">
-                    <h1 class="text-lg font-bold text-gray-900">
-                        <i class="fas fa-search text-blue-600 mr-2"></i>
-                        ابحث عن رحلتك
-                    </h1>
-                    <p class="text-gray-600 text-sm">اختر وجهتك والتاريخ المناسب</p>
-                </div>
-            </div> -->
 
             <!-- نموذج البحث -->
             <form action="{{ route('flights.search') }}" method="POST" class="space-y-3" data-aos="fade-up" data-aos-delay="100">
@@ -39,7 +29,7 @@
                             <i class="fas fa-plane-departure text-blue-600 mx-1"></i>
                             من
                         </label>
-                        <select name="departure" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <select name="departure" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                             <option value="">اختر المدينة</option>
                             <option value="الرياض">الرياض</option>
                             <option value="جدة">جدة</option>
@@ -66,7 +56,7 @@
                             <i class="fas fa-plane-arrival text-blue-600 mx-1"></i>
                             إلى
                         </label>
-                        <select name="arrival" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <select name="arrival" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                             <option value="">اختر المدينة</option>
                             <option value="الخرطوم">الخرطوم</option>
                             <option value="بورتسودان">بورتسودان</option>
@@ -93,7 +83,7 @@
                             <i class="fas fa-calendar-alt text-blue-600 mx-1"></i>
                             التاريخ
                         </label>
-                        <input type="date" name="departure_date" required 
+                        <input type="date" name="departure_date" 
                                min="{{ date('Y-m-d') }}" 
                                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                     </div>
@@ -104,7 +94,7 @@
                             <i class="fas fa-user-friends text-blue-600 mx-1"></i>
                             الركاب
                         </label>
-                        <select name="passengers" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <select name="passengers" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                             <option value="1">1 راكب</option>
                             <option value="2">2 راكب</option>
                             <option value="3">3 ركاب</option>
@@ -133,22 +123,10 @@
 
                     <!-- زر البحث -->
                     <div class="flex items-end">
-                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition transform hover:scale-105 active:scale-95 shadow-md inline-flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-500 ease-in-out transform hover:scale-105 active:scale-95 shadow-md inline-flex items-center justify-center gap-2">
                             <i class="fas fa-search-plus"></i>
                             بحث
                         </button>
-                    </div>
-                </div>
-
-                <!-- تاريخ العودة (اختياري) -->
-                <div id="return_date_field" class="hidden pt-2">
-                    <div class="max-w-full sm:max-w-xs">
-                        <label class="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wide">
-                            <i class="fas fa-calendar-check text-blue-600 mx-1"></i>
-                            تاريخ العودة
-                        </label>
-                        <input type="date" name="return_date" 
-                               class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
                     </div>
                 </div>
             </form>
@@ -160,7 +138,7 @@
     <div class="container mx-auto px-4 py-4 md:py-6">
         <div id="flights-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
             @forelse($flights as $flight)
-                <div class="flight-card bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:-translate-y-2 flex flex-col group" 
+                <div class="flight-card bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-200 overflow-hidden transition-all duration-500 ease-in-out hover:-translate-y-1 flex flex-col group" 
                         data-trip-type="{{ $flight->trip_type }}"> 
                 <!-- رأس البطاقة -->
                     <div class="flex items-center justify-between gap-3 px-4 py-4 border-b border-gray-200 flex items-center justify-between">
@@ -263,11 +241,13 @@
 
                     <!-- تذييل البطاقة -->
                     <div class="px-4 py-4 border-t border-gray-200">
-                        <a href=" {{ route('flights.show' , $flight) }} " class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-xl transition-all duration-300 text-sm flex items-center justify-center gap-2 active:scale-95 hover:shadow-lg group">
-                            <i class="fas fa-shopping-cart group-hover:scale-110 transition-transform"></i>
+                    <div class="px-4 py-4 border-t border-gray-200">
+                        <a href=" {{ route('flights.show' , $flight) }} " class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-xl transition-all duration-500 ease-in-out transform hover:scale-[1.02] active:scale-95 text-sm flex items-center justify-center gap-2 hover:shadow-lg group">
+                            <i class="fas fa-shopping-cart transition-transform group-hover:scale-110"></i>
                             احجز الآن
                             <i class="fas fa-arrow-left text-xs group-hover:translate-x-1 transition-transform"></i>
                         </a>
+                    </div>
                     </div>
                 </div>
             @empty
@@ -318,32 +298,10 @@
         }
     });
 
-    // تحسين تجربة المستخدم - إضافة تأثيرات بصرية
+
+
+    // تحسين تجربة الفلترة مع تأثيرات بصرية
     document.addEventListener('DOMContentLoaded', function() {
-        // إضافة تأثير hover للبطاقات
-        document.querySelectorAll('.flight-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
-                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
-            });
-        });
-
-        // إضافة تأثير للزر عند النقر
-        document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 150);
-            });
-        });
-
-        // تحسين تجربة الفلترة مع تأثيرات بصرية
         const filterSelect = document.querySelector('select[name="trip_type"]');
         if (filterSelect) {
             filterSelect.addEventListener('change', function() {

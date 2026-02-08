@@ -1,8 +1,8 @@
-<div class="max-w-6xl mx-auto space-y-8" x-data>
+<div class="container max-w-6xl mx-auto space-y-8" x-data>
     {{-- Enhanced Search Card --}}
     <div class="card animate-fade-in-up">
         <div class="p-8">
-            <div class="text-center mb-8">
+            <!-- <div class="text-center mb-8">
                 <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -15,9 +15,9 @@
                 <p class="text-gray-600 dark:text-gray-400 text-lg">
                     {{ t('Enter your tracking number to get real-time updates on your shipment') }}
                 </p>
-            </div>
+            </div> -->
             
-            <form wire:submit.prevent="search" class="max-w-2xl mx-auto">
+            <!-- <form wire:submit.prevent="search" class="max-w-2xl mx-auto">
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
@@ -63,7 +63,7 @@
                         </button>
                     </div>
                 </div>
-            </form>
+            </form> -->
         </div>
     </div>
 
@@ -97,7 +97,7 @@
             <div class="space-y-4">
                 <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
                 <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
-                    @for($i=0;$i<6;$i++)
+                    @for($i=0; $i < 6; $i++)
                         <div class="h-24 bg-gray-100 dark:bg-gray-700 rounded-xl animate-pulse"></div>
                     @endfor
                 </div>

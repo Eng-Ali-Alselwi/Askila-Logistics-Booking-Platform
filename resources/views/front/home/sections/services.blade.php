@@ -17,17 +17,6 @@
             <div class="inline-flex items-center px-4 py-2 text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gradient-primary bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text">
                 {{ __('messages.services_badge') }}
             </div>
-                
-            <!-- <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-                <span class="block">{{ __('messages.from_tickets_to_shipping') }}</span>
-                <span class="text-gradient-primary bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-                    {{ __('messages.everything_in_one_place') }}
-                </span>
-            </h2>
-                
-            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                {{ __('messages.services_description') }}
-            </p> -->
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -61,15 +50,6 @@
                 :delay="200"
             />
 
-            <!-- A2Z Service -->
-            <x-front.service-card
-                :title="__('messages.service_a2z_hardcoded')"
-                :description="__('messages.service_a2z_desc_hardcoded')"
-                :image="asset('assets/images/services/a2z.jpeg')"
-                gradient="from-indigo-500 to-indigo-600"
-                :link="route('contact.index')"
-                :delay="300"
-            />
 
             <!-- Ferry Tickets -->
             <x-front.service-card

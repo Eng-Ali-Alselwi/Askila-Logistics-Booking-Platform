@@ -46,11 +46,11 @@
         </p>
         
         <!-- Action Button -->
-        <a href="{{ $link }}" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-all duration-300 group-hover:translate-x-1">
+        <!-- <a href="{{ $link }}" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-all duration-300 group-hover:translate-x-1">
             تعرف على المزيد
             <svg class="w-4 h-4 mr-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
-        </a>
+        </a> -->
     </div>
 </div>

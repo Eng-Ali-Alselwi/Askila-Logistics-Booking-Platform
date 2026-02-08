@@ -1,6 +1,6 @@
 <nav id="navbar" class="fixed w-full z-1000 top-[40px] mt-1 start-0 transition-all duration-500 ease-in-out
 border-b border-transparent text-black bg-white">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-4">
     <a href="{{ route('home') }}" class="flex items-center">
       <img id="logo-light" src="{{ asset('assets/images/logo/light.png') }}" class="h-10 transition-opacity duration-500" alt="شعار الشركة">
       <img id="logo-dark" src="{{ asset('assets/images/logo/dark.png') }}" class="h-10 hidden transition-opacity duration-500" alt="شعار الشركة">
