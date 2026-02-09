@@ -7,7 +7,7 @@
     <!-- Start Content-->
     @include('dashboard.layout.shared/page-title', ['subtitle' => t('Show Shipment').' | '.$shipment->tracking_number, 'title' => 'Dashboard'])
 
-    <x-dashboard.outer-card :title="t('Show Shipment').' | '.$shipment->tracking_number">
+    <x-dashboard.outer-card :title="t('Show Shipment')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h1 class="text-xl font-semibold"> {{t('Details of Shipment').': '.$shipment->tracking_number }}</h1>

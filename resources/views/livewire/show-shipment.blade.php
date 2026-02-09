@@ -1,4 +1,4 @@
-<div class="space-y-6 relative">
+<div class="p-3 space-y-6 relative">
     <div wire:loading.flex
             wire:target="updateStatus,quickSet,"
             class="absolute inset-0 bg-white/60 dark:bg-gray-900/60 backdrop-blur-[1px] z-10 items-center justify-center">
@@ -13,6 +13,16 @@
             <div>
                 <div class="text-sm text-gray-500">{{ t('Tracking Number') }}</div>
                 <div class="font-semibold">{{ $shipment->tracking_number }}</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-500">{{ t('Sender') }}</div>
+                <div class="font-medium">{{ $shipment->sender_name ?? '—' }}</div>
+                <div class="text-xs text-gray-500">{{ $shipment->sender_phone ?? '' }}</div>
+            </div>
+            <div>
+                <div class="text-sm text-gray-500">{{ t('Receiver') }}</div>
+                <div class="font-medium">{{ $shipment->receiver_name ?? '—' }}</div>
+                <div class="text-xs text-gray-500">{{ $shipment->receiver_phone ?? '' }}</div>
             </div>
             <div>
                 <div class="text-sm text-gray-500">{{ t('Current Status') }}</div>
@@ -38,16 +48,6 @@
                 <div>{{ optional($shipment->created_at)->format('Y-m-d H:i') }}</div>
             </div>
             <div>
-                <div class="text-sm text-gray-500">{{ t('Sender') }}</div>
-                <div class="font-medium">{{ $shipment->sender_name ?? '—' }}</div>
-                <div class="text-xs text-gray-500">{{ $shipment->sender_phone ?? '' }}</div>
-            </div>
-            <div>
-                <div class="text-sm text-gray-500">{{ t('Receiver') }}</div>
-                <div class="font-medium">{{ $shipment->receiver_name ?? '—' }}</div>
-                <div class="text-xs text-gray-500">{{ $shipment->receiver_phone ?? '' }}</div>
-            </div>
-            <div>
                 <div class="text-sm text-gray-500">{{ t('Notes') }}</div>
                 <div class="text-sm">{{ $shipment->notes ?? '—' }}</div>
             </div>
@@ -57,18 +57,7 @@
     {{-- نموذج تحديث الحالة --}}
     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
         <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-            <h3 class="font-semibold">{{ t('Update Shipment Status') }}</h3>
-            <div class="flex flex-wrap gap-2">
-                {{-- أزرار اختصار للحالات الشائعة (اختياري) --}}
-                @php $cases = \App\Enums\ShipmentStatus::timeline(); @endphp
-                @foreach ($cases as $st)
-                    <button type="button"
-                        wire:click="quickSet('{{ $st->value }}')"
-                        class="text-xs px-3 py-1 rounded-lg border border-gray-300 dark:border-gray-700 {{ $shipment->current_status === $st->value ? 'border border-primary-500 text-primary-500' : '' }}">
-                        {{app()->getLocale()=='en'? t($st->label()): $st->label() }}
-                    </button>
-                @endforeach
-            </div>
+            <h4 class="font-bold">{{ t('Update Shipment Status') }}</h4>
         </div>
 
         <form wire:submit.prevent="updateStatus" class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -127,7 +116,7 @@
     {{-- التايملاين --}}
     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
         <div class="p-5">
-            <h3 class="font-semibold mb-4">{{ t('Tracking Log (Timeline)') }}</h3>
+            <h4 class="font-bold mb-4">{{ t('Tracking Log (Timeline)') }}</h4>
 
             <ol class="relative border-s border-gray-200 dark:border-gray-700">
                 @forelse($shipment->events as $event)

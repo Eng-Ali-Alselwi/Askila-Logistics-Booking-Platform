@@ -3,11 +3,11 @@
         {{-- Trip Information --}}
         <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                <x-icons icon="plane" class="w-5 h-5 mr-2 text-indigo-600" />
+                <x-icons icon="plane" class="w-5 h-5 {{ app()->getLocale() == 'ar' ? 'ml-2' : 'mr-2' }} text-indigo-600" />
                 {{ t('Trip Information') }}
             </h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                     <label for="trip_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {{ t('Trip Type') }} <span class="text-red-500">*</span>
@@ -36,18 +36,6 @@
                 </div>
 
                 <div>
-                    <label for="operator_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {{ t('Operator Name') }} <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" id="operator_name" wire:model="operator_name" required
-                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('operator_name') border-red-500 @enderror"
-                           placeholder="{{ t('Enter operator name') }}">
-                    @error('operator_name')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
                     <label for="vehicle_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {{ t('Vehicle Type') }}
                     </label>
@@ -71,28 +59,6 @@
                     @enderror
                 </div>
 
-                <div>
-                    <label for="total_seats" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {{ t('Total Seats') }} <span class="text-red-500">*</span>
-                    </label>
-                    <input type="number" id="total_seats" wire:model="total_seats" min="1" max="1000" required
-                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('total_seats') border-red-500 @enderror"
-                           placeholder="{{ t('Enter total seats') }}">
-                    @error('total_seats')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        {{-- Route Information --}}
-        <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                <x-heroicon-o-map class="w-5 h-5 mr-2 text-indigo-600" />
-                {{ t('Route Information') }}
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="departure_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {{ t('Departure City') }} <span class="text-red-500">*</span>
@@ -164,17 +130,7 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-            </div>
-        </div>
 
-        {{-- Schedule Information --}}
-        <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                <x-heroicon-o-clock class="w-5 h-5 mr-2 text-indigo-600" />
-                {{ t('Schedule Information') }}
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="departure_time" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {{ t('Departure Time') }} <span class="text-red-500">*</span>
@@ -196,13 +152,25 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+                    <label for="total_seats" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        {{ t('Total Seats') }} <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" id="total_seats" wire:model="total_seats" min="1" max="1000" required
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('total_seats') border-red-500 @enderror"
+                           placeholder="{{ t('Enter total seats') }}">
+                    @error('total_seats')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
         </div>
 
         {{-- Pricing Information --}}
         <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                <x-heroicon-o-currency-dollar class="w-5 h-5 mr-2 text-indigo-600" />
+                <x-heroicon-o-currency-dollar class="w-5 h-5 {{ app()->getLocale() == 'ar' ? 'ml-2' : 'mr-2' }} text-indigo-600" />
                 {{ t('Pricing Information') }}
             </h3>
             
@@ -272,7 +240,7 @@
         {{-- Additional Information --}}
         <div class="pb-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 flex items-center">
-                <x-heroicon-o-information-circle class="w-5 h-5 mr-2 text-indigo-600" />
+                <x-heroicon-o-information-circle class="w-5 h-5 {{ app()->getLocale() == 'ar' ? 'ml-2' : 'mr-2' }} text-indigo-600" />
                 {{ t('Additional Information') }}
             </h3>
             
@@ -290,8 +258,8 @@
                         {{ t('Notes') }}
                     </label>
                     <textarea id="notes" wire:model="notes" rows="3"
-                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('notes') border-red-500 @enderror"
-                              placeholder="{{ t('Enter any additional notes') }}"></textarea>
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('notes') border-red-500 @enderror"
+                               placeholder="{{ t('Enter any additional notes') }}"></textarea>
                     @error('notes')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror

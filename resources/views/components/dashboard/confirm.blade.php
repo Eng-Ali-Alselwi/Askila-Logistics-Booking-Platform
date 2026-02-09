@@ -45,10 +45,10 @@
             <div class="px-5 py-4 flex items-center justify-end gap-2 border-t border-gray-200 dark:border-gray-800">
                 <button type="button"
                         class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700"
-                        @click="$store.confirm.cancel()">إلغاء</button>
+                        @click="$store.confirm.cancel()">{{ t('Cancel') }}</button>
                 <button type="button"
                         class="px-4 py-2 rounded-lg bg-rose-600 text-white hover:bg-rose-700"
-                        @click="$store.confirm.confirm()">تأكيد</button>
+                        @click="$store.confirm.confirm()">{{ t('Confirm') }}</button>
             </div>
         </div>
     </div>

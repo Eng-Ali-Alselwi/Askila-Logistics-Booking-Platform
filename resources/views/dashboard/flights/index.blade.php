@@ -28,18 +28,8 @@
         </x-slot:header>
 
         <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-            {{-- @include('dashboard.users.partials.table') --}}
             @livewire('flight-table')
-                {{-- @livewire('users-roles-table') --}}
-                 {{-- <livewire:users-roles-table> --}}
-                {{-- @livewire('users-roles-table') --}}
-
         </div>
-
-        <div class="mt-4">
-            {{-- {{ $users->links() }} --}}
-        </div>
-
     </x-dashboard.outer-card>
 
 @endsection

@@ -50,7 +50,7 @@ class BookingController extends Controller
             'special_requests' => 'nullable|string|max:1000',
             'payment_method' => 'required|in:cash,paypal,credit_card',
             'payment_status' => 'required|in:pending,paid,failed,awaiting_payment,confirmed,processing',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:4096'
+            'image' => 'required|file|mimes:jpg,jpeg,png,webp,pdf|max:4096'
         ]);
 
         $flight = Flight::findOrFail($request->flight_id);
@@ -61,7 +61,7 @@ class BookingController extends Controller
         }
 
         // رفع صورة الجواز إن وجدت
-        $imagePath = 'bookings/default-booking.png';
+        // $imagePath = 'bookings/default-booking.png';
         if ($request->hasFile('image')) {
             $extension = $request->file('image')->getClientOriginalExtension();
             $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');

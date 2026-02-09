@@ -63,9 +63,9 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Per page') }}</label>
+                    <label class="text-gray-500">{{ t('Per page') }}</label>
                     <select
-                        class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                        class="text-xs px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
                         wire:model.change="perPage"
                         title="{{ t('Number of items per page') }}"
                     >
@@ -77,9 +77,9 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Trip Type') }}</label>
+                    <label class="text-gray-500">{{ t('Trip Type') }}</label>
                     <select wire:model.change="trip_type"
-                            class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
+                            class="text-xs px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
                         <option value="">{{ t('All Trip Types') }}</option>
                         <option value="air">{{ t('Air') }}</option>
                         <option value="land">{{ t('Land') }}</option>
@@ -89,9 +89,9 @@
 
                 @can('manage branches')
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Branch') }}</label>
+                    <label class="text-gray-500">{{ t('Branch') }}</label>
                     <select wire:model.change="branch_id"
-                            class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
+                            class="text-xs px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
                         <option value="">{{ t('All Branches') }}</option>
                         @foreach(\App\Models\Branch::orderBy('name')->get(['id','name']) as $b)
                             <option value="{{ $b->id }}">{{ $b->name }}</option>
@@ -133,7 +133,7 @@
                             </div>
                             <div class="mt-1 flex items-center gap-2 text-xs text-gray-500">
                                 <span class="w-2 h-2 rounded-full {{ $m['dot'] }}"></span>
-                                {{ app()->getLocale() == 'ar' ? $m['label'] : t($m['label']) }}
+                                {{ t($m['label']) }}
                             </div>
                         </button>
                     @endforeach

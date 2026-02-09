@@ -70,7 +70,7 @@
             hideLoader();
         });
     </script>
-    {{-- <x-dashboard.confirm /> --}}
+    <x-dashboard.confirm />
 </body>
 
 </html>

@@ -337,10 +337,28 @@ return [
     "Per page" => "لكل صفحة",
     "Shipments" => "الشحنات",
     "Show Shipments" => "عرض الشحنات",
+    'Show Shipment' => 'عرض الشحنة',
     "Add New Shipment" => "إضافة شحنة جديدة",
     "Back To Shipments" => "العودة إلى الشحنات",
     "Edit" => "تعديل",
     "Location/Description" => "الموقع/الوصف",
+
+
+
+    'Search by trip number, company, vehicle type, departure/arrival city...' => 'ابحث برقم الرحلة / الشركة / نوع المركبة / مدينة المغادرة / الوصول...',
+    'Clear trip type' => 'تنظيف نوع الرحلة',
+    'All Flights' => 'كل الرحلات',
+    'Active Flights' => 'الرحلات النشطة',
+    'Inactive Flights' => 'الرحلات غير النشطة',
+    'Upcoming Flights' => 'الرحلات القادمة',
+    'Completed Flights' => 'الرحلات المكتملة',
+    'Past Flights' => 'الرحلات السابقة',
+    'Available Seats' => 'المقاعد المتاحة',
+    'Fully Booked' => 'محجوز بالكامل',
+
+
+
+    
     // "Notes" => "ملاحظات",
     "Event Time"=> "وقت الحدث",
     "Weight (kg)" => "الوزن (كيلو جرام)",

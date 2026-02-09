@@ -23,7 +23,6 @@ class ReportsController extends Controller
         $status = $request->get('status');
         $user = auth()->user();
 
-        // Branch managers restricted to their branch unless they have global view
         $canViewAll = $user && ($user->hasRole('super_admin') || $user->hasRole('manager') || $user->can('view reports'));
         if ($user && method_exists($user,'isBranchManager') && $user->isBranchManager() && !$canViewAll) {
             $branchId = $user->branch_id;

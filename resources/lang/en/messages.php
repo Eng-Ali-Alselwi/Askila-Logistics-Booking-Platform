@@ -1,11 +1,11 @@
 <?php
 
+
 return [
     "Stay connected with Askilah Group" => "Stay connected with Askilah Group",
     "Watch our latest updates and follow our journey" => "Watch our latest updates and follow our journey",
 
-
-
+    
     // Navbar
     'home' => 'Home',
     'services' => 'Services',
@@ -99,6 +99,18 @@ return [
 
 
 
+    'Search by trip number, company, vehicle type, departure/arrival city...' => 'Search by trip number, company, vehicle type, departure/arrival city...',
+    'Clear trip type' => 'Clear trip type',
+    'All Flights' => 'All Flights',
+    'Active Flights' => 'Active Flights',
+    'Inactive Flights' => 'Inactive Flights',
+    'Upcoming Flights' => 'Upcoming Flights',
+    'Completed Flights' => 'Completed Flights',
+    'Past Flights' => 'Past Flights',
+    'Available Seats' => 'Available Seats',
+    'Fully Booked' => 'Fully Booked',
+
+    'show shipment' => 'Show Shipment',
     'edit users' => 'Edit Users',
     'manage users' => 'Manage Users',
     'view users' => 'View Users',

@@ -9,7 +9,7 @@
     @if($hasPermission)
         <form wire:submit.prevent="save" class="p-5 space-y-6">
             {{-- Basic Information --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <x-dashboard.form.input-field
                     name="tracking_number"
                     label="{{ t('Tracking Number') }}"
@@ -43,7 +43,7 @@
             </div>
 
             {{-- Sender/Receiver Information --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-200 dark:border-gray-800 pt-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
                 <x-dashboard.form.input-field
                     name="sender_name"
                     label="{{ t('Sender Name') }}"
@@ -80,7 +80,7 @@
             </div>
 
             {{-- Optional Initial Event --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-gray-200 dark:border-gray-800 pt-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
                 <div>
                     <label class="block text-sm mb-1">{{ t('Set initial status') }}</label>
                     <select wire:model.defer="initial_status"

@@ -16,7 +16,7 @@ class UpsertFlight extends Component
     public string $flight_number = '';
     public string $trip_type = 'air';
     public ?string $vehicle_type = null;
-    public ?string $operator_name = null;
+    // public ?string $operator_name = null;
     public string $airline = '';
     public ?string $aircraft_type = null;
     public string $departure_airport = '';
@@ -45,7 +45,7 @@ class UpsertFlight extends Component
                 'flight_number' => $flight->flight_number,
                 'trip_type' => $flight->trip_type ?? 'air',
                 'vehicle_type' => $flight->vehicle_type,
-                'operator_name' => $flight->operator_name,
+                // 'operator_name' => $flight->operator_name,
                 'airline' => $flight->airline,
                 'aircraft_type' => $flight->aircraft_type,
                 'departure_airport' => $flight->departure_airport,
@@ -82,7 +82,7 @@ class UpsertFlight extends Component
             ],
             'trip_type' => ['required', 'in:air,land,sea'],
             'vehicle_type' => ['nullable', 'string', 'max:100'],
-            'operator_name' => ['nullable', 'string', 'max:100'],
+            // 'operator_name' => ['nullable', 'string', 'max:100'],
             'airline' => ['required', 'string', 'max:100'],
             'aircraft_type' => ['nullable', 'string', 'max:50'],
             'departure_airport' => ['required', 'string', 'max:10'],
@@ -115,7 +115,7 @@ class UpsertFlight extends Component
             'flight_number' => $data['flight_number'],
             'trip_type' => $data['trip_type'],
             'vehicle_type' => $data['vehicle_type'],
-            'operator_name' => $data['operator_name'],
+            // 'operator_name' => $data['operator_name'],
             'airline' => $data['airline'],
             'aircraft_type' => $data['aircraft_type'],
             'departure_airport' => $data['departure_airport'],

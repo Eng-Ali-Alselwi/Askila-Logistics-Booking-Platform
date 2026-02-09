@@ -152,7 +152,7 @@
                                 @if($flight->seat_classes)
                                     @foreach($flight->seat_classes as $class)
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">
-                                            {{ ucfirst($class) }}
+                                            {{ t(ucfirst($class)) }}
                                         </span>
                                     @endforeach
                                 @else
@@ -171,7 +171,7 @@
                         @if($flight->pricing_tiers)
                             @foreach($flight->pricing_tiers as $class => $price)
                                 <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ ucfirst($class) }} {{ t('Class') }}</span>
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Class') }} : {{ t(ucfirst($class)) }} </span>
                                     <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ number_format($price, 2) }} {{ t('SAR') }}</span>
                                 </div>
                             @endforeach

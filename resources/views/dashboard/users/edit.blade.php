@@ -21,7 +21,7 @@
                 @csrf
                 @method('PUT')
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Name -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -103,7 +103,7 @@
                 <!-- Roles Section -->
                 <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ t('User Roles') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
                         @foreach($roles as $role)
                             <div class="flex items-center">
                                 <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
@@ -121,7 +121,7 @@
                 </div>
 
                 <!-- User Info Display -->
-                <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <!-- <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ t('User Information') }}</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600 dark:text-gray-400">
                         <div>
@@ -139,7 +139,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Action Buttons -->
                 <div class="flex justify-between items-center pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -224,9 +224,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (deleteButton && deleteForm) {
         deleteButton.addEventListener('click', function(e) {
             e.preventDefault();
-            if (confirm('{{ t('Are you sure you want to delete this user? This action cannot be undone.') }}')) {
-                deleteForm.submit();
-            }
+            Alpine.store('confirm').ask(
+                () => deleteForm.submit(),
+                '{{ t('Delete User') }}',
+                '{{ t('Are you sure you want to delete this user? This action cannot be undone.') }}'
+            );
         });
     }
 });

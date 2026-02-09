@@ -111,27 +111,13 @@ class ShipmentTable extends Component
         return $query->latest()->paginate($this->perPage);
     }
 
-    // public function rows()
-    // {
-    //     return Shipment::query()
-    //         ->with('latestEvent')
-    //         ->search($this->q)          // استخدمنا السكوب اللي كتبناه سابقًا
-    //         ->when($this->status, fn ($q) => $q->status($this->status))
-    //         ->latest()                     // فرز حسب created_at
-    //         ->paginate($this->perPage);
-    // }
 
     protected function statusMeta(): array // ← جديد (الألوان والعناوين)
     {
         return [
-            ShipmentStatus::CREATED->value => ['label' => ShipmentStatus::CREATED->label(), 'dot' => 'bg-gray-300','txt-color'=>'text-gray-300'],
-            ShipmentStatus::RECEIVED_AT_BRANCH->value => ['label' => ShipmentStatus::RECEIVED_AT_BRANCH->label(), 'dot' => 'bg-gray-400','txt-color'=>'text-gray-400'],
+            ShipmentStatus::RECEIVED_FROM_CUSTOMER->value => ['label' => ShipmentStatus::RECEIVED_FROM_CUSTOMER->label(), 'dot' => 'bg-gray-400','txt-color'=>'text-gray-400'],
             ShipmentStatus::IN_TRANSIT->value => ['label' => ShipmentStatus::IN_TRANSIT->label(), 'dot' => 'bg-yellow-500','txt-color'=>'text-yellow-500'],
-            ShipmentStatus::ARRIVED_JED_WAREHOUSE->value => ['label' => ShipmentStatus::ARRIVED_JED_WAREHOUSE->label(), 'dot' => 'bg-sky-500','txt-color'=>'text-sky-500'],
-            ShipmentStatus::SHIPPED_JED_PORT->value => ['label' => ShipmentStatus::SHIPPED_JED_PORT->label(), 'dot' => 'bg-indigo-500','txt-color'=>'text-indigo-500'],
-            ShipmentStatus::ARRIVED_SUDAN_PORT->value => ['label' => ShipmentStatus::ARRIVED_SUDAN_PORT->label(), 'dot' => 'bg-blue-500','txt-color'=>'text-blue-500'],
-            ShipmentStatus::ARRIVED_DESTINATION_BRANCH->value => ['label' => ShipmentStatus::ARRIVED_DESTINATION_BRANCH->label(), 'dot' => 'bg-amber-500','txt-color'=>'text-amber-500'],
-            ShipmentStatus::READY_FOR_DELIVERY->value => ['label' => ShipmentStatus::READY_FOR_DELIVERY->label(), 'dot' => 'bg-orange-500','txt-color'=>'text-orange-500'],
+            ShipmentStatus::ARRIVED_AT_BRANCH->value => ['label' => ShipmentStatus::ARRIVED_AT_BRANCH->label(), 'dot' => 'bg-orange-500','txt-color'=>'text-orange-500'],
             ShipmentStatus::DELIVERED->value => ['label' => ShipmentStatus::DELIVERED->label(), 'dot' => 'bg-emerald-500','txt-color'=>'text-emerald-500'],
         ];
     }

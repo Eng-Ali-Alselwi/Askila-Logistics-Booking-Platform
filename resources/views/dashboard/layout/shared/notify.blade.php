@@ -18,19 +18,19 @@
 </script>
     @if (Session::has('success'))
         <script>
-            showNotification('success', '{{ Session::get('success') }}');
+            showNotification('success', '{{ t(session('success')) }}');
         </script>
     @elseif(Session::has('error'))
         <script>
-            showNotification('error',  '{{ Session::get('error') }}');
+            showNotification('error',  '{{ t(session('error')) }}');
         </script>
     @elseif(Session::has('warning'))
         <script>
-            showNotification('warning', '{{ Session::get('warning') }}');
+            showNotification('warning', '{{ t(session('warning')) }}');
         </script>
     @elseif(Session::has('info'))
         <script>
-            showNotification('info','{{ Session::get('info') }}');
+            showNotification('info','{{ t(session('info')) }}');
         </script>
     @endif
 <script>
