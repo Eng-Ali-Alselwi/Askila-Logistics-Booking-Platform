@@ -160,6 +160,34 @@ return [
 
 
 
+    'Seat Prices' => 'Seat Prices',
+    'The flight number field is required.' => 'The flight number is required.',
+    'The company field is required.' => 'The company name is required.',
+    'The departure city field is required.' => 'The departure city is required.',
+    'The arrival city field is required.' => 'The arrival city is required.',
+    'The base price field is required.' => 'The base price is required.',
+    'The base price must be a number.' => 'The base price must be a number.',
+    'The base price must be greater than or equal to 0.' => 'The base price must be greater than or equal to 0.',
+    'The base price must be less than or equal to 1000000.' => 'The base price must be less than or equal to 1,000,000.',
+    'The total seats field is required.' => 'The total seats field is required.',
+    'The total seats must be a number.' => 'The total seats must be a number.',
+    'The total seats must be greater than or equal to 0.' => 'The total seats must be greater than or equal to 0.',
+    'The total seats must be less than or equal to 1000000.' => 'The total seats must be less than or equal to 1,000,000.',
+    'The arrival time field is required.' => 'The arrival time is required.',
+    'The departure time field is required.' => 'The departure time is required.',
+    'The departure time must be a date.' => 'The departure time must be a valid date.',
+    'The arrival time must be a date.' => 'The arrival time must be a valid date.',
+    'The departure time must be before the arrival time.' => 'The departure time must be before the arrival time.',
+    'The departure airport field is required.' => 'The departure airport is required.',
+    'The arrival airport field is required.' => 'The arrival airport is required.',
+    'The airline field is required.' => 'The airline is required.',
+
+
+
+    'Clear payment status' => 'Clear payment status',
+
+
+
     "تم استلام الشحنة في أحد فروع الشركة"=>"Received at Branch",
     "تم وصول الشحنة لمستودع جدة"=>"Arrived Jed Warehouse",
     "تم شحن الشحنة من ميناء جدة الإسلامي"=>"Shipped Jed Port",

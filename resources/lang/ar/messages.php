@@ -357,6 +357,35 @@ return [
     'Fully Booked' => 'محجوز بالكامل',
 
 
+    'Seat Prices' => 'أسعار المقاعد',
+    'The flight number field is required.' => 'رقم الرحلة مطلوب.',
+    'The company field is required.' => 'اسم الشركة مطلوب.',
+    'The departure city field is required.' => 'مدينة المغادرة مطلوبة.',
+    'The arrival city field is required.' => 'مدينة الوصول مطلوبة.',
+    'The base price field is required.' => 'سعر الأساس مطلوب.',
+    'The base price must be a number.' => 'سعر الأساس يجب أن يكون رقم.',
+    'The base price must be greater than or equal to 0.' => 'سعر الأساس يجب أن يكون أكبر من أو يساوي 0.',
+    'The base price must be less than or equal to 1000000.' => 'سعر الأساس يجب أن يكون أقل من أو يساوي 1000000.',
+    'The total seats field is required.' => 'ال المقاعد مطلوبة.',
+    'The total seats must be a number.' => 'ال المقاعد يجب أن يكون رقم.',
+    'The total seats must be greater than or equal to 0.' => 'ال المقاعد يجب أن يكون أكبر من أو يساوي 0.',
+    'The total seats must be less than or equal to 1000000.' => 'ال المقاعد يجب أن يكون أقل من أو يساوي 1000000.',
+    'The arrival time field is required.' => 'وقت الوصول مطلوب.',
+    'The departure time field is required.' => 'وقت المغادرة مطلوب.',
+    'The departure time must be a date.' => 'وقت المغادرة يجب أن يكون تاريخ.',
+    'The arrival time must be a date.' => 'وقت الوصول يجب أن يكون تاريخ.',
+    'The departure time must be before the arrival time.' => 'وقت المغادرة يجب أن يكون قبل وقت الوصول.',
+    'The base price must be less than or equal to 1000000.' => 'ال المقاعد يجب أن يكون أقل من أو يساوي 1000000.',
+    'The departure time field is required.' => 'وقت المغادرة مطلوب.',
+    'The departure airport field is required.' => 'حقل مطار المغادرة مطلوب.',
+    'The arrival airport field is required.'   => 'حقل مطار الوصول مطلوب.',
+    'The airline field is required.'            => 'حقل شركة الطيران مطلوب.',
+
+
+
+    'Clear payment status' => 'تنظيف حالة الدفع',
+
+
 
     
     // "Notes" => "ملاحظات",

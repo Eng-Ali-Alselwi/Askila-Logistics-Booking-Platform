@@ -5,12 +5,9 @@
 
 @section('content')
 <x-dashboard.confirm />
-    <!-- Start Content-->
     @include('dashboard.layout.shared/page-title', ['subtitle' => t('Show Bookings'), 'title' => t('Dashboard')])
-
     <x-dashboard.outer-card :title="t('Bookings')">
         <x-slot:header>
-
             <div
                 class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Bookings') }}</h2>
@@ -22,24 +19,12 @@
                     {{ t('Add New Booking') }}
                 </x-inputs.button-primary>
                 @endcan
-
             </div>
-
         </x-slot:header>
 
         <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
-            {{-- @include('dashboard.users.partials.table') --}}
             @livewire('booking-table')
-                {{-- @livewire('users-roles-table') --}}
-                 {{-- <livewire:users-roles-table> --}}
-                {{-- @livewire('users-roles-table') --}}
-
         </div>
-
-        <div class="mt-4">
-            {{-- {{ $users->links() }} --}}
-        </div>
-
     </x-dashboard.outer-card>
 
 @endsection

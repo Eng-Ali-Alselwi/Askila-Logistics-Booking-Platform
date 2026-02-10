@@ -165,15 +165,15 @@ class UpsertFlight extends Component
         return redirect()->route('dashboard.flights.index');
     }
 
-    public function updatedBasePrice()
+    public function updatedSeatClasses($value)
     {
-        if ($this->base_price) {
-            $this->pricing_tiers = [
-                'economy' => $this->base_price,
-                'business' => $this->base_price * 1.5,
-                'first' => $this->base_price * 2,
-            ];
+        // When seat classes change, ensure pricing_tiers only contains selected classes
+        $newTiers = [];
+        foreach ($this->seat_classes as $class) {
+            // Keep existing price if it exists, otherwise use base price as default
+            $newTiers[$class] = $this->pricing_tiers[$class] ?? $this->base_price;
         }
+        $this->pricing_tiers = $newTiers;
     }
 
     public function render()

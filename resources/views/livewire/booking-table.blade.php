@@ -276,7 +276,7 @@
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 @forelse ($rows as $row)
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-gray-800/50">
-                        <td class="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">
+                        <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
                             {{ $row->booking_reference }}
                         </td>
                         <td class="px-4 py-3 text-sm">
@@ -299,7 +299,7 @@
                                     default => 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-200',
                                 };
                             @endphp
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs {{ $tripTypeColor }}">
+                            <span class="flex items-center px-2 py-1  text-xs {{ $tripTypeColor }}">
                                 {{ $row->flight->trip_type_label }}
                             </span>
                         </td>
