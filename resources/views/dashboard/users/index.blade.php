@@ -3,11 +3,11 @@
 @section('content')
 <x-dashboard.confirm />
     <!-- Start Content-->
-    @include('dashboard.layout.shared/page-title', ['subtitle' => 'Users Management', 'title' => 'Dashboard'])
+
 
     <x-dashboard.outer-card :title="t('Users')">
         <x-slot:header>
-            <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
+            <div class="px-4 border-b-1 border-b-gray-500 py-4 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Users') }}</h2>
                 @can('create users')
                 <x-inputs.button-primary as="a" href="{{ route('dashboard.users.create') }}">
@@ -73,7 +73,7 @@
                             <td class="px-2 py-4 border border-gray-200 dark:border-gray-700">{{ $user->phone }}</td>
                             <td class="px-2 py-4 border border-gray-200 dark:border-gray-700">
                                 @foreach($user->roles as $role)
-                                    <span class="px-2 py-1 text-xs text-primary-800 rounded-full">
+                                    <span class="px-2 py-1 rounded-full">
                                         {{ t($role->name) }}
                                     </span>
                                 @endforeach
@@ -84,7 +84,7 @@
                                 </span>
                             </td>
                             <td class="px-2 py-4 border border-gray-200 dark:border-gray-700">
-                                <div class="flex items-center justify-center px-2 space-x-2">
+                                <div class="flex items-center justify-evenly">
                                     @can('view users')
                                         <a href="{{ route('dashboard.users.show', $user) }}" class="text-blue-600 hover:text-blue-800">
                                             <x-heroicon-o-eye class="h-4 w-4" />

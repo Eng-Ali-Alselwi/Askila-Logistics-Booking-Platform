@@ -1,8 +1,6 @@
 @extends('dashboard.layout.admin', ['title' => t('Flight Details')])
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => t('Flight Details'), 'title' => 'Dashboard'])
-
     <x-dashboard.outer-card :title="t('Flight Details')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
@@ -215,7 +213,7 @@
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                         <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ $booking->booking_reference }}</td>
                                         <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ $booking->passenger_name }}</td>
-                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ ucfirst($booking->seat_class) }}</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ t($booking->seat_class) }}</td>
                                         <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ $booking->number_of_passengers }}</td>
                                         <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">{{ number_format($booking->total_amount, 2) }} {{ t('SAR') }}</td>
                                         <td class="px-4 py-3 text-sm">

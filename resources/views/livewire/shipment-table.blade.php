@@ -62,12 +62,11 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Per page') }}</label>
+                    <label class="text-gray-500">{{ t('Per page') }}</label>
                     <select
-                        class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                        class="text-xs px-8 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
                         wire:model.change="perPage"
-                        title="{{ t('Number of items per page') }}"
-                    >
+                        title="{{ t('Number of items per page') }}">
                         <option value="10">10</option>
                         <option value="15">15</option>
                         <option value="25">25</option>
@@ -77,9 +76,9 @@
 
                 @can('manage branches')
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Branch') }}</label>
+                    <label class="text-gray-500">{{ t('Branch') }}</label>
                     <select wire:model.change="branch_id"
-                            class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
+                            class="text-xs px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
                         <option value="">{{ t('All Branches') }}</option>
                         @foreach(\App\Models\Branch::orderBy('name')->get(['id','name']) as $b)
                             <option value="{{ $b->id }}">{{ $b->name }}</option>
@@ -225,22 +224,22 @@
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
             <thead class="bg-gray-50 dark:bg-gray-800/50">
                 <tr>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Tracking Number') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Current Status') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Sender') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Receiver') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Created At') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Created By') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Actions') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Tracking Number') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Current Status') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Sender') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Receiver') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Created At') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Created By') }}</th>
+                    <th class="px-1 py-3 text-center border-r border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-500">{{ t('Actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 @forelse ($rows as $row)
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-gray-800/50">
-                        <td class="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100">
                             {{ $row->tracking_number }}
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             @php
                                 $status = $row->current_status;
                                 $label = $row->current_status_label; // من الـ Accessor في Shipment
@@ -254,26 +253,26 @@
                                     default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
                                 };
                             @endphp
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs {{ $color }}">
+                            <span class="inline-flex items-center px-2 py-1 rounded-xs text-xs {{ $color }}">
                                 {{  $label?(app()->getLocale()=='en'? t($label):$label)  : '—' }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="text-gray-900 dark:text-gray-100">{{ $row->sender_name ?? '—' }}</div>
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
+                            <div class="text-gray-900 dark:text-gray-100 pb-2">{{ $row->sender_name ?? '—' }}</div>
                             <div class="text-gray-500 text-xs">{{ $row->sender_phone ?? '' }}</div>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="text-gray-900 dark:text-gray-100">{{ $row->receiver_name ?? '—' }}</div>
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
+                            <div class="text-gray-900 dark:text-gray-100 pb-2">{{ $row->receiver_name ?? '—' }}</div>
                             <div class="text-gray-500 text-xs">{{ $row->receiver_phone ?? '' }}</div>
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             {{ optional($row->created_at)->format('Y-m-d H:i') }}
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             {{ $row->creator->name ??'-'}}
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="flex items-center gap-2" >
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
+                            <div class="flex justify-evenly items-center" >
                                 <x-dashboard.event-icon route="{{ route('dashboard.shipments.show', $row)  }}">
                                     <x-heroicon-s-eye class="w4 h-4"/>
                                 </x-dashboard.event-icon>

@@ -3,20 +3,19 @@
 @section('title', t('Reports & Analytics'))
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => t('Reports'), 'title' => t('Dashboard')])
+
 
     <x-dashboard.outer-card :title="t('Reports')">
         <x-slot:header>
-            <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
+            <div class="px-4 border-b-1 border-b-gray-500 py-4 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Reports & Analytics') }}</h2>
-
-                    <div class="inline-flex items-center gap-2">
-                        <a class="btn btn-success" href="{{ route('dashboard.reports.export', array_merge(['type' => 'shipments', 'format' => 'excel'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Shipments (Excel)') }}</a>
-                        <a class="btn btn-success" href="{{ route('dashboard.reports.export', array_merge(['type' => 'bookings', 'format' => 'excel'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Bookings (Excel)') }}</a>
-                        <a class="btn btn-outline-danger" href="{{ route('dashboard.reports.export', array_merge(['type' => 'shipments', 'format' => 'pdf'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Shipments (PDF)') }}</a>
-                        <a class="btn btn-outline-danger" href="{{ route('dashboard.reports.export', array_merge(['type' => 'bookings', 'format' => 'pdf'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Bookings (PDF)') }}</a>
-                        <button onclick="printReport()" class="btn btn-outline-primary">{{ t('Print Report') }}</button>
-                    </div>
+                <div class="inline-flex items-center gap-2">
+                    <a class="btn btn-success" href="{{ route('dashboard.reports.export', array_merge(['type' => 'shipments', 'format' => 'excel'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Shipments (Excel)') }}</a>
+                    <a class="btn btn-success" href="{{ route('dashboard.reports.export', array_merge(['type' => 'bookings', 'format' => 'excel'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Bookings (Excel)') }}</a>
+                    <a class="btn btn-outline-danger" href="{{ route('dashboard.reports.export', array_merge(['type' => 'shipments', 'format' => 'pdf'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Shipments (PDF)') }}</a>
+                    <a class="btn btn-outline-danger" href="{{ route('dashboard.reports.export', array_merge(['type' => 'bookings', 'format' => 'pdf'], request()->only(['date_from', 'date_to']))) }}">{{ t('Export Bookings (PDF)') }}</a>
+                    <button onclick="printReport()" class="btn btn-outline-primary">{{ t('Print Report') }}</button>
+                </div>
             </div>
         </x-slot:header>
 

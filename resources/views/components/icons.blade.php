@@ -277,4 +277,10 @@ xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path
         viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M5 13l4 4L19 7"></path> </svg>
+@elseif($icon=="ticket")
+<svg aria-hidden="true" {{ $attributes->merge(['class' => 'w-5 h-5']) }} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M128 0C92.7 0 64 28.7 64 64V96h64c35.3 0 64 28.7 64 64s-28.7 64-64 64H64v32h64c35.3 0 64 28.7 64 64s-28.7 64-64 64H64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V384H448c-35.3 0-64-28.7-64-64s28.7-64 64-64h64V224H448c-35.3 0-64-28.7-64-64s28.7-64 64-64h64V64c0-35.3-28.7-64-64-64H128zM400 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm0 128a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm0 128a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm0 128a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+@elseif($icon=="building")
+<svg aria-hidden="true" {{ $attributes->merge(['class' => 'w-5 h-5']) }} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M128 32V64H320V32H128zM320 0H128C110.3 0 96 14.3 96 32V64H48C21.5 64 0 85.5 0 112V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32zM64 128H384V448H64V128zM128 192h64v64H128V192zm128 0h64v64H256V192zM128 288h64v64H128V288zm128 0h64v64H256V288z"/></svg>
+@elseif($icon=="chart")
+<svg aria-hidden="true" {{ $attributes->merge(['class' => 'w-5 h-5']) }} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 80c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V80zM0 272c0-26.5 21.5-48 48-48H80c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V272zM368 176c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H368c-26.5 0-48-21.5-48-48V176z"/></svg>
 @endif

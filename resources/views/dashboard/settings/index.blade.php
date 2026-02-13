@@ -1,7 +1,7 @@
 @extends('dashboard.layout.admin', ['title' => t('Settings')])
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => t('Settings'), 'title' => t('Dashboard')])
+
 
     <x-dashboard.outer-card :title="t('Application Settings')">
         <x-slot:header>

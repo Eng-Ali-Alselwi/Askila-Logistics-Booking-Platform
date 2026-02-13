@@ -1,34 +1,28 @@
 @extends('dashboard.layout.admin', ['title' => t('Booking Details')])
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => t('Booking Details'), 'title' => t('Dashboard')])
-
     <x-dashboard.outer-card :title="t('Booking Details')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
                     {{ t('Booking Details') }} - {{ $booking->booking_reference }}
                 </h2>
-                <div class="flex items-center gap-2">
-                    <x-inputs.button-secondary as="a" href="{{ route('dashboard.bookings.index') }}">
-                        <x-heroicon-s-arrow-left class="h-4 w-4 me-2 inline" />
+                <div class="flex items-center">
+                    <x-inputs.button-primary as="a" href="{{ route('dashboard.bookings.index') }}">
                         {{ t('Back to Bookings') }}
-                    </x-inputs.button-secondary>
-                    <x-inputs.button-primary as="a" href="{{ route('dashboard.bookings.edit', $booking) }}">
-                        <x-heroicon-s-pencil-square class="h-4 w-4 me-2 inline" />
-                        {{ t('Edit Booking') }}
+                        <x-heroicon-s-arrow-left class="h-4 w-4 {{ app()->getLocale() == 'ar' ? 'ms-2' : 'me-2' }} inline" />
                     </x-inputs.button-primary>
                 </div>
             </div>
         </x-slot:header>
 
-        <div class="p-6">
+        <div class="p-3">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Booking Information --}}
                 <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ t('Booking Information') }}</h3>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Booking Reference') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ $booking->booking_reference }}</span>
@@ -92,7 +86,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ t('Passenger Information') }}</h3>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Passenger Name') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ $booking->passenger_name }}</span>
@@ -104,17 +98,41 @@
                         </div>
                         
                         <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Phone') }}</span>
-                            <span class="text-sm text-gray-900 dark:text-white">{{ $booking->passenger_phone }}</span>
-                        </div>
-                        
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('ID Number') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white">{{ $booking->passenger_id_number ?? t('Not provided') }}</span>
                         </div>
+                  
+                        <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Phone Sudia') }}</span>
+                            <span class="text-sm text-gray-900 dark:text-white">{{ $booking->passenger_phone }}</span>
+                        </div>
+
+                        @if($booking->phone_sudan)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Phone Sudan') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->phone_sudan }}</span>
+                            </div>
+                        @endif
                         
+                        @if($booking->passenger_details && count($booking->passenger_details) > 0)
+                            <div class="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-3">{{ t('Additional Passengers') }}</span>
+                                <div class="grid grid-cols-1 gap-3">
+                                    @foreach($booking->passenger_details as $index => $extra)
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                                            <div>
+                                                <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $extra['name'] ?? t('Unnamed') }}</p>
+                                                <p class="text-xs text-gray-500">{{ t('Passport') }}: {{ $extra['passport'] ?? t('N/A') }}</p>
+                                            </div>
+                                            <span class="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">#{{ $index + 2 }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
                         @if($booking->special_requests)
-                            <div class="py-2">
+                            <div class="mt-6 py-2 border-t border-gray-100 dark:border-gray-700">
                                 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Special Requests') }}</span>
                                 <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">{{ $booking->special_requests }}</p>
                             </div>
@@ -122,11 +140,100 @@
                     </div>
                 </div>
 
+                {{-- Passport & Travel Information --}}
+                <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ t('Passport & Travel Information') }}</h3>
+                    
+                    <div class="space-y-3">
+                        @if($booking->passport_number)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Passport Number') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->passport_number }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->nationality)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Nationality') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->nationality }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->date_of_birth)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Date of Birth') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->date_of_birth->format('Y-m-d') }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->passport_issue_date)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Passport Issue Date') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->passport_issue_date->format('Y-m-d') }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->passport_expiry_date)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Passport Expiry Date') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white @if($booking->passport_expiry_date->isPast()) text-red-600 font-bold @endif">
+                                    {{ $booking->passport_expiry_date->format('Y-m-d') }}
+                                    @if($booking->passport_expiry_date->isPast()) ({{ t('Expired') }}) @endif
+                                </span>
+                            </div>
+                        @endif
+
+                        @if($booking->current_residence_country)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Current Residence') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->current_residence_country }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->destination_country)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Destination Country') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $booking->destination_country }}</span>
+                            </div>
+                        @endif
+
+                        @if($booking->travel_date)
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Travel Date') }}</span>
+                                <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ $booking->travel_date->format('Y-m-d') }}</span>
+                            </div>
+                        @endif
+
+                        {{-- Passport Image Display --}}
+                        <div class="mt-4">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 block mb-3">{{ t('Passport Image / Attachment') }}</span>
+                            @if($booking->image)
+                                <div class="relative group">
+                                    <a href="{{ asset('storage/' . $booking->image) }}" target="_blank" class="block border dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-gray-50 dark:bg-gray-900">
+                                        @php $extension = pathinfo($booking->image, PATHINFO_EXTENSION); @endphp
+                                        @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'webp']))
+                                            <img src="{{ asset('storage/' . $booking->image) }}" alt="{{ t('Passport Image') }}" class="w-full h-auto max-h-80 object-contain">
+                                        @else
+                                            <div class="p-8 flex flex-col items-center justify-center text-indigo-600 dark:text-indigo-400">
+                                                <x-heroicon-o-document-arrow-down class="w-16 h-16 mb-2" />
+                                                <span class="text-sm font-medium">{{ t('Download File') }} ({{ strtoupper($extension) }})</span>
+                                                <span class="text-xs text-gray-500 mt-1">{{ basename($booking->image) }}</span>
+                                            </div>
+                                        @endif
+                                    </a>
+                                </div>
+                            @else
+                                <p class="text-sm text-gray-400 italic">{{ t('No image uploaded') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 {{-- Flight Information --}}
                 <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ t('Flight Information') }}</h3>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Flight Number') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ $booking->flight->flight_number }}</span>
@@ -163,36 +270,17 @@
                 <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ t('Payment Information') }}</h3>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Base Amount') }}</span>
                             <span class="text-sm text-gray-900 dark:text-white">{{ number_format($booking->total_amount, 2) }} {{ $booking->currency }}</span>
                         </div>
-                        
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Tax Amount') }}</span>
-                            <span class="text-sm text-gray-900 dark:text-white">{{ number_format($booking->tax_amount, 2) }} {{ $booking->currency }}</span>
-                        </div>
-                        
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Service Fee') }}</span>
-                            <span class="text-sm text-gray-900 dark:text-white">{{ number_format($booking->service_fee, 2) }} {{ $booking->currency }}</span>
-                        </div>
-                        
-                        <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Total Amount') }}</span>
-                            <span class="text-sm text-gray-900 dark:text-white font-semibold">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee, 2) }} {{ $booking->currency }}</span>
-                        </div>
-                        
+                                              
                         @if($booking->payment_method)
                             <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                                 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ t('Payment Method') }}</span>
                                 <span class="text-sm text-gray-900 dark:text-white">
-                                    @if($booking->payment_method === 'manual_whatsapp')
-                                        {{ t('Via WhatsApp (Pending Confirmation)') }}
-                                    @else
-                                        {{ t(ucfirst($booking->payment_method)) }}
-                                    @endif
+                                    {{ t($booking->payment_method) }}
                                 </span>
                             </div>
                         @endif

@@ -46,10 +46,11 @@ class BookingController extends Controller
             'ticket_type' => 'required|in:one_way,round_trip',
             'seat_class' => 'required|in:economy,business,first',
             'cabin_type' => 'nullable|string|max:100',
-            'number_of_passengers' => 'required|integer|min:1|max:9',
+            'number_of_passengers' => 'required|integer',
+            'passenger_details' => 'nullable|array',
             'special_requests' => 'nullable|string|max:1000',
-            'payment_method' => 'required|in:cash,paypal,credit_card',
-            'payment_status' => 'required|in:pending,paid,failed,awaiting_payment,confirmed,processing',
+            'payment_method' => 'required|in:on_arrival,whatsapp,tap_payment',
+            'payment_status' => 'required|in:pending,paid,failed,refunded',
             'image' => 'required|file|mimes:jpg,jpeg,png,webp,pdf|max:4096'
         ]);
 
@@ -72,8 +73,6 @@ class BookingController extends Controller
         // حساب المبالغ (مطابقة لواجهة المستخدم الأمامية)
         $basePrice = $flight->getPriceForClass($request->seat_class);
         $totalAmount = $basePrice * $request->number_of_passengers;
-        $taxAmount = $totalAmount * 0.15; // 15% ضريبة
-        $serviceFee = 50 * $request->number_of_passengers; // رسم خدمة ثابت لكل راكب
 
         try {
             DB::beginTransaction();
@@ -99,8 +98,6 @@ class BookingController extends Controller
                 'number_of_passengers' => $request->number_of_passengers,
                 'passenger_details' => $request->passenger_details,
                 'total_amount' => $totalAmount,
-                'tax_amount' => $taxAmount,
-                'service_fee' => $serviceFee,
                 'currency' => 'SAR',
                 'status' => 'pending',
                 'payment_status' => $request->payment_status,
@@ -114,10 +111,15 @@ class BookingController extends Controller
             $flight->updateAvailableSeats(-$request->number_of_passengers);
             DB::commit();
 
-            // إرسال بريد برقم الحجز بعد إنشاء الحجز من الأدمن
+            // إرسال بريد برقم الحجز بعد إنشاء الحجز من الأدمن (اختياري)
             try {
                 if (!empty($booking->passenger_email)) {
                     Mail::to($booking->passenger_email)->send(new BookingCodeMail($booking));
+                    \Log::info('Booking confirmation email sent successfully', [
+                        'booking_id' => $booking->id,
+                        'email' => $booking->passenger_email,
+                        'payment_method' => $booking->payment_method
+                    ]);
                 }
             } catch (\Throwable $e) {
                 \Log::warning('Failed to send booking code email (admin create)', [
@@ -157,29 +159,43 @@ class BookingController extends Controller
             'passenger_email' => 'required|email|max:255',
             'passenger_phone' => 'required|string|max:20',
             'passenger_id_number' => 'nullable|string|max:20',
+            'passport_number' => 'nullable|string|max:50',
+            'passport_issue_date' => 'nullable|date',
+            'passport_expiry_date' => 'nullable|date|after:passport_issue_date',
+            'nationality' => 'nullable|string|max:100',
+            'date_of_birth' => 'nullable|date',
+            'current_residence_country' => 'nullable|string|max:100',
+            'destination_country' => 'nullable|string|max:100',
+            'phone_sudan' => 'nullable|string|max:20',
+            'travel_date' => 'nullable|date',
             'seat_class' => 'required|in:economy,business,first',
-            'number_of_passengers' => 'required|integer|min:1|max:9',
+            'number_of_passengers' => 'required|integer',
             'special_requests' => 'nullable|string|max:1000',
             'status' => 'required|in:pending,confirmed,cancelled,completed',
-            'payment_status' => 'required|in:pending,paid,failed,refunded'
+            'payment_status' => 'required|in:pending,paid,failed,refunded',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:4096'
         ]);
 
         $wasConfirmed = $booking->isConfirmed();
-
         $oldPassengerCount = $booking->number_of_passengers;
         $newPassengerCount = $request->number_of_passengers;
 
-        // إذا تم تغيير عدد الركاب، نحتاج لتحديث المقاعد المتاحة
+        // تحديث المقاعد إذا تغير العدد
         if ($oldPassengerCount != $newPassengerCount) {
             $seatDifference = $newPassengerCount - $oldPassengerCount;
-            
-            // التحقق من توفر المقاعد
             if ($seatDifference > 0 && $booking->flight->available_seats < $seatDifference) {
                 return back()->withErrors(['number_of_passengers' => 'لا توجد مقاعد متاحة كافية.']);
             }
-
-            // تحديث المقاعد المتاحة
             $booking->flight->updateAvailableSeats(-$seatDifference);
+        }
+
+        // معالجة الصورة الجديدة إذا رفعت
+        $imagePath = $booking->image;
+        if ($request->hasFile('image')) {
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');
+            $stored = $request->file('image')->storeAs('bookings', $randomName, 'public');
+            $imagePath = $stored ?: $imagePath;
         }
 
         $booking->update([
@@ -187,14 +203,25 @@ class BookingController extends Controller
             'passenger_email' => $request->passenger_email,
             'passenger_phone' => $request->passenger_phone,
             'passenger_id_number' => $request->passenger_id_number,
+            'passport_number' => $request->passport_number,
+            'passport_issue_date' => $request->passport_issue_date,
+            'passport_expiry_date' => $request->passport_expiry_date,
+            'nationality' => $request->nationality,
+            'date_of_birth' => $request->date_of_birth,
+            'current_residence_country' => $request->current_residence_country,
+            'destination_country' => $request->destination_country,
+            'phone_sudan' => $request->phone_sudan,
+            'travel_date' => $request->travel_date,
             'seat_class' => $request->seat_class,
             'number_of_passengers' => $newPassengerCount,
+            'passenger_details' => $request->passenger_details,
             'special_requests' => $request->special_requests,
             'status' => $request->status,
-            'payment_status' => $request->payment_status
+            'payment_status' => $request->payment_status,
+            'image' => $imagePath
         ]);
 
-        // عند تعديل الحجز وجعله مؤكدًا ترسل رسالة تأكيد
+        // إرسال بريد تأكيد إذا تغيرت الحالة لـ "مؤكد"
         if (!$wasConfirmed && $request->status === 'confirmed') {
             try {
                 if (!empty($booking->passenger_email)) {
@@ -387,9 +414,9 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         // التحقق من إمكانية الحذف
-        if ($booking->status === 'confirmed' && $booking->flight->departure_time > now()) {
-            return back()->withErrors(['error' => 'لا يمكن حذف حجز مؤكد لرحلة لم تغادر بعد.']);
-        }
+        // if ($booking->status === 'confirmed' && $booking->flight->departure_time > now()) {
+        //     return back()->withErrors(['error' => 'لا يمكن حذف حجز مؤكد لرحلة لم تغادر بعد.']);
+        // }
 
         try {
             DB::beginTransaction();

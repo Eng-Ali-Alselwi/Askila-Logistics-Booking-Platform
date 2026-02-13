@@ -174,24 +174,24 @@
                         <div class="hidden md:block">
                             <div class="overflow-hidden">
                                 <table class="w-full">
-                                    <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <thead class="bg-white divide-y divide-gray-200">
                                         <tr>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.passenger_name') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.flight_number') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.booking_status') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.payment_status_label') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.number_of_passengers_label') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.total_amount_label') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.passenger_name') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.flight_number') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.booking_status') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.payment_status_label') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.number_of_passengers_label') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.total_amount_label') }}</th>
                                             @if($booking->payment_status !== 'paid')
-                                                <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.Operations') }}</th>
+                                                <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.Operations') }}</th>
                                             @endif
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr class="">
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ $booking->passenger_name }}</td>
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ $booking->flight->flight_number }}</td>
-                                            <td class="py-4 text-sm text-center border border-gray-100">
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ $booking->passenger_name }}</td>
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ $booking->flight->flight_number }}</td>
+                                            <td class="py-4 text-sm text-center border border-gray-600">
                                                 <span class="inline-flex items-center px-2.5 py-1 rounded-xs text-sm {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800' : ($booking->status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                                     @switch($booking->status)
                                                         @case('confirmed')
@@ -208,7 +208,7 @@
                                                     @endswitch
                                                 </span>
                                             </td>
-                                            <td class="py-4 text-sm text-center border border-gray-100">
+                                            <td class="py-4 text-sm text-center border border-gray-600">
                                                 <span class="inline-flex items-center px-2.5 py-1 rounded-xs text-sm {{ $booking->payment_status === 'paid' ? 'bg-green-100 text-green-800' : ($booking->payment_status === 'failed' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                                     @switch($booking->payment_status)
                                                         @case('paid')
@@ -225,10 +225,10 @@
                                                     @endswitch
                                                 </span>
                                             </td>
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ $booking->number_of_passengers }}</td>
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee) }} {{ __('messages.currency') }}</td>
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ $booking->number_of_passengers }}</td>
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee) }} {{ __('messages.currency') }}</td>
                                             @if($booking->payment_status !== 'paid')
-                                                <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">
+                                                <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">
                                                     <div class="text-center">
                                                         <button onclick="showPaymentModal()" 
                                                                 class="inline-flex items-center cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-101">
@@ -245,16 +245,16 @@
                         </div>
                         <!-- Mobile Cards (below 768px) -->
                         <div class="md:hidden space-y-3">
-                            <div class="bg-white border border-gray-100">
+                            <div class="bg-white border border-gray-600">
                                 <div class="grid grid-cols-2">
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.passenger_name') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ $booking->passenger_name }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.passenger_name') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ $booking->passenger_name }}</div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.flight_number') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ $booking->flight->flight_number }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.flight_number') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ $booking->flight->flight_number }}</div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.booking_status') }}</div>
-                                    <div class="text-sm text-center py-2 border border-gray-100">
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.booking_status') }}</div>
+                                    <div class="text-sm text-center py-2 border border-gray-600">
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-sm text-sm {{ $booking->status === 'confirmed' ? 'bg-green-100 text-green-800' : ($booking->status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                             @switch($booking->status)
                                                 @case('confirmed')
@@ -272,8 +272,8 @@
                                         </span>
                                     </div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.payment_status_label') }}</div>
-                                    <div class="text-sm text-center py-2 border border-gray-100">
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.payment_status_label') }}</div>
+                                    <div class="text-sm text-center py-2 border border-gray-600">
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-sm text-sm {{ $booking->payment_status === 'paid' ? 'bg-green-100 text-green-800' : ($booking->payment_status === 'failed' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                             @switch($booking->payment_status)
                                                 @case('paid')
@@ -291,18 +291,18 @@
                                         </span>
                                     </div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.number_of_passengers_label') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ $booking->number_of_passengers }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.number_of_passengers_label') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ $booking->number_of_passengers }}</div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.total_amount_label') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee) }} {{ __('messages.currency') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.total_amount_label') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ number_format($booking->total_amount + $booking->tax_amount + $booking->service_fee) }} {{ __('messages.currency') }}</div>
 
                                     @if($booking->payment_status !== 'paid')
-                                        <span class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.Operations') }}</span>
+                                        <span class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.Operations') }}</span>
                                     @endif
 
                                     @if($booking->payment_status !== 'paid')
-                                        <div class="py-2 border border-gray-100">
+                                        <div class="py-2 border border-gray-600">
                                             <div class="text-center">
                                                 <button onclick="showPaymentModal()" 
                                                         class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-1 px-2 rounded-sm transition duration-300 transform hover:scale-105">
@@ -329,34 +329,34 @@
                     <div class="py-4">
                         <!-- Desktop Table (768px and above) -->
                         <div class="hidden md:block">
-                            <div class="overflow-hidden border border-gray-200">
+                            <div class="overflow-hidden">
                                 <table class="w-full">
-                                    <thead class="bg-gradient-to-r from-green-50 to-green-100">
+                                    <thead class="bg-white divide-y divide-gray-200">
                                         <tr>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.from_city') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.to_city') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.departure_time') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.arrival_time') }}</th>
-                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-200">{{ __('messages.seat_class_label') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.from_city') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.to_city') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.departure_time') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.arrival_time') }}</th>
+                                            <th class="py-3 text-center text-sm font-bold text-gray-600 uppercase tracking-wider border border-gray-600">{{ __('messages.seat_class_label') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr>
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ $booking->flight->departure_city }}</td>
-                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-100">{{ $booking->flight->arrival_city }}</td>
-                                            <td class="py-4 border border-gray-100">
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ $booking->flight->departure_city }}</td>
+                                            <td class="py-4 text-sm text-center text-gray-900 border border-gray-600">{{ $booking->flight->arrival_city }}</td>
+                                            <td class="py-4 border border-gray-600">
                                                 <div class="text-center">
                                                     <div class="font-bold text-lg">{{ $booking->flight->departure_time->format('H:i') }}</div>
                                                     <div class="text-xs text-gray-500">{{ $booking->flight->departure_time->format('Y-m-d') }}</div>
                                                 </div>
                                             </td>
-                                            <td class="py-4 border border-gray-100">
+                                            <td class="py-4 border border-gray-600">
                                                 <div class="text-center">
                                                     <div class="font-bold text-lg">{{ $booking->flight->arrival_time->format('H:i') }}</div>
                                                     <div class="text-xs text-gray-500">{{ $booking->flight->arrival_time->format('Y-m-d') }}</div>
                                                 </div>
                                             </td>
-                                            <td class="py-4 border border-gray-100 text-center">
+                                            <td class="py-4 border border-gray-600 text-center">
                                                 <span class="inline-flex items-center text-sm text-blue-900">
                                                     {{ t(ucfirst($booking->seat_class)) }}
                                                 </span>
@@ -368,32 +368,32 @@
                         </div>
                         <!-- Mobile Cards (below 768px) -->
                         <div class="md:hidden space-y-3">
-                            <div class="bg-white border border-gray-100">
+                            <div class="bg-white border border-gray-600">
                                 <div class="grid grid-cols-2">
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.from_city') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ $booking->flight->departure_city }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.from_city') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ $booking->flight->departure_city }}</div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.to_city') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ $booking->flight->arrival_city }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.to_city') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ $booking->flight->arrival_city }}</div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider flex items-center justify-center">{{ __('messages.departure_time') }}</div>
-                                    <div class="text-sm border border-gray-100">
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider flex items-center justify-center">{{ __('messages.departure_time') }}</div>
+                                    <div class="text-sm border border-gray-600">
                                         <div class="p-2 text-center">
                                             <div class="font-semibold text-lg">{{ $booking->flight->departure_time->format('H:i') }}</div>
                                             <div class="text-xs text-gray-500">{{ $booking->flight->departure_time->format('Y-m-d') }}</div>
                                         </div>
                                     </div>
                                     
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider flex items-center justify-center">{{ __('messages.arrival_time') }}</div>
-                                    <div class="text-sm border border-gray-100">
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider flex items-center justify-center">{{ __('messages.arrival_time') }}</div>
+                                    <div class="text-sm border border-gray-600">
                                         <div class="p-2 text-center">
                                             <div class="font-semibold text-lg">{{ $booking->flight->arrival_time->format('H:i') }}</div>
                                             <div class="text-xs text-gray-500">{{ $booking->flight->arrival_time->format('Y-m-d') }}</div>
                                         </div>
                                     </div>
 
-                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-100 tracking-wider">{{ __('messages.seat_class_label') }}</div>
-                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-100 tracking-wider">{{ t(ucfirst($booking->seat_class)) }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 font-bold border border-gray-600 tracking-wider">{{ __('messages.seat_class_label') }}</div>
+                                    <div class="py-2 text-sm text-center text-gray-500 border border-gray-600 tracking-wider">{{ t(ucfirst($booking->seat_class)) }}</div>
 
                                 </div>
                             </div>
@@ -494,7 +494,7 @@
             <!-- Payment Methods -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <!-- WhatsApp Method -->
-                <div class="payment-method-card bg-white border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300" 
+                <div class="payment-method-card bg-white border-2 border-gray-600 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300" 
                      onclick="selectPaymentMethod('whatsapp')">
                     <div class="text-center">
                         <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">

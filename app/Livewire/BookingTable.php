@@ -179,11 +179,13 @@ class BookingTable extends Component
     {
         $booking = Booking::findOrFail($id);
         
-        // التحقق من إمكانية الحذف
-        if ($booking->status === 'confirmed' && $booking->flight->departure_time > now()) {
+        // التحقق من إمكانية الحذف (تم تعطيله بناءً على رغبة المستخدم في المتحكم)
+        /*
+        if ($booking->status === 'confirmed' && $booking->flight && $booking->flight->departure_time > now()) {
             session()->flash('error', 'لا يمكن حذف حجز مؤكد لرحلة لم تغادر بعد.');
             return;
         }
+        */
 
         $booking->delete();
         session()->flash('success', 'تم حذف الحجز بنجاح.');

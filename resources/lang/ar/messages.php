@@ -385,6 +385,12 @@ return [
 
     'Clear payment status' => 'تنظيف حالة الدفع',
 
+    'Booking Date' => 'تاريخ الحجز',
+    'Passport Attachment' => 'الصورة المرفقة للجواز',
+    'Download / View Attachment' => 'تحميل / عرض المرفق',
+    'File' => 'ملف',
+    'Resend Confirmation' => 'إعادة إرسال التأكيد',
+
 
 
     
@@ -1846,4 +1852,70 @@ return [
     'Cannot reduce seat count below booked seats (:booked).' => 'لا يمكن تقليل عدد المقاعد إلى أقل من المقاعد المحجوزة (:booked).',
     'Flight updated successfully' => 'تم تحديث الرحلة بنجاح',
     'Flight created successfully' => 'تم إنشاء الرحلة بنجاح',
+
+    // Booking Passport & Travel Information
+    'Passport Number' => 'رقم الجواز',
+    'Passport Image / Attachment' => 'صورة الجواز / المرفق',
+    'Max 4MB: JPG, PNG, PDF' => 'الحد الأقصى 4 ميجابايت: JPG, PNG, PDF',
+    'Image Preview' => 'معاينة الصورة',
+    'New Image Preview' => 'معاينة الصورة الجديدة',
+    'Passport Issue Date' => 'تاريخ إصدار الجواز',
+    'Passport Expiry Date' => 'تاريخ انتهاء الجواز',
+    'Nationality' => 'الجنسية',
+    'Current Residence Country' => 'بلد الإقامة الحالي',
+    'Enter current country' => 'أدخل البلد الحالي',
+    'Current Country' => 'البلد الحالي',
+    'Destination Country' => 'بلد الوجهة',
+    'Phone (Sudan)' => 'رقم الهاتف (السودان)',
+    'Travel Date' => 'تاريخ السفر',
+    'Details for Additional Passengers' => 'بيانات المرافقين الإضافيين',
+    'Passport' => 'الجواز',
+    'Unnamed' => 'بدون اسم',
+    'Current Passport' => 'الجواز الحالي',
+    'View Current File' => 'عرض الملف الحالي',
+    'Send Confirmation Email to Passenger' => 'إرسال بريد تأكيد للمسافر',
+    'Notification Options' => 'خيارات التنبيه',
+    'Passport & Travel Information' => 'بيانات الجواز والسفر',
+    'Current Residence' => 'الإقامة الحالية',
+    'Expired' => 'منتهي',
+    'Passport Image' => 'صورة الجواز',
+    'Download File' => 'تحميل الملف',
+
+
+    'Seats' => 'المقاعد',
+    'National ID or Residence Number' => 'رقم الهوية الوطنية أو رقم الإقامة',
+    'Enter National ID or Residence Number' => 'أدخل رقم الهوية الوطنية أو رقم الإقامة',
+    'Phone Sudan' => 'رقم الهاتف (السودان)',
+    'Enter phone Sudan' => 'أدخل رقم الهاتف (السودان)',
+    'Phone Sudia' => 'رقم الهاتف (السعودية)',
+    'Enter phone Sudia' => 'أدخل رقم الهاتف (السعودية)',
+
+
+    'The selected payment method is invalid.' => 'طريقة الدفع المحددة غير صالحة.',
+    'Payment method not found.' => 'طريقة الدفع غير موجودة.',
+    'The payment method field is required.' => 'حقل طريقة الدفع مطلوب.',
+    'The passenger phone field is required.' => 'حقل رقم الهاتف مطلوب.',
+    'The image field is required.' => 'حقل الصورة مطلوب.',
+    'The passenger email field is required.' => 'حقل البريد الإلكتروني مطلوب.',
+    'The passenger name field is required.' => 'حقل الاسم مطلوب.',
+        'The flight id field is required.' => 'حقل الرحلة مطلوب.',
+    'The number of passengers field must be at least 1.' => 'يجب أن يكون عدد الركاب 1 على الأقل.',
+    'The number of passengers field must be at most 9.' => 'يجب أن يكون عدد الركاب 9 على الأكثر.',
+    'The seat class field is required.' => 'حقل فئة المقعد مطلوب.',
+    'The ticket type field is required.' => 'حقل نوع التذكرة مطلوب.',
+    'The price field must be a number.' => 'يجب أن يكون السعر رقمًا.',
+    'The price field must be greater than or equal to 0.' => 'يجب أن يكون السعر أكبر من أو يساوي 0.',
+    'The seat class field must be one of the following types: economy, business, first.' => 'يجب أن تكون فئة المقعد من الأنواع التالية: اقتصادية، رجال أعمال، أولى.',
+    'The ticket type field must be one of the following types: one_way, round_trip.' => 'يجب أن يكون نوع التذكرة من الأنواع التالية: ذهاب فقط، ذهاب وعودة.',
+    'The seat class field must be one of the following types: economy, business, first.' => 'يجب أن تكون فئة المقعد من الأنواع التالية: اقتصادية، رجال أعمال، أولى.',
+    'The ticket type field must be one of the following types: one_way, round_trip.' => 'يجب أن يكون نوع التذكرة من الأنواع التالية: ذهاب فقط، ذهاب وعودة.',
+    'The seat class field must be one of the following types: economy, business, first.' => 'يجب أن تكون فئة المقعد من الأنواع التالية: اقتصادية، رجال أعمال، أولى.',
+    'The ticket type field must be one of the following types: one_way, round_trip.' => 'يجب أن يكون نوع التذكرة من الأنواع التالية: ذهاب فقط، ذهاب وعودة.',
+
+    'WhatsApp' => 'واتساب',
+    'tap_payment' => 'Tap Payment',
+    'on_arrival' => 'عند الوصول',
+
+    'Click here to select a file' => 'انقر هنا لاختيار ملف',
+    'Choose' => 'اختر',
 ];

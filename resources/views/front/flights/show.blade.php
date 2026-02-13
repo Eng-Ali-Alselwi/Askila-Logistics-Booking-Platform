@@ -114,7 +114,7 @@
 @endpush
 
 @section('content')
-    <div class="pb-6 bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50">
+    <div class="pb-6">
         
         {{-- عرض رسائل الخطأ --}}
         @if($errors->any())
@@ -175,14 +175,14 @@
                     
                     {{-- بطاقة تفاصيل الرحلة --}}
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 px-8 pt-4 pb-6" data-aos="fade-up">
-                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                        <div class="flex items-center justify-between mb-4 border-b border-gray-600 pb-2">
                             <div class="flex items-center gap-3">
                                 <div class="bg-gray-100 p-2.5 rounded-lg">
-                                    <i class="fas fa-plane-departure text-gray-700"></i>
+                                    <i class="fas fa-plane-departure dark:text-gray-300"></i>
                                 </div>
-                                <h2 class="text-xl font-bold text-gray-900">{{ __('messages.flight_details') }}</h2>
+                                <h2 class="text-xl font-bold dark:text-gray-300">{{ __('messages.flight_details') }}</h2>
                             </div>
-                            <div class="text-sm text-gray-500 font-medium bg-gray-50 px-3 py-1 rounded-full">
+                            <div class="text-sm dark:text-gray-300 font-medium bg-gray-50 px-3 py-1 rounded-full">
                                 {{ $flight->flight_number ?? 'FL-' . $flight->id }}
                             </div>
                         </div>
@@ -193,46 +193,46 @@
                                 
                                 <!-- نقطة المغادرة -->
                                 <div class="text-center w-full md:w-1/4">
-                                    <p class="text-sm text-gray-500 font-medium mb-1">المغادرة</p>
-                                    <p class="text-2xl font-bold text-gray-900 mb-1">{{ $flight->departure_city }}</p>
-                                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mt-2">
+                                    <p class="text-sm dark:text-gray-300 font-medium mb-1">المغادرة</p>
+                                    <p class="text-2xl font-bold dark:text-gray-300 mb-1">{{ $flight->departure_city }}</p>
+                                    <div class="inline-flex items-center px-3 py-1 dark:text-gray-300 text-sm font-bold mt-2">
                                         {{ $flight->departure_time->format('H:i') }}
                                     </div>
-                                    <p class="text-xs text-gray-400 mt-2">{{ $flight->departure_time->format('Y-m-d') }}</p>
+                                    <p class="text-xs text-gray- mt-2">{{ $flight->departure_time->format('Y-m-d') }}</p>
                                     @if($flight->departure_terminal)
-                                        <p class="text-xs text-gray-500 mt-1 font-medium bg-gray-50 inline-block px-2 py-0.5 rounded">{{ $flight->departure_terminal }}</p>
+                                        <p class="text-xs dark:text-gray-300 mt-1 font-medium bg-gray-50 inline-block px-2 py-0.5 rounded">{{ $flight->departure_terminal }}</p>
                                     @endif
                                 </div>
                                 
                                 <!-- خط المسار -->
                                 <div class="md:flex-1 w-full flex flex-col items-center justify-center px-4">
                                     <div class="flex items-center gap-2 mb-4">
-                                        <i class="far fa-clock text-gray-400 text-xs"></i>
-                                        <span class="text-xs text-gray-500 font-medium">{{ $flight->duration_formatted }}</span>
+                                        <i class="far fa-clock dark:text-gray-300 text-xs"></i>
+                                        <span class="text-xs dark:text-gray-300 font-medium">{{ $flight->duration_formatted }}</span>
                                     </div>
                                     <div class="w-full flex items-center relative">
-                                        <div class="h-2 w-2 rounded-full bg-gray-300"></div>
+                                        <div class="h-2 w-2 rounded-full dark:bg-gray-300"></div>
                                         <div class="flex-1 h-[2px] bg-gray-200 relative">
                                             <!-- أيقونة الطائرة في المنتصف -->
                                             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2">
-                                                <i class="fas {{ $tripTypeConfig['icon'] }} text-gray-400 transform {{ $flight->trip_type == 'air' ? 'rotate-180' : '' }}"></i>
+                                                <i class="fas {{ $tripTypeConfig['icon'] }} dark:text-gray-300 transform {{ $flight->trip_type == 'air' ? 'rotate-180' : '' }}"></i>
                                             </div>
                                         </div>
-                                        <div class="h-2 w-2 rounded-full bg-gray-300"></div>
+                                        <div class="h-2 w-2 rounded-full dark:bg-gray-300"></div>
                                     </div>
-                                    <div class="mt-2 text-xs text-gray-400 font-medium">{{ $flight->trip_type_label }}</div>
+                                    <div class="mt-2 text-xs dark:text-gray-300 font-medium">{{ $flight->trip_type_label }}</div>
                                 </div>
                                 
                                 <!-- نقطة الوصول -->
                                 <div class="text-center w-full md:w-1/4">
-                                    <p class="text-sm text-gray-500 font-medium mb-1">الوصول</p>
-                                    <p class="text-2xl font-bold text-gray-900 mb-1">{{ $flight->arrival_city }}</p>
-                                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-bold mt-2">
+                                    <p class="text-sm dark:text-gray-300 font-medium mb-1">الوصول</p>
+                                    <p class="text-2xl font-bold dark:text-gray-300 mb-1">{{ $flight->arrival_city }}</p>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 dark:text-gray-300 text-sm font-bold mt-2">
                                         {{ $flight->arrival_time->format('H:i') }}
                                     </div>
-                                    <p class="text-xs text-gray-400 mt-2">{{ $flight->arrival_time->format('Y-m-d') }}</p>
+                                    <p class="text-xs dark:text-gray-300 mt-2">{{ $flight->arrival_time->format('Y-m-d') }}</p>
                                     @if($flight->arrival_terminal)
-                                        <p class="text-xs text-gray-500 mt-1 font-medium bg-gray-50 inline-block px-2 py-0.5 rounded">{{ $flight->arrival_terminal }}</p>
+                                        <p class="text-xs dark:text-gray-300 mt-1 font-medium bg-gray-50 inline-block px-2 py-0.5 rounded">{{ $flight->arrival_terminal }}</p>
                                     @endif
                                 </div>
                             </div>
@@ -243,46 +243,46 @@
                             
                             <!-- معلومات الرحلة - شبكة رسمية (ثلثي المساحة) -->
                             <div class="col-span-1 lg:col-span-2">
-                                <h3 class="text-sm uppercase tracking-wider text-gray-500 font-bold mb-4 flex items-center gap-2">
-                                    <span class="w-1 h-4 bg-blue-600 rounded-full inline-block"></span>
+                                <h3 class="text-sm uppercase tracking-wider dark:text-gray-300 font-bold mb-4 flex items-center gap-2">
+                                    <span class="w-1 h-4 bg-gray-300 rounded-full inline-block"></span>
                                     البيانات الأساسية
                                 </h3>
                                 
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                     <!-- نوع المركبة -->
-                                    <div class="p-4 border border-gray-100 rounded-xl bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
+                                    <div class="p-4 border border-gray-600 rounded-xl  hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
                                         <div class="flex flex-col h-full justify-between">
-                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
+                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center dark:text-gray-300 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
                                                 <i class="fas fa-shuttle-van text-sm"></i>
                                             </div>
                                             <div>
-                                                <p class="text-[11px] text-gray-500 font-semibold uppercase mb-1">المركبة</p>
-                                                <p class="font-bold text-gray-800 text-sm">{{ $flight->vehicle_type_label }}</p>
+                                                <p class="text-[11px] dark:text-gray-300 font-semibold uppercase mb-1">المركبة</p>
+                                                <p class="font-bold dark:text-gray-300 text-sm">{{ $flight->vehicle_type_label }}</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- محطة المغادرة -->
-                                    <div class="p-4 border border-gray-100 rounded-xl bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
+                                    <div class="p-4 border border-gray-600 rounded-xl hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
                                         <div class="flex flex-col h-full justify-between">
-                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
+                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center dark:text-gray-300 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
                                                 <i class="fas fa-plane-departure text-sm"></i>
                                             </div>
                                             <div>
-                                                <p class="text-[11px] text-gray-500 font-semibold uppercase mb-1">المطار/المحطة</p>
-                                                <p class="font-bold text-gray-800 text-sm truncate" title="{{ $flight->departure_airport }}">{{ $flight->departure_airport }}</p>
+                                                <p class="text-[11px] dark:text-gray-300 font-semibold uppercase mb-1">المطار/المحطة</p>
+                                                <p class="font-bold dark:text-gray-300 text-sm truncate" title="{{ $flight->departure_airport }}">{{ $flight->departure_airport }}</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- الحالة -->
-                                    <div class="p-4 border border-gray-100 rounded-xl bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
+                                    <div class="p-4 border border-gray-600 rounded-xl hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
                                         <div class="flex flex-col h-full justify-between">
-                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
+                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center dark:text-gray-300 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
                                                 <i class="fas fa-info-circle text-sm"></i>
                                             </div>
                                             <div>
-                                                <p class="text-[11px] text-gray-500 font-semibold uppercase mb-1">حالة الحجز</p>
+                                                <p class="text-[11px] dark:text-gray-300 font-semibold uppercase mb-1">حالة الحجز</p>
                                                 <div class="flex items-center gap-1.5">
                                                     <span class="w-2 h-2 rounded-full {{ $flight->is_active ? 'bg-green-500' : 'bg-red-500' }}"></span>
                                                     <p class="font-bold {{ $flight->is_active ? 'text-green-700' : 'text-red-700' }} text-sm">
@@ -294,14 +294,14 @@
                                     </div>
 
                                     <!-- المقاعد -->
-                                    <div class="p-4 border border-gray-100 rounded-xl bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
+                                    <div class="p-4 border border-gray-600 rounded-xl hover:shadow-md hover:border-blue-100 transition-all duration-300 group">
                                         <div class="flex flex-col h-full justify-between">
-                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
+                                            <div class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center dark:text-gray-300 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors mb-3">
                                                 <i class="fas fa-chair text-sm"></i>
                                             </div>
                                             <div>
-                                                <p class="text-[11px] text-gray-500 font-semibold uppercase mb-1">المقاعد الشاغرة</p>
-                                                <p class="font-bold text-gray-800 text-sm font-mono">{{ $flight->available_seats }}</p>
+                                                <p class="text-[11px] dark:text-gray-300 font-semibold uppercase mb-1">المقاعد الشاغرة</p>
+                                                <p class="font-bold dark:text-gray-300 text-sm font-mono">{{ $flight->available_seats }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +310,7 @@
 
                             <!-- فئات المقاعد / الكابينات - تصميم رسمي (ثلث المساحة) -->
                             <div class="col-span-1">
-                                <h3 class="text-sm uppercase tracking-wider text-gray-500 font-bold mb-4 flex items-center gap-2">
+                                <h3 class="text-sm uppercase tracking-wider dark:text-gray-300 font-bold mb-4 flex items-center gap-2">
                                     <span class="w-1 h-4 bg-gray-400 rounded-full inline-block"></span>
                                     @if($flight->trip_type === 'sea')
                                         خيارات الكابينات
@@ -322,40 +322,40 @@
                                 <div class="grid grid-cols-1 gap-4">
                                     @if($flight->seat_classes)
                                         @foreach($flight->seat_classes as $class)
-                                            <div class="flex items-center justify-between p-4 border border-gray-100 rounded-xl bg-white hover:border-blue-200 hover:shadow-sm transition-all duration-200 group cursor-default">
+                                            <div class="flex items-center justify-between p-4 border border-gray-600 rounded-xl bg-white hover:border-blue-200 hover:shadow-sm transition-all duration-200 group cursor-default">
                                                 <div class="flex items-center gap-3">
-                                                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                                                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center dark:text-gray-300 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
                                                         <i class="fas fa-check"></i>
                                                     </div>
                                                     <div>
-                                                        <p class="font-bold text-gray-900 text-sm capitalize">{{ t(ucfirst($class)) }}</p>
-                                                        <p class="text-xs text-gray-500">متوفر للحجز الفوري</p>
+                                                        <p class="font-bold dark:text-gray-300 text-sm capitalize">{{ t(ucfirst($class)) }}</p>
+                                                        <p class="text-xs dark:text-gray-300">متوفر للحجز الفوري</p>
                                                     </div>
                                                 </div>
                                                 <div class="text-right">
-                                                    <p class="text-lg font-bold text-blue-700">{{ number_format($flight->getPriceForClass($class)) }} <span class="text-xs font-normal text-gray-500">ريال</span></p>
+                                                    <p class="text-lg font-bold dark:text-gray-300">{{ number_format($flight->getPriceForClass($class)) }} <span class="text-xs font-normal dark:text-gray-300">ريال</span></p>
                                                 </div>
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="flex items-center justify-between p-4 border border-gray-100 rounded-xl bg-white hover:border-blue-200 hover:shadow-sm transition-all duration-200 group">
+                                        <div class="flex items-center justify-between p-4 border border-gray-600 rounded-xl bg-white hover:border-blue-200 hover:shadow-sm transition-all duration-200 group">
                                             <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                                                <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center dark:text-gray-300 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
                                                     <i class="fas fa-check"></i>
                                                 </div>
                                                 <div>
-                                                    <p class="font-bold text-gray-900 text-sm">
+                                                    <p class="font-bold dark:text-gray-300 text-sm">
                                                         @if($flight->trip_type === 'sea')
                                                             كابينة قياسية
                                                         @else
                                                             درجة اقتصادية
                                                         @endif
                                                     </p>
-                                                    <p class="text-xs text-gray-500">السعر الأساسي للرحلة</p>
+                                                    <p class="text-xs dark:text-gray-300">السعر الأساسي للرحلة</p>
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="text-lg font-bold text-blue-700">{{ number_format($flight->base_price) }} <span class="text-xs font-normal text-gray-500">ريال</span></p>
+                                                <p class="text-lg font-bold text-blue-700">{{ number_format($flight->base_price) }} <span class="text-xs font-normal dark:text-gray-300">ريال</span></p>
                                             </div>
                                         </div>
                                     @endif
@@ -375,7 +375,7 @@
                     <div class="bg-gradient-to-r {{ $tripTypeConfig['gradient'] }} p-2 rounded-lg">
                         <i class="fas fa-ticket-alt text-white"></i>
                     </div>
-                    <h2 class="text-xl font-bold text-gray-900">{{ __('messages.book_flight') }}</h2>
+                    <h2 class="text-xl font-bold dark:text-gray-300">{{ __('messages.book_flight') }}</h2>
                 </div>
                 <form action="{{ route('flights.choosePayment', $flight) }}" method="POST" class="space-y-8" enctype="multipart/form-data">
                     @csrf
@@ -383,8 +383,8 @@
                         <div class="rounded-xl p-6">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-user text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-400 mb-2">
+                                        <i class="fas fa-user dark:text-gray-300 ml-1"></i>
                                         الاسم الكامل *
                                     </label>
                                     <input type="text" name="passenger_name" value="{{ old('passenger_name') }}" 
@@ -395,8 +395,8 @@
                                 </div>
 
                                 <div >
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-envelope text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-envelope dark:text-gray-300 ml-1"></i>
                                         البريد الإلكتروني *
                                     </label>
                                     <input type="email" name="passenger_email" value="{{ old('passenger_email') }}"  
@@ -407,13 +407,13 @@
                                 </div>
 
                                 <div class="file-upload-container">
-                                    <label for="file-upload" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-id-card text-gray-400 mx-2"></i>
+                                    <label for="file-upload" class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-id-card dark:text-gray-300 mx-2"></i>
                                         صورة جواز السفر
                                     </label>
 
                                     <!-- الحاوية المخصصة لزر الإرفاق -->
-                                    <div id="custom-button" class="flex items-center justify-between p-3 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer text-gray-600">
+                                    <div id="custom-button" class="flex items-center justify-between p-3 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition duration-150 ease-in-out cursor-pointer dark:text-gray-300">
                                         <span id="file-name" class="truncate text-sm font-medium">
                                             <i class="fas fa-upload text-indigo-500 mx-2"></i>
                                             انقر هنا لاختيار ملف   
@@ -429,8 +429,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-id-badge text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-id-badge dark:text-gray-300 ml-1"></i>
                                         رقم الهوية الوطنية أو الإقامة
                                     </label>
                                     <input type="text" name="passenger_id_number" value="{{ old('passenger_id_number') }}"
@@ -438,8 +438,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-phone text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-phone dark:text-gray-300 ml-1"></i>
                                         رقم الهاتف في السعودية *
                                     </label>
                                     <input type="tel" name="passenger_phone" value="{{ old('passenger_phone') }}" 
@@ -450,8 +450,8 @@
                                 </div>
                                 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-phone-alt text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-phone-alt dark:text-gray-300 ml-1"></i>
                                         رقم الهاتف في السودان
                                     </label>
                                     <input type="tel" name="phone_sudan" value="{{ old('phone_sudan') }}"
@@ -459,8 +459,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-users text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-users dark:text-gray-300 ml-1"></i>
                                         عدد الركاب *
                                     </label>
                                     <select name="number_of_passengers"  
@@ -475,8 +475,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-exchange-alt text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-exchange-alt dark:text-gray-300 ml-1"></i>
                                         نوع التذكرة *
                                     </label>
                                     <select name="ticket_type"  
@@ -490,8 +490,8 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-chair text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-chair dark:text-gray-300 ml-1"></i>
                                         @if($flight->trip_type === 'sea')
                                             فئة الكابينة *
                                         @else
@@ -524,8 +524,8 @@
 
                                 @if($flight->trip_type === 'sea')
                                     <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                            <i class="fas fa-bed text-gray-400 ml-1"></i>
+                                        <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                            <i class="fas fa-bed dark:text-gray-300 ml-1"></i>
                                             نوع الكابينة
                                         </label>
                                         <input type="text" name="cabin_type" value="{{ old('cabin_type') }}"
@@ -536,8 +536,8 @@
 
                                 {{-- حقل طريقة الدفع --}}
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                        <i class="fas fa-credit-card text-gray-400 ml-1"></i>
+                                    <label class="block text-sm font-semibold dark:text-gray-300 mb-2">
+                                        <i class="fas fa-credit-card dark:text-gray-300 ml-1"></i>
                                         طريقة الدفع *
                                     </label>
                                     <select name="payment_method"  
@@ -657,8 +657,8 @@
                 // عرض اسم الملف مع أيقونة النجاح
                 fileNameDisplay.innerHTML = `<i class=\"fas fa-check-circle text-green-500 ml-2\"></i> ${fileName}`;
                 // تغيير تنسيق الزر للإشارة إلى النجاح
-                customButton.classList.remove("border-gray-300", "bg-gray-50", "text-gray-600");
-                customButton.classList.add("border-green-400", "bg-green-50", "text-green-700");
+                customButton.classList.remove("border-gray-300");
+                customButton.classList.add("border-green-400");
             } else {
                 // إعادة التنسيق للحالة الافتراضية
                 fileNameDisplay.innerHTML = `<i class=\"fas fa-upload text-gray-700 mx-2\"></i> انقر هنا لاختيار ملف أو اسحبه وأفلته`;

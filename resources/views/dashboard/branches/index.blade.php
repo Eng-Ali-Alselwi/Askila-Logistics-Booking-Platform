@@ -1,11 +1,11 @@
 @extends('dashboard.layout.admin', ['title' => t('Branches Management')])
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => 'Branches Management', 'title' => 'Dashboard'])
+
 
     <x-dashboard.outer-card :title="t('Branches')">
         <x-slot:header>
-            <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
+            <div class="px-4 border-b-1 border-b-gray-500 py-4 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Branches') }}</h2>
                 @can('create branches')
                 <x-inputs.button-primary as="a" href="{{ route('dashboard.branches.create') }}">

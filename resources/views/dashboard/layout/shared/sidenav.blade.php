@@ -4,73 +4,42 @@
   <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
 
     <a href="#" class="flex  justify-center items-center mb-8">
-        <img src="{{ asset('assets/images/logo/dark.png') }}" class="me-3 h-30 dark:hidden" alt="Askila Logo" />
-        <img src="{{ asset('assets/images/logo/light.png') }}" class="me-3 h-30 hidden dark:block" alt="Askila Logo" />
+        <img src="{{ asset('assets/images/logo/dark.png') }}" class="me-3 h-20 dark:hidden" alt="Askila Logo" />
+        <img src="{{ asset('assets/images/logo/light.png') }}" class="me-3 h-20 hidden dark:block" alt="Askila Logo" />
         {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Askila</span> --}}
     </a>
     <ul class="space-y-2">
 
         @can('view users')
-        <x-dashboard.sidebar.dropdown icon="users" title="{{ t('Users') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.users.index') }}" title="{{ t('Show All') }}"/>
-            @can('create users')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.users.create') }}" title="{{ t('Add User') }}"/>
-            @endcan
-            {{-- <x-dashboard.sidebar.subitem href="#" title="Calendar"/> --}}
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="users" title="المستخدمون" href="{{ route('dashboard.users.index') }}"/>
         @endcan
 
         @can('view shipments')
-        <x-dashboard.sidebar.dropdown icon="shipment" title="{{ t('Shipments') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.shipments.index') }}" title="{{ t('Show All') }}"/>
-            @can('create shipments')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.shipments.create') }}" title="{{ t('Add Shipment') }}"/>
-            @endcan
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="shipment" title="الشحنات" href="{{ route('dashboard.shipments.index') }}"/>
         @endcan
 
         @can('manage flights')
-        <x-dashboard.sidebar.dropdown icon="plane" title="{{ t('Flights') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.flights.index') }}" title="{{ t('Show All') }}"/>
-            @can('manage flights')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.flights.create') }}" title="{{ t('Add Flight') }}"/>
-            @endcan
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="plane" title="الرحلات" href="{{ route('dashboard.flights.index') }}"/>
         @endcan
 
         @can('manage bookings')
-        <x-dashboard.sidebar.dropdown icon="ticket" title="{{ t('Bookings') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.bookings.index') }}" title="{{ t('Show All') }}"/>
-            @can('manage bookings')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.bookings.create') }}" title="{{ t('Add Booking') }}"/>
-            @endcan
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="ticket" title="الحجوزات" href="{{ route('dashboard.bookings.index') }}"/>
         @endcan
 
         @can('view customers')
-        <x-dashboard.sidebar.dropdown icon="users" title="{{ t('Customers') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.customers.index') }}" title="{{ t('Show All') }}"/>
-            @can('create customers')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.customers.create') }}" title="{{ t('Add Customer') }}"/>
-            @endcan
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="users" title="العملاء" href="{{ route('dashboard.customers.index') }}"/>
         @endcan
 
         @can('view branches')
-        <x-dashboard.sidebar.dropdown icon="building" title="{{ t('Branches') }}">
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.branches.index') }}" title="{{ t('Show All') }}"/>
-            @can('create branches')
-            <x-dashboard.sidebar.subitem href="{{ route('dashboard.branches.create') }}" title="{{ t('Add Branch') }}"/>
-            @endcan
-        </x-dashboard.sidebar.dropdown>
+        <x-dashboard.sidebar.item icon="building" title="الفروع" href="{{ route('dashboard.branches.index') }}"/>
         @endcan
 
         @can('view reports')
-        <x-dashboard.sidebar.item icon="chart" title="{{ t('Reports') }}" href="{{ route('dashboard.reports.index') }}"/>
+        <x-dashboard.sidebar.item icon="chart" title="التقارير" href="{{ route('dashboard.reports.index') }}"/>
         @endcan
 
         @can('manage settings')
-        <x-dashboard.sidebar.item icon="settings" title="{{ t('Settings') }}" href="{{ route('dashboard.settings.index') }}"/>
+        <x-dashboard.sidebar.item icon="settings" title="الإعدادات" href="{{ route('dashboard.settings.index') }}"/>
         @endcan
 
         {{-- <x-dashboard.sidebar.item icon="incoming-messages" title="Messages" href="#" badge="6" /> --}}

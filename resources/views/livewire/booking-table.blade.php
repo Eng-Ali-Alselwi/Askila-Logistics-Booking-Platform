@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative">
+<div x-data class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 relative">
 
     <div wire:loading.flex
          wire:target="setStatus,setPaymentStatus,setTripType,setDatePreset,from,to,q,perPage,clearStatus,clearPaymentStatus,clearTripType,clearDate,clearSearch,clearAll"
@@ -54,7 +54,7 @@
                     <input
                         type="text"
                         placeholder="{{ t('Search by booking reference, passenger name, email, phone, passport, nationality, or trip details...') }}"
-                        class="w-full pr-9 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        class="placeholder:text-xs w-full px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                         wire:model.live.debounce.500ms="q"
                     />
                     {{-- زر × لمسح البحث يظهر عند وجود نص --}}
@@ -67,9 +67,9 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Per page') }}</label>
+                    <label class="text-gray-500">{{ t('Per page') }}</label>
                     <select
-                        class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                        class="text-xs px-8 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
                         wire:model.change="perPage"
                         title="{{ t('Number of items per page') }}"
                     >
@@ -82,9 +82,9 @@
 
                 @can('manage branches')
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Branch') }}</label>
+                    <label class="text-gray-500">{{ t('Branch') }}</label>
                     <select wire:model.change="branch_id"
-                            class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
+                            class="text-xs px-8 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
                         <option value="">{{ t('All Branches') }}</option>
                         @foreach(\App\Models\Branch::orderBy('name')->get(['id','name']) as $b)
                             <option value="{{ $b->id }}">{{ $b->name }}</option>
@@ -94,9 +94,9 @@
                 @endcan
 
                 <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-500">{{ t('Trip Type') }}</label>
+                    <label class="text-gray-500">{{ t('Trip Type') }}</label>
                     <select wire:model.change="trip_type"
-                            class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
+                            class="text-xs px-8 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none">
                         <option value="">{{ t('All Trip Types') }}</option>
                         <option value="air">{{ t('Air') }}</option>
                         <option value="land">{{ t('Land') }}</option>
@@ -261,25 +261,23 @@
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
             <thead class="bg-gray-50 dark:bg-gray-800/50">
                 <tr>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Booking Reference') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Passenger') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Trip Type') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Trip') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Seat Class') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Passengers') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Total Amount') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Status') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Payment Status') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Actions') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Booking Reference') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Passenger') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Seat Class') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Passengers') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Total Amount') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Status') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Payment Status') }}</th>
+                    <th class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center font-medium text-gray-500">{{ t('Actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 @forelse ($rows as $row)
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-gray-800/50">
-                        <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
+                        <td class="px-2 py-3 text-sm border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             {{ $row->booking_reference }}
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-2 py-3 text-sm border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             <div class="text-gray-900 dark:text-gray-100 font-medium">
                                 {{ $row->passenger_name }}
                             </div>
@@ -290,40 +288,16 @@
                                 {{ $row->passenger_phone }}
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            @php
-                                $tripTypeColor = match($row->flight->trip_type) {
-                                    'air' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200',
-                                    'land' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200',
-                                    'sea' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-200',
-                                    default => 'bg-gray-100 text-gray-800 dark:bg-gray-900/40 dark:text-gray-200',
-                                };
-                            @endphp
-                            <span class="flex items-center px-2 py-1  text-xs {{ $tripTypeColor }}">
-                                {{ $row->flight->trip_type_label }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="text-gray-900 dark:text-gray-100 font-medium">
-                                {{ $row->flight->flight_number }}
-                            </div>
-                            <div class="text-gray-500 text-xs">
-                                {{ $row->flight->departure_city }} → {{ $row->flight->arrival_city }}
-                            </div>
-                            <div class="text-gray-500 text-xs">
-                                {{ $row->flight->departure_time->format('Y-m-d H:i') }}
-                            </div>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                        <td class="text-sm px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             {{ t(ucfirst($row->seat_class)) }}
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                        <td class="text-sm px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             {{ $row->number_of_passengers }}
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100 font-semibold">
-                            {{ number_format($row->total_amount, 2) }} {{ $row->currency }}
+                        <td class="text-sm px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100 font-semibold">
+                            {{ $row->currency }} {{ number_format($row->total_amount, 2) }} 
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             @php
                                 $statusColor = match($row->status) {
                                     'confirmed' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200',
@@ -334,11 +308,11 @@
                                     default => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
                                 };
                             @endphp
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs {{ $statusColor }}">
+                            <span class="inline-flex items-center p-2 text-xs {{ $statusColor }}">
                                 {{ t(ucfirst($row->status)) }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-2 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
                             @php
                                 $paymentStatusColor = match($row->payment_status) {
                                     'paid' => 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200',
@@ -353,12 +327,12 @@
                                     default => t(ucfirst($row->payment_status)),
                                 };
                             @endphp
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs {{ $paymentStatusColor }}">
+                            <span class="inline-flex items-center p-2 py-1 text-xs {{ $paymentStatusColor }}">
                                 {{ $paymentStatusText }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="flex items-center gap-2">
+                        <td class="px-1 py-3 border border-x-1 border-gray-200 dark:border-gray-600 text-center text-gray-900 dark:text-gray-100">
+                            <div class="flex items-center justify-evenly">
                                 <x-dashboard.event-icon route="{{ route('dashboard.bookings.show', $row) }}">
                                     <x-heroicon-s-eye class="w-4 h-4"/>
                                 </x-dashboard.event-icon>
@@ -386,11 +360,10 @@
                                 @endif
 
                                 <button
-                                    x-data
-                                    @click="$store.confirm.ask(
+                                    @click="Alpine.store('confirm').ask(
                                         () => $wire.destroy('{{ $row->id }}'),
-                                        '{{ t('Confirm booking deletion') }}',
-                                        '{{ t('The booking will be deleted permanently. Are you sure?') }}'
+                                        @js(t('Confirm booking deletion')),
+                                        @js(t('The booking will be deleted permanently. Are you sure?'))
                                     )"
                                     class="inline-flex items-center p-1 text-sm font-medium text-center text-gray-500 rounded-lg hover:text-red-800 hover:bg-red-200 dark:hover:bg-red-700 focus:outline-none dark:text-gray-400 dark:hover:text-red-100"
                                     title="{{ t('Delete booking') }}">

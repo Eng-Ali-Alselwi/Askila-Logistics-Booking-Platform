@@ -1,12 +1,18 @@
 @extends('dashboard.layout.admin', ['title' => t('Add New User')])
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', ['subtitle' => 'Add New User', 'title' => 'Dashboard'])
+    <!-- @include('dashboard.layout.shared/page-title', ['subtitle' => 'Add New User', 'title' => 'Dashboard']) -->
 
     <x-dashboard.outer-card :title="t('Add New User')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Add New User') }}</h2>
+                @can('view users')
+                    <x-inputs.button-primary as="a" href="{{ route('dashboard.users.index') }}">
+                        {{ t('Back') }}
+                        <x-heroicon-m-arrow-left class="h-4 w-4 {{ app()->getLocale() === 'ar' ? 'ms-2' : 'me-2' }} inline" />
+                    </x-inputs.button-primary>
+                @endcan
             </div>
         </x-slot:header>
         <form method="POST" action="{{ route('dashboard.users.store') }}" class="space-y-6">

@@ -340,7 +340,7 @@ class BookingController extends Controller
                 ->withInput();
         }
 
-    // ✅ التحقق من توفر المقاعد
+        // ✅ التحقق من توفر المقاعد
         if (!$flight->canBook($request->number_of_passengers)) {
             \Log::error('Cannot book: insufficient seats', [
                 'available_seats' => $flight->available_seats,
@@ -371,10 +371,6 @@ class BookingController extends Controller
             // ✅ حساب الأسعار
             $pricePerSeat = $flight->getPriceForClass($request->seat_class);
             $totalAmount = $pricePerSeat * $request->number_of_passengers;
-            $taxAmount = $totalAmount * 0.15; // 15% ضريبة
-            $serviceFee = 50 * $request->number_of_passengers; // رسوم الخدمة
-            $finalTotal = $totalAmount + $taxAmount + $serviceFee;
-
             // ✅ إنشاء أو العثور على العميل
             $customer = Customer::firstOrCreate(
                 ['email' => $request->passenger_email],

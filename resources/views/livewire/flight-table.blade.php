@@ -50,7 +50,7 @@
                     <input
                         type="text"
                         placeholder="{{ t('Search by trip number, company, vehicle type, departure/arrival city...') }}"
-                        class="w-full pr-9 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        class="w-full placeholder:text-xs pr-3 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                         wire:model.live.debounce.500ms="q"
                     />
                     {{-- زر × لمسح البحث يظهر عند وجود نص --}}
@@ -65,7 +65,7 @@
                 <div class="flex items-center gap-2">
                     <label class="text-gray-500">{{ t('Per page') }}</label>
                     <select
-                        class="text-xs px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
+                        class="text-xs px-8 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none"
                         wire:model.change="perPage"
                         title="{{ t('Number of items per page') }}"
                     >
@@ -220,25 +220,23 @@
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
             <thead class="bg-gray-50 dark:bg-gray-800/50">
                 <tr>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Trip Number') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Trip Type') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Company') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Route') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Departure Time') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Duration') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Seats') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Price') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Status') }}</th>
-                    <th class="px-4 py-3 text-start text-xs font-medium text-gray-500">{{ t('Actions') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Trip Number') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Trip Type') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Route') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Departure Time') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Seats') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Price') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Status') }}</th>
+                    <th class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700 font-medium text-gray-500">{{ t('Actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 @forelse ($rows as $row)
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-gray-800/50">
-                        <td class="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             {{ $row->flight_number }}
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             @php
                                 $tripTypeColor = match($row->trip_type) {
                                     'air' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200',
@@ -251,10 +249,7 @@
                                 {{ $row->trip_type_label }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-                            {{ $row->operator_name ?: $row->airline }}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             <div class="text-gray-900 dark:text-gray-100">
                                 {{ $row->departure_city }} → {{ $row->arrival_city }}
                             </div>
@@ -262,7 +257,7 @@
                                 {{ $row->departure_airport }} → {{ $row->arrival_airport }}
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             <div class="text-gray-900 dark:text-gray-100">
                                 {{ $row->departure_time->format('Y-m-d') }}
                             </div>
@@ -270,10 +265,7 @@
                                 {{ $row->departure_time->format('H:i') }} - {{ $row->arrival_time->format('H:i') }}
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
-                            {{ $row->duration_formatted }}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
+                         <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             <div class="text-gray-900 dark:text-gray-100">
                                 {{ $row->available_seats }}/{{ $row->total_seats }}
                             </div>
@@ -281,10 +273,10 @@
                                 <div class="bg-blue-600 h-2 rounded-full" style="width: <?php echo ($row->available_seats / $row->total_seats) * 100; ?>%"></div>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-                            {{ number_format($row->base_price, 2) }} {{ t('SAR') }}
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
+                            {{ number_format($row->base_price, 2) }} {{ $row->currency }}
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
                             @php
                                 $statusColor = match(true) {
                                     !$row->is_active => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
@@ -305,8 +297,8 @@
                                 {{ $statusText }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="flex items-center gap-2">
+                        <td class="px-1 py-3 text-xs text-center border-r border-gray-200 dark:border-gray-700">
+                            <div class="flex justify-evenly items-center">
                                 <x-dashboard.event-icon route="{{ route('dashboard.flights.show', $row) }}">
                                     <x-heroicon-s-eye class="w-4 h-4"/>
                                 </x-dashboard.event-icon>
@@ -333,7 +325,7 @@
                                         '{{ t('Confirm flight deletion') }}',
                                         '{{ t('The flight and all associated bookings will be deleted. Are you sure?') }}'
                                     )"
-                                    class="inline-flex items-center p-1 text-sm font-medium text-center text-gray-500 rounded-lg hover:text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                                    class="inline-flex items-center p-1 text-xs font-medium text-center text-gray-500 rounded-lg hover:text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                     title="{{ t('Delete flight') }}">
                                     <x-heroicon-s-trash class="w-4 h-4"/>
                                 </button>
