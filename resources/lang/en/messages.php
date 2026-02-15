@@ -1538,4 +1538,9 @@ return [
 
     'Click here to select a file' => 'Click here to select a file',
     'Choose' => 'Choose',
+
+    'Update Customer Data' => 'Update Customer Data',
+    'Back to Customers' => 'Back to Customers',
+    'Customer Details' => 'Customer Details',
+    'Back To Customers' => 'Back To Customers',
 ];

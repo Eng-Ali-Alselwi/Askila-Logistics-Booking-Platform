@@ -4,15 +4,16 @@
 @endsection
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', [
-        'subtitle' => t('Update Customer'),
-        'title' => 'Dashboard'
-    ])
-
-    <x-dashboard.outer-card :title="t('Update Customer')">
+    <x-dashboard.outer-card :title="t('Update Customer Data')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Update Customer') }}</h2>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Update Customer Data') }}</h2>
+                <div class="flex items-center gap-2">
+                    <x-inputs.button-primary as="a" href="{{ route('dashboard.customers.index') }}">
+                        {{ t('Back to Customers') }}
+                        <x-heroicon-s-arrow-left class="h-4 w-4 {{app()->getLocale() == 'ar' ? 'mr-2' : 'ml-2'}} inline" />
+                    </x-inputs.button-primary>
+                </div>
             </div>
         </x-slot:header>
 
@@ -21,7 +22,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="name" class="block text-sm mb-2">{{ t('Name') }} <span class="text-rose-500">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name', $customer->name) }}" required
@@ -52,15 +53,6 @@
                         </select>
                         @error('is_active')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
                     </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-200 dark:border-gray-800 pt-4">
-                    <div>
-                        <label for="address" class="block text-sm mb-2">{{ t('Address') }}</label>
-                        <textarea id="address" name="address" rows="3"
-                                  class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('address') border-red-500 @enderror">{{ old('address', $customer->address) }}</textarea>
-                        @error('address')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
-                    </div>
 
                     <div>
                         <label for="city" class="block text-sm mb-2">{{ t('City') }}</label>
@@ -69,6 +61,7 @@
                         @error('city')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
                     </div>
 
+                    
                     <div>
                         <label for="country" class="block text-sm mb-2">{{ t('Country') }}</label>
                         <select id="country" name="country"
@@ -78,6 +71,16 @@
                             <option value="SD" {{ old('country', $customer->country) == 'SD' ? 'selected' : '' }}>{{ t('Sudan') }}</option>
                         </select>
                         @error('country')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
+                    </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 gap-4">
+                    <div>
+                        <label for="address" class="block text-sm mb-2">{{ t('Address') }}</label>
+                        <textarea id="address" name="address" rows="3"
+                                  class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('address') border-red-500 @enderror">{{ old('address', $customer->address) }}</textarea>
+                        @error('address')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
                     </div>
                 </div>
 

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmedMail;
 use App\Mail\BookingCodeMail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -58,7 +59,7 @@ class BookingController extends Controller
 
         // التحقق من توفر المقاعد
         if ($flight->available_seats < $request->number_of_passengers) {
-            return back()->withErrors(['flight_id' => 'لا توجد مقاعد متاحة كافية.']);
+            return back()->withErrors(['flight_id' => 'لا يمكن إتمام الحجز لأن عدد المقاعد المطلوبة أكبر من العدد المتوفر حالياً في هذه الرحلة.'])->withInput();
         }
 
         // رفع صورة الجواز إن وجدت
@@ -73,6 +74,14 @@ class BookingController extends Controller
         // حساب المبالغ (مطابقة لواجهة المستخدم الأمامية)
         $basePrice = $flight->getPriceForClass($request->seat_class);
         $totalAmount = $basePrice * $request->number_of_passengers;
+
+        // مضاعفة السعر إذا كانت التذكرة ذهاب وإياب
+        if ($request->ticket_type === 'round_trip') {
+            $totalAmount *= 2;
+        }
+
+        // $taxAmount = $totalAmount * 0.15; // 15% ضريبة
+        // $serviceFee = 50; // رسوم خدمة ثابتة
 
         try {
             DB::beginTransaction();
@@ -98,6 +107,8 @@ class BookingController extends Controller
                 'number_of_passengers' => $request->number_of_passengers,
                 'passenger_details' => $request->passenger_details,
                 'total_amount' => $totalAmount,
+                // 'tax_amount' => $taxAmount,
+                // 'service_fee' => $serviceFee,
                 'currency' => 'SAR',
                 'status' => 'pending',
                 'payment_status' => $request->payment_status,
@@ -154,89 +165,126 @@ class BookingController extends Controller
 
     public function update(Request $request, Booking $booking)
     {
-        $request->validate([
+        $this->authorize('update', $booking);
+
+        $validated = $request->validate([
+            'flight_id' => 'required|exists:flights,id',
             'passenger_name' => 'required|string|max:255',
             'passenger_email' => 'required|email|max:255',
             'passenger_phone' => 'required|string|max:20',
             'passenger_id_number' => 'nullable|string|max:20',
-            'passport_number' => 'nullable|string|max:50',
-            'passport_issue_date' => 'nullable|date',
-            'passport_expiry_date' => 'nullable|date|after:passport_issue_date',
-            'nationality' => 'nullable|string|max:100',
-            'date_of_birth' => 'nullable|date',
             'current_residence_country' => 'nullable|string|max:100',
             'destination_country' => 'nullable|string|max:100',
             'phone_sudan' => 'nullable|string|max:20',
-            'travel_date' => 'nullable|date',
+            'ticket_type' => 'required|in:one_way,round_trip',
             'seat_class' => 'required|in:economy,business,first',
-            'number_of_passengers' => 'required|integer',
+            'number_of_passengers' => 'required|integer|min:1',
+            'passenger_details' => 'nullable|array',
             'special_requests' => 'nullable|string|max:1000',
             'status' => 'required|in:pending,confirmed,cancelled,completed',
             'payment_status' => 'required|in:pending,paid,failed,refunded',
             'image' => 'nullable|file|mimes:jpg,jpeg,png,webp,pdf|max:4096'
         ]);
 
-        $wasConfirmed = $booking->isConfirmed();
-        $oldPassengerCount = $booking->number_of_passengers;
-        $newPassengerCount = $request->number_of_passengers;
+        try {
+            DB::beginTransaction();
 
-        // تحديث المقاعد إذا تغير العدد
-        if ($oldPassengerCount != $newPassengerCount) {
-            $seatDifference = $newPassengerCount - $oldPassengerCount;
-            if ($seatDifference > 0 && $booking->flight->available_seats < $seatDifference) {
-                return back()->withErrors(['number_of_passengers' => 'لا توجد مقاعد متاحة كافية.']);
-            }
-            $booking->flight->updateAvailableSeats(-$seatDifference);
-        }
+            $wasConfirmed = $booking->isConfirmed();
+            $oldPassengerCount = (int) $booking->number_of_passengers;
+            $newPassengerCount = (int) $validated['number_of_passengers'];
+            
+            // قفل سجلات الرحلات لمنع التعديل المتزامن (Race Condition)
+            $oldFlight = Flight::where('id', $booking->flight_id)->lockForUpdate()->firstOrFail();
+            $newFlight = ($validated['flight_id'] == $oldFlight->id) 
+                ? $oldFlight 
+                : Flight::where('id', $validated['flight_id'])->lockForUpdate()->firstOrFail();
 
-        // معالجة الصورة الجديدة إذا رفعت
-        $imagePath = $booking->image;
-        if ($request->hasFile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');
-            $stored = $request->file('image')->storeAs('bookings', $randomName, 'public');
-            $imagePath = $stored ?: $imagePath;
-        }
-
-        $booking->update([
-            'passenger_name' => $request->passenger_name,
-            'passenger_email' => $request->passenger_email,
-            'passenger_phone' => $request->passenger_phone,
-            'passenger_id_number' => $request->passenger_id_number,
-            'passport_number' => $request->passport_number,
-            'passport_issue_date' => $request->passport_issue_date,
-            'passport_expiry_date' => $request->passport_expiry_date,
-            'nationality' => $request->nationality,
-            'date_of_birth' => $request->date_of_birth,
-            'current_residence_country' => $request->current_residence_country,
-            'destination_country' => $request->destination_country,
-            'phone_sudan' => $request->phone_sudan,
-            'travel_date' => $request->travel_date,
-            'seat_class' => $request->seat_class,
-            'number_of_passengers' => $newPassengerCount,
-            'passenger_details' => $request->passenger_details,
-            'special_requests' => $request->special_requests,
-            'status' => $request->status,
-            'payment_status' => $request->payment_status,
-            'image' => $imagePath
-        ]);
-
-        // إرسال بريد تأكيد إذا تغيرت الحالة لـ "مؤكد"
-        if (!$wasConfirmed && $request->status === 'confirmed') {
-            try {
-                if (!empty($booking->passenger_email)) {
-                    Mail::to($booking->passenger_email)->send(new BookingConfirmedMail($booking));
+            // تحديث المقاعد إذا تغيرت الرحلة أو تغير العدد
+            if ($oldFlight->id != $newFlight->id) {
+                // التحقق من توفر المقاعد في الرحلة الجديدة
+                if ($newFlight->available_seats < $newPassengerCount) {
+                    throw new \Exception('لا يمكن تغيير الرحلة لأن عدد المقاعد المطلوبة أكبر من العدد المتوفر حالياً في هذه الرحلة.');
                 }
-            } catch (\Throwable $e) {
-                \Log::warning('Failed to send booking confirmed email (admin update)', [
-                    'booking_id' => $booking->id,
-                    'error' => $e->getMessage(),
-                ]);
+                
+                // عملية النقل: إعادة للقديمة وخصم من الجديدة
+                $oldFlight->increment('available_seats', $oldPassengerCount);
+                $newFlight->decrement('available_seats', $newPassengerCount);
+            } else {
+                // نفس الرحلة، تحقق فقط إذا تغير العدد
+                if ($oldPassengerCount != $newPassengerCount) {
+                    $seatDifference = $newPassengerCount - $oldPassengerCount;
+                    if ($seatDifference > 0 && $oldFlight->available_seats < $seatDifference) {
+                        throw new \Exception('لا توجد مقاعد متاحة كافية في هذه الرحلة.');
+                    }
+                    
+                    if ($seatDifference > 0) {
+                        $oldFlight->decrement('available_seats', $seatDifference);
+                    } else {
+                        $oldFlight->increment('available_seats', abs($seatDifference));
+                    }
+                }
             }
-        }
 
-        return redirect()->route('dashboard.bookings.index')
-            ->with('success', 'تم تحديث الحجز بنجاح.');
+            // معالجة الصورة وحذف القديمة إن وجدت
+            $imagePath = $booking->image;
+            if ($request->hasFile('image')) {
+                if ($booking->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($booking->image)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($booking->image);
+                }
+                
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $randomName = (string) Str::uuid() . ($extension ? ('.' . strtolower($extension)) : '');
+                $imagePath = $request->file('image')->storeAs('bookings', $randomName, 'public');
+            }
+
+            // حساب السعر الجديد بناءً على منطق الأعمال الحالي
+            $pricePerSeat = $newFlight->getPriceForClass($validated['seat_class']);
+            $totalAmount = $pricePerSeat * $newPassengerCount;
+
+            if ($validated['ticket_type'] === 'round_trip') {
+                $totalAmount *= 2;
+            }
+
+            // تحديث سجل الحجز
+            $booking->update([
+                'flight_id' => $newFlight->id,
+                'passenger_name' => $validated['passenger_name'],
+                'passenger_email' => $validated['passenger_email'],
+                'passenger_phone' => $validated['passenger_phone'],
+                'passenger_id_number' => $validated['passenger_id_number'],
+                'current_residence_country' => $validated['current_residence_country'],
+                'destination_country' => $validated['destination_country'],
+                'phone_sudan' => $validated['phone_sudan'],
+                'ticket_type' => $validated['ticket_type'],
+                'seat_class' => $validated['seat_class'],
+                'number_of_passengers' => $newPassengerCount,
+                'passenger_details' => $validated['passenger_details'] ?? [],
+                'total_amount' => $totalAmount,
+                'special_requests' => $validated['special_requests'],
+                'status' => $validated['status'],
+                'payment_status' => $validated['payment_status'],
+                'image' => $imagePath
+            ]);
+
+            DB::commit();
+
+            // العمليات اللاحقة للالتزام (خارج الـ transaction لتوفير الموارد)
+            if (!$wasConfirmed && $validated['status'] === 'confirmed') {
+                try {
+                    if (!empty($booking->passenger_email)) {
+                        Mail::to($booking->passenger_email)->send(new BookingConfirmedMail($booking));
+                    }
+                } catch (\Throwable $e) {
+                    \Log::warning('Failed to send booking confirmed email', ['id' => $booking->id]);
+                }
+            }
+
+            return redirect()->route('dashboard.bookings.index')->with('success', 'تم تحديث الحجز بنجاح.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['flight_id' => $e->getMessage()])->withInput();
+        }
     }
 
     public function cancel(Booking $booking)

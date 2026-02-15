@@ -29,14 +29,14 @@
                             <option value="">{{ t('Select a flight') }}</option>
                             @foreach(\App\Models\Flight::active()->upcoming()->with('bookings')->get() as $flight)
                                 <option value="{{ $flight->id }}" {{ old('flight_id') == $flight->id ? 'selected' : '' }}>
-                                    [{{ $flight->trip_type_label }}] {{ $flight->flight_number }} - {{ $flight->departure_city }} → {{ $flight->arrival_city }} 
-                                    ({{ $flight->departure_time->format('Y-m-d H:i') }}) - 
-                                    {{ $flight->available_seats }} {{ t('seats available') }}
+                                    [{{ $flight->trip_type_label }}] [{{ $flight->departure_city }} → {{ $flight->arrival_city }}] 
+                                    [{{ $flight->departure_time->format('Y-m-d') }}]
+                                    [{{ $flight->available_seats }} {{ t('seats available') }}]
                                 </option>
                             @endforeach
                         </select>
                         @error('flight_id')
-                            <p class="mt-1 text-sm text-red-600">{{ t($message) }}</p>
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 

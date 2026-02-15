@@ -17,8 +17,54 @@
         </x-slot:header>
 
         <div class="p-6">
+            @php 
+                $flightsList = \App\Models\Flight::active()->upcoming()->get()->map(function($f) {
+                    return [
+                        'id' => $f->id,
+                        'base_price' => (float) $f->base_price,
+                        'pricing' => $f->pricing_tiers ?? []
+                    ];
+                });
+                // Add current flight if not in upcoming
+                if ($booking->flight && !$flightsList->contains('id', $booking->flight_id)) {
+                    $flightsList->push([
+                        'id' => $booking->flight->id,
+                        'base_price' => (float) $booking->flight->base_price,
+                        'pricing' => $booking->flight->pricing_tiers ?? []
+                    ]);
+                }
+            @endphp
+
+
             <form action="{{ route('dashboard.bookings.update', $booking) }}" method="POST" class="space-y-6" enctype="multipart/form-data" 
-                  x-data="{ numPassengers: {{ old('number_of_passengers', $booking->number_of_passengers ?? 1) }}, extraDetails: {{ json_encode($booking->passenger_details ?? []) }} }">
+                  x-data="{ 
+                      numPassengers: {{ old('number_of_passengers', $booking->number_of_passengers ?? 1) }}, 
+                      extraDetails: {{ json_encode($booking->passenger_details ?? []) }},
+                      flightId: '{{ old('flight_id', $booking->flight_id) }}',
+                      seatClass: '{{ old('seat_class', $booking->seat_class) }}',
+                      ticketType: '{{ old('ticket_type', $booking->ticket_type) }}',
+                      flights: {{ $flightsList->toJson() }},
+                      calculateTotal() {
+                          const flight = this.flights.find(f => f.id == this.flightId);
+                          if (!flight) return '0.00';
+                          let price = flight.pricing[this.seatClass] || flight.base_price;
+                          let baseTotal = price * this.numPassengers;
+                          if (this.ticketType === 'round_trip') {
+                              baseTotal *= 2;
+                          }
+                          return baseTotal.toFixed(2);
+                      },
+                      getBaseTotal() {
+                          const flight = this.flights.find(f => f.id == this.flightId);
+                          if (!flight) return '0.00';
+                          let price = flight.pricing[this.seatClass] || flight.base_price;
+                          let baseTotal = price * this.numPassengers;
+                          if (this.ticketType === 'round_trip') {
+                              baseTotal *= 2;
+                          }
+                          return baseTotal.toFixed(2);
+                      }
+                  }">
                 @csrf
                 @method('PUT')
 
@@ -28,7 +74,7 @@
                         <label for="flight_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Select Flight') }} <span class="text-red-500">*</span>
                         </label>
-                        <select id="flight_id" name="flight_id" 
+                        <select id="flight_id" name="flight_id" x-model="flightId"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('flight_id') border-red-500 @enderror">
                             <option value="">{{ t('Select a flight') }}</option>
                             @php 
@@ -51,7 +97,7 @@
                             @endif
                         </select>
                         @error('flight_id')
-                            <p class="mt-1 text-sm text-red-600">{{ t($message) }}</p>
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -213,7 +259,7 @@
                         <label for="seat_class" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Seat Class') }} <span class="text-red-500">*</span>
                         </label>
-                        <select id="seat_class" name="seat_class" 
+                        <select id="seat_class" name="seat_class" x-model="seatClass"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('seat_class') border-red-500 @enderror">
                             <option value="economy" {{ old('seat_class', $booking->seat_class) === 'economy' ? 'selected' : '' }}>{{ t('Economy') }}</option>
                             <option value="business" {{ old('seat_class', $booking->seat_class) === 'business' ? 'selected' : '' }}>{{ t('Business') }}</option>
@@ -229,7 +275,7 @@
                         <label for="ticket_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Ticket Type') }} <span class="text-red-500">*</span>
                         </label>
-                        <select id="ticket_type" name="ticket_type" 
+                        <select id="ticket_type" name="ticket_type" x-model="ticketType"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('ticket_type') border-red-500 @enderror">
                             <option value="one_way" {{ old('ticket_type', $booking->ticket_type) === 'one_way' ? 'selected' : '' }}>{{ t('One Way') }}</option>
                             <option value="round_trip" {{ old('ticket_type', $booking->ticket_type) === 'round_trip' ? 'selected' : '' }}>{{ t('Round Trip') }}</option>
@@ -309,6 +355,19 @@
                         @error('status')
                             <p class="mt-1 text-sm text-red-600">{{ t($message) }}</p>
                         @enderror
+                    </div>
+
+                    {{-- Total Amount --}}
+                    <div>
+                        <label for="total_amount_display" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            {{ t('Grand Total') }} (SAR)
+                        </label>
+                        <div class="flex items-center">
+                            <input type="text" id="total_amount_display" 
+                                x-bind:value="calculateTotal()"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 font-bold text-indigo-600 dark:text-indigo-400" readonly>
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">{{ t('Price updates automatically based on flight, class, passengers and ticket type') }}</p>
                     </div>
                 </div>
 

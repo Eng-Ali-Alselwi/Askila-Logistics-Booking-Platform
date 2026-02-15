@@ -1918,4 +1918,10 @@ return [
 
     'Click here to select a file' => 'انقر هنا لاختيار ملف',
     'Choose' => 'اختر',
+
+
+    'Update Customer Data' => 'تحديث بيانات العميل',
+    'Back to Customers' => 'العودة للعملاء',
+    'Customer Details' => 'تفاصيل العميل',
+    'Back To Customers' => 'العودة للعملاء',
 ];
