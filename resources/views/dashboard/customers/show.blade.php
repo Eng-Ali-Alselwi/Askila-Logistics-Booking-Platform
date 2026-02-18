@@ -23,21 +23,23 @@
 
         <div class="p-5 space-y-6">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Name') }}</div>
-                        <div class="font-medium">{{ $customer->name }}</div>
+                        <div class="font-medium">{{ t('Name') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->name }}</div>
+                    </div>
+
+                    <div>
+                        <div class="font-medium">{{ t('Email') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->email ?: '—' }}</div>
+                    </div>
+
+                    <div>
+                        <div class="font-medium">{{ t('Phone') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->phone }}</div>
                     </div>
                     <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Email') }}</div>
-                        <div class="font-medium">{{ $customer->email ?: '—' }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Phone') }}</div>
-                        <div class="font-medium">{{ $customer->phone }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Status') }}</div>
+                        <div class="font-medium">{{ t('Status') }}</div>
                         <div>
                             @if($customer->is_active)
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200">{{ t('Active') }}</span>
@@ -46,18 +48,22 @@
                             @endif
                         </div>
                     </div>
-                    <div class="md:col-span-2">
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Address') }}</div>
-                        <div class="font-medium">{{ $customer->address ?: '—' }}</div>
-                    </div>
+
                     <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('City') }}</div>
-                        <div class="font-medium">{{ $customer->city ?: '—' }}</div>
+                        <div class="font-medium">{{ t('Address') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->address ?: '—' }}</div>
                     </div>
+
                     <div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Country') }}</div>
-                        <div class="font-medium">{{ $customer->country ?: '—' }}</div>
+                        <div class="font-medium">{{ t('City') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->city ?: '—' }}</div>
                     </div>
+
+                    <div>
+                        <div class="font-medium">{{ t('Country') }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $customer->country ?: '—' }}</div>
+                    </div>
+
                 </div>
             </div>
 

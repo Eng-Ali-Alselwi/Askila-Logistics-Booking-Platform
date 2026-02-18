@@ -15,7 +15,6 @@ class UpsertShipment extends Component
     public ?string $shipmentId = null;
 
     // الحقول الأساسية
-    public string $tracking_number = '';
     public ?string $sender_name = null;
     public ?string $sender_phone = null;
     public ?string $receiver_name = null;
@@ -52,7 +51,6 @@ class UpsertShipment extends Component
         if ($shipmentId) {
             $s = Shipment::query()->findOrFail($shipmentId);
             $this->fill([
-                'tracking_number' => $s->tracking_number,
                 'sender_name'     => $s->sender_name,
                 'sender_phone'    => $s->sender_phone,
                 'receiver_name'   => $s->receiver_name,
@@ -80,12 +78,6 @@ class UpsertShipment extends Component
         $id = $this->shipmentId;
 
         return [
-            'tracking_number' => [
-                'required', 'string', 'max:40',
-                Rule::unique('shipments', 'tracking_number')
-                    ->ignore($id)               // تجاهل الحالية عند التعديل
-                    ->whereNull('deleted_at'),  // تجاهل المحذوفة سوفت
-            ],
             'sender_name'    => ['nullable', 'string', 'max:120'],
             'sender_phone'   => ['nullable', 'string', 'max:20'],
             'receiver_name'  => ['nullable', 'string', 'max:120'],
@@ -119,7 +111,7 @@ class UpsertShipment extends Component
         $data = $this->validate();
 
         $payload = collect($data)->only([
-            'tracking_number','sender_name','sender_phone','receiver_name','receiver_phone',
+            'sender_name','sender_phone','receiver_name','receiver_phone',
             'weight_kg','volume_cbm','declared_value','notes',
         ])->toArray();
 

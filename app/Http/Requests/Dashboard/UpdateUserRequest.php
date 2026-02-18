@@ -22,9 +22,9 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($userId)],
             'phone' => ['required', 'string', Rule::unique('users')->ignore($userId), new ValidPhoneNumber()],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'roles' => ['array'],
-            'roles.*' => ['exists:roles,id'],
+            'roles' => ['required', 'exists:roles,id'],
             'is_active' => ['boolean'],
+            'branch_id' => ['nullable', 'exists:branches,id'],
         ];
     }
 }

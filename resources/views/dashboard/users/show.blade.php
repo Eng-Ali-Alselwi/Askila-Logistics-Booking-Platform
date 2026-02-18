@@ -8,12 +8,19 @@
                 <div class="flex gap-2">
                     <x-inputs.button-primary as="a" href="{{ route('dashboard.users.edit', $user) }}">
                         {{ t('Edit User') }}
-                        <x-heroicon-m-pencil class="h-5 w-5 {{app()->getLocale() === 'ar' ? 'ms-2' : 'me-2'}} inline" />
+                        <x-heroicon-m-pencil class="h-5 w-5 ms-4 inline" />
                     </x-inputs.button-primary>
-                    <x-inputs.button-primary as="a" href="{{ route('dashboard.users.index') }}">
-                        {{ t('Back to Users') }}
-                        <x-heroicon-m-arrow-left class="h-5 w-5 {{app()->getLocale() === 'ar' ? 'ms-2' : 'me-2'}} inline" />
-                    </x-inputs.button-primary>
+                    @if(app()->getLocale() === 'ar')
+                        <x-inputs.button-primary as="a" href="{{ route('dashboard.users.index') }}">
+                            {{ t('Back to Users') }}
+                            <x-heroicon-m-arrow-left class="h-5 w-5 ms-4 inline" />
+                        </x-inputs.button-primary>
+                    @else
+                        <x-inputs.button-primary as="a" href="{{ route('dashboard.users.index') }}">
+                            {{ t('Back to Users') }}
+                            <x-heroicon-m-arrow-right class="h-5 w-5 ms-4 inline" />
+                        </x-inputs.button-primary>
+                    @endif
                 </div>
             </div>
         </x-slot:header>

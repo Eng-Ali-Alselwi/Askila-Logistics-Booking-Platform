@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+use App\Traits\BelongsToBranch;
+
 class Flight extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToBranch;
 
     protected $fillable = [
         'flight_number',
@@ -179,5 +181,13 @@ class Flight extends Model
     {
         return $value ?: $this->airline;
     }
-    
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (is_null($model->flight_number)) {
+                $model->flight_number = 'FL' . strtoupper(substr(uniqid(), -6));
+            }
+        });
+    }
 }

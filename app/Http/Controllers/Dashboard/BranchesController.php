@@ -42,7 +42,7 @@ class BranchesController extends Controller
         $branch = Branch::create($request->validated());
 
         return redirect()->route('dashboard.branches.index')
-            ->with('success', 'Branch created successfully.');
+            ->with('success', t('Branch created successfully.'));
     }
 
     public function show(Branch $branch)
@@ -64,7 +64,7 @@ class BranchesController extends Controller
         $branch->update($request->validated());
 
         return redirect()->route('dashboard.branches.index')
-            ->with('success', 'Branch updated successfully.');
+            ->with('success', t('Branch updated successfully.'));
     }
 
     public function destroy(Branch $branch)
@@ -76,7 +76,7 @@ class BranchesController extends Controller
         $branch->delete();
 
         return redirect()->route('dashboard.branches.index')
-            ->with('success', 'Branch deleted successfully.');
+            ->with('success', t('Branch deleted successfully.'));
     }
 
     public function toggleStatus(Branch $branch)
@@ -85,6 +85,6 @@ class BranchesController extends Controller
 
         $status = $branch->is_active ? 'activated' : 'deactivated';
         
-        return back()->with('success', "Branch {$status} successfully.");
+        return back()->with('success', t("Branch {$status} successfully."));
     }
 }

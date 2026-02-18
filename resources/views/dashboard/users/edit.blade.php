@@ -26,7 +26,7 @@
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Name') }} <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required
+                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
                                class="form-input @error('name') !border-red-500 @enderror">
                         @error('name')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -38,7 +38,7 @@
                         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Email') }} <span class="text-red-500">*</span>
                         </label>
-                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
+                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" 
                                class="form-input @error('email') !border-red-500 @enderror">
                         @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -50,7 +50,7 @@
                         <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             {{ t('Phone') }} <span class="text-red-500">*</span>
                         </label>
-                        <input type="tel" id="phone" name="phone" value="{{ old('phone', $user->phone) }}" required
+                        <input type="tel" id="phone" name="phone" value="{{ old('phone', $user->phone) }}"
                                class="form-input @error('phone') !border-red-500 @enderror">
                         @error('phone')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -106,6 +106,7 @@
                         @foreach($roles as $role)
                             <div class="flex items-center">
                                 <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
+                                       data-role-name="{{ $role->name }}"
                                        {{ in_array($role->id, old('roles', $user->roles->pluck('id')->toArray())) ? 'checked' : '' }}
                                        class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                                 <label for="role_{{ $role->id }}" class="mx-2 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -119,26 +120,29 @@
                     @enderror
                 </div>
 
-                <!-- User Info Display -->
-                <!-- <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ t('User Information') }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <!-- Branch Section -->
+                <div id="branch-container" class="border-t border-gray-200 dark:border-gray-700 pt-6" style="display: none;">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ t('Assign Branch') }}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <span class="font-medium">{{ t('Created At') }}:</span>
-                            <span>{{ $user->created_at->format('Y-m-d H:i') }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium">{{ t('Updated At') }}:</span>
-                            <span>{{ $user->updated_at->format('Y-m-d H:i') }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium">{{ t('Email Verified') }}:</span>
-                            <span class="{{ $user->email_verified_at ? 'text-green-600' : 'text-red-600' }}">
-                                {{ $user->email_verified_at ? t('Yes') : t('No') }}
-                            </span>
+                            <label for="branch_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ t('Branch') }} <span class="text-red-500">*</span>
+                            </label>
+                            <select id="branch_id" name="branch_id" class="form-select">
+                                <option value="">{{ t('Select Branch') }}</option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}" 
+                                            {{ old('branch_id', $user->branch_id) == $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('branch_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Action Buttons -->
                 <div class="flex justify-between items-center pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -200,7 +204,52 @@ document.addEventListener('DOMContentLoaded', function() {
     password.addEventListener('input', validatePassword);
     passwordConfirmation.addEventListener('input', validatePassword);
     
-    // Form submission confirmation - target the main form specifically
+    // Branch field toggle logic
+    const branchContainer = document.getElementById('branch-container');
+    const branchSelect = document.getElementById('branch_id');
+    const roleCheckboxes = document.querySelectorAll('input[name="roles[]"]');
+    
+    // roles that manage all branches (using names as data-name attribute might be missing here, 
+    // we might need to add data-name to checkboxes or just use IDs if we knew them, 
+    // but better add data-role-name to the checkboxes)
+    const globalRoles = ['super_admin', 'manager', 'المشرف الاعلى', 'مدير'];
+
+    function toggleBranchField() {
+        let hasGlobalRole = false;
+        let hasAnyRole = false;
+
+        roleCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                hasAnyRole = true;
+                const roleName = checkbox.getAttribute('data-role-name');
+                if (globalRoles.includes(roleName)) {
+                    hasGlobalRole = true;
+                }
+            }
+        });
+
+        if (hasAnyRole && !hasGlobalRole) {
+            branchContainer.style.display = 'block';
+            branchSelect.setAttribute('required', 'required');
+        } else {
+            branchContainer.style.display = 'none';
+            branchSelect.removeAttribute('required');
+            // If it's a global role, we should probably clear branch_id, but maybe keep it if it was previously set?
+            // The user said "المشرف الاعلى او مدير يتم اضافة المستخدم بالشكل الطبيعي" which implies no branch.
+            if (hasGlobalRole) {
+                branchSelect.value = '';
+            }
+        }
+    }
+
+    roleCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', toggleBranchField);
+    });
+
+    // Initial check
+    toggleBranchField();
+    
+    // Form submission confirmation
     const mainForm = document.querySelector('form[method="POST"][action*="users"]:not(#delete-user-form)');
     if (mainForm) {
         mainForm.addEventListener('submit', function(e) {

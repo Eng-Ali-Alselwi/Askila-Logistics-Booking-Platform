@@ -44,6 +44,16 @@
                     </select>
                 </div>
                 <div>
+                    <select name="branch_id" class="w-48 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500">
+                        <option value="">{{ t('All Branches') }}</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
                     <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
                         {{ t('Search') }}
                     </button>
@@ -59,6 +69,7 @@
                         <th class="py-3 border border-gray-200 dark:border-gray-700">{{ t('Email') }}</th>
                         <th class="py-3 border border-gray-200 dark:border-gray-700">{{ t('Phone') }}</th>
                         <th class="py-3 border border-gray-200 dark:border-gray-700">{{ t('Role') }}</th>
+                        <th class="py-3 border border-gray-200 dark:border-gray-700">{{ t('Branch') }}</th>
                         <th class="py-3 px-8 border border-gray-200 dark:border-gray-700">{{ t('Status') }}</th>
                         <th class="py-3 border border-gray-200 dark:border-gray-700">{{ t('Actions') }}</th>
                     </tr>
@@ -77,6 +88,19 @@
                                         {{ t($role->name) }}
                                     </span>
                                 @endforeach
+                            </td>
+                            <td class="px-2 py-4 border border-gray-200 dark:border-gray-700 text-xs">
+                                @if($user->hasAnyRole(['super_admin', 'manager']))
+                                    <span class="text-blue-600 font-medium italic">
+                                        {{ t('All Branches') }}
+                                    </span>
+                                @elseif($user->branch_id)
+                                    {{ $user->branch?->name }}
+                                @else
+                                    <span class="text-red-500 italic">
+                                        {{ t('None') }}
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-2 py-4 border border-gray-200 dark:border-gray-700">
                                 <span class="px-2 py-1 text-xs rounded-xs {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
@@ -107,19 +131,22 @@
                                     @endif
                                     @endcan
                                     @can('delete users')
-                                    @if(!$user->hasRole('super_admin'))
-                                        @php
-                                            $confirmMessage = t('Are you sure you want to delete this user?');
-                                        @endphp
-                                        <form method="POST" action="{{ route('dashboard.users.destroy', $user) }}" class="inline" 
-                                              onsubmit="return confirm('{{ $confirmMessage }}');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-800 pt-2">
-                                                <x-heroicon-o-trash class="h-4 w-4" />
-                                            </button>
-                                        </form>
-                                    @endif
+                                        @if(!$user->hasRole('super_admin'))
+                                            <form method="POST" action="{{ route('dashboard.users.destroy', $user) }}" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" 
+                                                        x-data 
+                                                        @click="$store.confirm.ask(
+                                                            () => $el.closest('form').submit(),
+                                                            '{{ t('Delete User') }}',
+                                                            '{{ t('Are you sure you want to delete this user?') }}'
+                                                        )"
+                                                        class="text-red-600 hover:text-red-800 pt-2">
+                                                    <x-heroicon-o-trash class="h-4 w-4" />
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endcan
                                 </div>
                             </td>

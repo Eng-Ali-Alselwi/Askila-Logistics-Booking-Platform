@@ -40,5 +40,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-
+        $exceptions->render(function (\Illuminate\Database\Eloquent\ModelNotFoundException $e, Request $request) {
+            if ($request->is('dashboard/*') || $request->is('dashboard')) {
+                return redirect()->route('dashboard.index')->with('error', t('You are not authorized to access this record or it does not exist in your branch.'));
+            }
+        });
     })->create();

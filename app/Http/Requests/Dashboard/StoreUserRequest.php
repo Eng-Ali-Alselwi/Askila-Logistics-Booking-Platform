@@ -19,9 +19,9 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'unique:users', new ValidPhoneNumber()],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'roles' => ['array'],
-            'roles.*' => ['exists:roles,id'],
+            'roles' => ['required', 'exists:roles,id'],
             'is_active' => ['boolean'],
+            'branch_id' => ['nullable', 'exists:branches,id'],
         ];
     }
 }

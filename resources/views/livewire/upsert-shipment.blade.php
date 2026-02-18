@@ -11,13 +11,6 @@
             {{-- Basic Information --}}
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <x-dashboard.form.input-field
-                    name="tracking_number"
-                    label="{{ t('Tracking Number') }}"
-                    required
-                    wire:model.defer="tracking_number"
-                />
-
-                <x-dashboard.form.input-field
                     name="weight_kg"
                     label="{{ t('Weight (kg)') }}"
                     type="number"

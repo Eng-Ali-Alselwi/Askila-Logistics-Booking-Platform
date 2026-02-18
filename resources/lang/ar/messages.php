@@ -1924,4 +1924,59 @@ return [
     'Back to Customers' => 'العودة للعملاء',
     'Customer Details' => 'تفاصيل العميل',
     'Back To Customers' => 'العودة للعملاء',
+    'Shipments for this Customer' => 'الشحنات لهذا العميل',
+    'Latest Event' => 'آخر حدث',
+
+
+    'Customer updated successfully.' => 'تم تحديث بيانات العميل بنجاح.',
+    'Customer deleted successfully.' => 'تم حذف بيانات العميل بنجاح.',
+
+    'Branch Details' => 'تفاصيل الفرع',
+    'Show Branch' => 'عرض الفرع',
+    'Back To Branches' => 'العودة للفرع',
+
+    'Customer' => 'العميل',
+    'Update Branch' => 'تعديل الفرع',
+    'Select Role' => 'اختر الدور',
+    'Select Branch' => 'اختر الفرع',
+    'Assign Branch' => 'تعيين فرع',
+
+    'The phone field is required.' => 'حقل الهاتف مطلوب.',
+    'The role field is required.' => 'حقل الدور مطلوب.',
+    'The branch id field is required.' => 'حقل الفرع مطلوب.',
+    'The email field is required.' => 'حقل البريد الإلكتروني مطلوب.',
+    'The name field is required.' => 'حقل الاسم مطلوب.',
+    'The password field is required.' => 'حقل كلمة المرور مطلوب.',
+    'The password confirmation field is required.' => 'حقل تأكيد كلمة المرور مطلوب.',
+    'The phone field must be a valid phone number.' => 'حقل الهاتف يجب أن يكون رقم هاتف صحيح.',
+    'The email field must be a valid email address.' => 'حقل البريد الإلكتروني يجب أن يكون بريد إلكتروني صحيح.',
+    'The password field must be at least 6 characters long.' => 'حقل كلمة المرور يجب أن يكون 6 أحرف على الأقل.',
+    'The password confirmation field must match the password field.' => 'حقل تأكيد كلمة المرور يجب أن يطابق حقل كلمة المرور.',
+    'The phone field must be unique.' => 'حقل الهاتف يجب أن يكون فريدًا.',
+    'The email field must be unique.' => 'حقل البريد الإلكتروني يجب أن يكون فريدًا.',
+    'The email has already been taken.' => 'البريد الإلكتروني موجود بالفعل.',
+    'The phone has already been taken.' => 'رقم الهاتف موجود بالفعل.',
+    'The roles field is required.' => 'حقل الأدوار مطلوب.',
+    'The branch field is required.' => 'حقل الفرع مطلوب.',
+
+    'Branch activated successfully.' => 'تم تفعيل الفرع بنجاح.',
+    'Branch deactivated successfully.' => 'تم إلغاء تفعيل الفرع بنجاح.',
+
+    'Branch created successfully.' => 'تم إنشاء الفرع بنجاح.',
+    'Branch updated successfully.' => 'تم تحديث بيانات الفرع بنجاح.',
+    'Branch deleted successfully.' => 'تم حذف بيانات الفرع بنجاح.',
+
+
+    'None' => 'لا يوجد',
+
+    'Users' => 'المستخدمون',
+    'Shipments' => 'الشحنات',
+    'Flights' => 'الرحلات',
+    'Bookings' => 'الحجوزات',
+    'Customers' => 'العملاء',
+    'Branches' => 'الفروع',
+    'Reports' => 'التقارير',
+    'Settings' => 'الإعدادات',
+    'All Branches' => 'كل الفروع',
+    'You are not authorized to access this record or it does not exist in your branch.' => 'غير مصرح لك بالوصول لهذا السجل أو أنه غير موجود في فرعك.',
 ];

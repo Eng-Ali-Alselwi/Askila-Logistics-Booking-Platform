@@ -64,7 +64,7 @@ class CustomersController extends Controller
         $customer->update($request->validated());
 
         return redirect()->route('dashboard.customers.index')
-            ->with('success', 'Customer updated successfully.');
+            ->with('success', t('Customer updated successfully.'));
     }
 
     public function destroy(Customer $customer)
@@ -72,7 +72,7 @@ class CustomersController extends Controller
         $customer->delete();
 
         return redirect()->route('dashboard.customers.index')
-            ->with('success', 'Customer deleted successfully.');
+            ->with('success', t('Customer deleted successfully.'));
     }
 
     public function toggleStatus(Customer $customer)
@@ -81,6 +81,6 @@ class CustomersController extends Controller
 
         $status = $customer->is_active ? 'activated' : 'deactivated';
         
-        return back()->with('success', "Customer {$status} successfully.");
+        return back()->with('success', t("Customer {$status} successfully."));
     }
 }

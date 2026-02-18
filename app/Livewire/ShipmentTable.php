@@ -99,15 +99,6 @@ class ShipmentTable extends Component
                 $q->whereBetween('created_at', [$start, $end]);
             });
 
-        $user = Auth::user();
-        $canViewAll = $user && ($user->hasRole('super_admin') || $user->hasRole('manager') || $user->can('manage branches'));
-
-        if ($this->branch_id) {
-            $query->where('branch_id', $this->branch_id);
-        } elseif ($user && $user->isBranchManager() && !$canViewAll) {
-            $query->where('branch_id', $user->branch_id);
-        }
-
         return $query->latest()->paginate($this->perPage);
     }
 

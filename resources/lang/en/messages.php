@@ -1543,4 +1543,62 @@ return [
     'Back to Customers' => 'Back to Customers',
     'Customer Details' => 'Customer Details',
     'Back To Customers' => 'Back To Customers',
+    'Shipments for this Customer' => 'Shipments for this Customer',
+    'Latest Event' => 'Latest Event',
+
+
+    'Customer updated successfully.' => 'Customer updated successfully.',
+    'Customer deleted successfully.' => 'Customer deleted successfully.',
+
+    'Branch Details' => 'Branch Details',
+    'Show Branch' => 'Show Branch',
+    'Back To Branches' => 'Back To Branches',
+
+    'Customer' => 'Customer',
+    'Update Branch' => 'Update Branch',
+    'Select Role' => 'Select Role',
+    'Select Branch' => 'Select Branch',
+    'Assign Branch' => 'Assign Branch',
+    'Branch activated successfully.' => 'Branch activated successfully.',
+    'Branch deactivated successfully.' => 'Branch deactivated successfully.',
+
+    'Branch created successfully.' => 'Branch created successfully.',
+    'Branch updated successfully.' => 'Branch updated successfully.',
+    'Branch deleted successfully.' => 'Branch deleted successfully.',
+
+
+    'None' => 'None',
+
+
+
+    'The phone field is required.' => 'The phone field is required.',
+    'The role field is required.' => 'The role field is required.',
+    'The branch id field is required.' => 'The branch id field is required.',
+    'The email field is required.' => 'The email field is required.',
+    'The name field is required.' => 'The name field is required.',
+    'The roles field is required.' => 'The roles field is required.',
+    'The branch field is required.' => 'The branch field is required.',
+    'The password field is required.' => 'The password field is required.',
+    'The password confirmation field is required.' => 'The password confirmation field is required.',
+    'The phone field must be a valid phone number.' => 'The phone field must be a valid phone number.',
+    'The email field must be a valid email address.' => 'The email field must be a valid email address.',
+    'The password field must be at least 6 characters long.' => 'The password field must be at least 6 characters long.',
+    'The password confirmation field must match the password field.' => 'The password confirmation field must match the password field.',
+    'The phone field must be unique.' => 'The phone field must be unique.',
+    'The email field must be unique.' => 'The email field must be unique.',
+    'The email has already been taken.' => 'The email has already been taken.',
+    'The phone has already been taken.' => 'The phone has already been taken.',
+
+
+
+    'Users' => 'Users',
+    'Shipments' => 'Shipments',
+    'Flights' => 'Flights',
+    'Bookings' => 'Bookings',
+    'Customers' => 'Customers',
+    'Branches' => 'Branches',
+    'Reports' => 'Reports',
+    'Settings' => 'Settings',
+    'All Branches' => 'All Branches',
+    'You are not authorized to access this record or it does not exist in your branch.' => 'You are not authorized to access this record or it does not exist in your branch.',
 ];

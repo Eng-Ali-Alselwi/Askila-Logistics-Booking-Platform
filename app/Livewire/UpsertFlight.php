@@ -13,7 +13,6 @@ class UpsertFlight extends Component
     public ?string $flightId = null;
 
     // Flight Information
-    public string $flight_number = '';
     public string $trip_type = 'air';
     public ?string $vehicle_type = null;
     // public ?string $operator_name = null;
@@ -42,7 +41,6 @@ class UpsertFlight extends Component
         if ($flightId) {
             $flight = Flight::findOrFail($flightId);
             $this->fill([
-                'flight_number' => $flight->flight_number,
                 'trip_type' => $flight->trip_type ?? 'air',
                 'vehicle_type' => $flight->vehicle_type,
                 // 'operator_name' => $flight->operator_name,
@@ -76,10 +74,6 @@ class UpsertFlight extends Component
         $id = $this->flightId;
 
         return [
-            'flight_number' => [
-                'required', 'string', 'max:20',
-                Rule::unique('flights', 'flight_number')->ignore($id),
-            ],
             'trip_type' => ['required', 'in:air,land,sea'],
             'vehicle_type' => ['nullable', 'string', 'max:100'],
             // 'operator_name' => ['nullable', 'string', 'max:100'],
@@ -112,7 +106,6 @@ class UpsertFlight extends Component
         $durationMinutes = $departure->diffInMinutes($arrival);
 
         $payload = [
-            'flight_number' => $data['flight_number'],
             'trip_type' => $data['trip_type'],
             'vehicle_type' => $data['vehicle_type'],
             // 'operator_name' => $data['operator_name'],

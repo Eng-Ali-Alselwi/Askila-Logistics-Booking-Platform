@@ -11,35 +11,35 @@
     <ul class="space-y-2">
 
         @can('view users')
-        <x-dashboard.sidebar.item icon="users" title="المستخدمون" href="{{ route('dashboard.users.index') }}"/>
+        <x-dashboard.sidebar.item icon="users" title="{{ t('Users') }}" href="{{ route('dashboard.users.index') }}"/>
         @endcan
 
         @can('view shipments')
-        <x-dashboard.sidebar.item icon="shipment" title="الشحنات" href="{{ route('dashboard.shipments.index') }}"/>
+        <x-dashboard.sidebar.item icon="shipment" title="{{ t('Shipments') }}" href="{{ route('dashboard.shipments.index') }}"/>
         @endcan
 
         @can('manage flights')
-        <x-dashboard.sidebar.item icon="plane" title="الرحلات" href="{{ route('dashboard.flights.index') }}"/>
+        <x-dashboard.sidebar.item icon="plane" title="{{ t('Flights') }}" href="{{ route('dashboard.flights.index') }}"/>
         @endcan
 
         @can('manage bookings')
-        <x-dashboard.sidebar.item icon="ticket" title="الحجوزات" href="{{ route('dashboard.bookings.index') }}"/>
+        <x-dashboard.sidebar.item icon="ticket" title="{{ t('Bookings') }}" href="{{ route('dashboard.bookings.index') }}"/>
         @endcan
 
         @can('view customers')
-        <x-dashboard.sidebar.item icon="users" title="العملاء" href="{{ route('dashboard.customers.index') }}"/>
+        <x-dashboard.sidebar.item icon="users" title="{{ t('Customers') }}" href="{{ route('dashboard.customers.index') }}"/>
         @endcan
 
         @can('view branches')
-        <x-dashboard.sidebar.item icon="building" title="الفروع" href="{{ route('dashboard.branches.index') }}"/>
+        <x-dashboard.sidebar.item icon="building" title="{{ t('Branches') }}" href="{{ route('dashboard.branches.index') }}"/>
         @endcan
 
         @can('view reports')
-        <x-dashboard.sidebar.item icon="chart" title="التقارير" href="{{ route('dashboard.reports.index') }}"/>
+        <x-dashboard.sidebar.item icon="chart" title="{{ t('Reports') }}" href="{{ route('dashboard.reports.index') }}"/>
         @endcan
 
         @can('manage settings')
-        <x-dashboard.sidebar.item icon="settings" title="الإعدادات" href="{{ route('dashboard.settings.index') }}"/>
+        <x-dashboard.sidebar.item icon="settings" title="{{ t('Settings') }}" href="{{ route('dashboard.settings.index') }}"/>
         @endcan
 
         {{-- <x-dashboard.sidebar.item icon="incoming-messages" title="Messages" href="#" badge="6" /> --}}

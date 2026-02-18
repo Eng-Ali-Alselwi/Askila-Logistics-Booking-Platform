@@ -4,54 +4,52 @@
 @endsection
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', [
-        'subtitle' => t('Show Branch').' | '.$branch->name,
-        'title' => 'Dashboard'
-    ])
-
     <x-dashboard.outer-card :title="t('Show Branch').' | '.$branch->name">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h1 class="text-xl font-semibold">{{ t('Branch Details').': '.$branch->name }}</h1>
                 <div class="flex items-center gap-3">
                     <x-inputs.button-secondary as="a" href="{{ route('dashboard.branches.edit', $branch) }}" class="inline-flex gap-2 justify-center items-center">
-                        <x-heroicon-s-pencil-square class="w4 h-4"/> {{ t('Edit') }}
+                        <x-heroicon-s-pencil-square class="w4 h-4"/> 
+                        {{ t('Edit') }}
                     </x-inputs.button-secondary>
 
-                    <form action="{{ route('dashboard.branches.destroy', $branch) }}" method="POST" onsubmit="return confirm('{{ t('Are you sure you want to delete?') }}');">
-                        @csrf
-                        @method('DELETE')
-                        <x-inputs.button-danger type="submit" class="inline-flex gap-2 justify-center items-center">
-                            <x-heroicon-s-trash class="w4 h-4"/> {{ t('Delete') }}
-                        </x-inputs.button-danger>
-                    </form>
-
-                    <x-inputs.button-outlined as="a" href="{{ route('dashboard.branches.index') }}" class="inline-flex gap-2 justify-center items-center">
-                        <x-heroicon-s-arrow-up-right class="w4 h-4"/> {{ t('Back To Branches') }}
-                    </x-inputs.button-outlined>
+                    <x-inputs.button-primary as="a" href="{{ route('dashboard.branches.index') }}" class="inline-flex gap-2 justify-center items-center">
+                        {{ t('Back To Branches') }}
+                        <x-heroicon-o-arrow-left class="w4 h-4"/> 
+                    </x-inputs.button-primary>
                 </div>
             </div>
         </x-slot:header>
 
         <div class="p-5 space-y-6">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Name') }}</div>
                         <div class="font-medium">{{ $branch->name }}</div>
                     </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Code') }}</div>
                         <div class="font-medium">{{ $branch->code }}</div>
                     </div>
+
+                    <div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Manager Name') }}</div>
+                        <div class="font-medium">{{ $branch->manager_name ?: '—' }}</div>
+                    </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Phone') }}</div>
                         <div class="font-medium">{{ $branch->phone ?: '—' }}</div>
                     </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Email') }}</div>
                         <div class="font-medium">{{ $branch->email ?: '—' }}</div>
                     </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Status') }}</div>
                         <div>
@@ -62,21 +60,20 @@
                             @endif
                         </div>
                     </div>
-                    <div class="md:col-span-2">
+
+                    <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Address') }}</div>
                         <div class="font-medium">{{ $branch->address ?: '—' }}</div>
                     </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('City') }}</div>
                         <div class="font-medium">{{ $branch->city ?: '—' }}</div>
                     </div>
+
                     <div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Country') }}</div>
                         <div class="font-medium">{{ $branch->country ?: '—' }}</div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ t('Manager Name') }}</div>
-                        <div class="font-medium">{{ $branch->manager_name ?: '—' }}</div>
                     </div>
                 </div>
             </div>

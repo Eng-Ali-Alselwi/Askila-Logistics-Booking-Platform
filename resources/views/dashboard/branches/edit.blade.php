@@ -4,15 +4,14 @@
 @endsection
 
 @section('content')
-    @include('dashboard.layout.shared/page-title', [
-        'subtitle' => t('Update Branch'),
-        'title' => 'Dashboard'
-    ])
-
     <x-dashboard.outer-card :title="t('Update Branch')">
         <x-slot:header>
             <div class="flex px-4 border-b-1 border-b-gray-500 flex-col items-stretch justify-between py-4 space-y-3 md:flex-row md:items-center md:space-y-0">
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white">{{ t('Update Branch') }}</h2>
+                <x-inputs.button-primary as="a" href="{{ route('dashboard.branches.index') }}" class="inline-flex gap-2 justify-center items-center">
+                    {{ t('Back To Branches') }}
+                    <x-heroicon-o-arrow-left class="w4 h-4"/> 
+                </x-inputs.button-primary>
             </div>
         </x-slot:header>
 
@@ -21,7 +20,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="name" class="block text-sm mb-2">{{ t('Name') }} <span class="text-rose-500">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name', $branch->name) }}" required
@@ -34,6 +33,13 @@
                         <input type="text" id="code" name="code" value="{{ old('code', $branch->code) }}" required
                                class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('code') border-red-500 @enderror">
                         @error('code')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div>
+                        <label for="manager_name" class="block text-sm mb-2">{{ t('Manager Name') }}</label>
+                        <input type="text" id="manager_name" name="manager_name" value="{{ old('manager_name', $branch->manager_name) }}"
+                               class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('manager_name') border-red-500 @enderror">
+                        @error('manager_name')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
                     </div>
 
                     <div>
@@ -50,7 +56,7 @@
                         @error('email')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="md:col-span-2">
+                    <div>
                         <label for="address" class="block text-sm mb-2">{{ t('Address') }}</label>
                         <textarea id="address" name="address" rows="3"
                                   class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('address') border-red-500 @enderror">{{ old('address', $branch->address) }}</textarea>
@@ -76,13 +82,6 @@
                     </div>
 
                     <div>
-                        <label for="manager_name" class="block text-sm mb-2">{{ t('Manager Name') }}</label>
-                        <input type="text" id="manager_name" name="manager_name" value="{{ old('manager_name', $branch->manager_name) }}"
-                               class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('manager_name') border-red-500 @enderror">
-                        @error('manager_name')<div class="text-xs text-rose-500 mt-1">{{ $message }}</div>@enderror
-                    </div>
-
-                    <div>
                         <label for="is_active" class="block text-sm mb-2">{{ t('Status') }}</label>
                         <select id="is_active" name="is_active"
                                 class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 @error('is_active') border-red-500 @enderror">
@@ -105,5 +104,3 @@
 
 @section('script')
 @endsection
-
-

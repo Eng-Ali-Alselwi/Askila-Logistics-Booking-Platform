@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
+use App\Models\Branch;
 
 class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')
+        $users = User::with(['roles', 'branch'])
             ->when(request('search'), function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%")
@@ -30,16 +31,22 @@ class UsersController extends Controller
             ->when(request('status'), function ($query, $status) {
                 $query->where('is_active', $status === 'active');
             })
+            ->when(request('branch_id'), function ($query, $branchId) {
+                $query->where('branch_id', $branchId);
+            })
             ->latest()
             ->paginate(15);
 
-        return view('dashboard.users.index', compact('users'));
+        $branches = Branch::active()->get();
+
+        return view('dashboard.users.index', compact('users', 'branches'));
     }
 
     public function create()
     {
         $roles = \Spatie\Permission\Models\Role::all();
-        return view('dashboard.users.create', compact('roles'));
+        $branches = Branch::active()->get();
+        return view('dashboard.users.create', compact('roles', 'branches'));
     }
 
     public function store(StoreUserRequest $request)
@@ -50,6 +57,7 @@ class UsersController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'is_active' => $request->has('is_active'),
+            'branch_id' => $request->branch_id,
         ]);
 
         if ($request->roles) {
@@ -75,8 +83,9 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $roles = \Spatie\Permission\Models\Role::all();
-        $user->load('roles');
-        return view('dashboard.users.edit', compact('user', 'roles'));
+        $branches = Branch::active()->get();
+        $user->load('roles', 'branch');
+        return view('dashboard.users.edit', compact('user', 'roles', 'branches'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -98,8 +107,11 @@ class UsersController extends Controller
             unset($data['password']);
         }
 
-        // Handle is_active checkbox properly - only set to true if checkbox is checked and has value '1'
+        // Handle is_active checkbox properly
         $data['is_active'] = $request->has('is_active') && $request->input('is_active') == '1' ? true : false;
+        
+        // Handle branch_id
+        $data['branch_id'] = $request->branch_id;
 
         $user->update($data);
 

@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Auth;
 
+use App\Traits\BelongsToBranch;
+
 class Shipment extends Model
 {
-    use HasFactory, HasUlids, SoftDeletes;
+    use HasFactory, HasUlids, SoftDeletes, BelongsToBranch;
 
     protected $fillable = [
         'tracking_number', 
@@ -122,8 +124,8 @@ class Shipment extends Model
     protected static function booted()
     {
         static::creating(function ($model) {
-            if (is_null($model->created_by) && Auth::check()) {
-                $model->created_by = Auth::id();
+            if (is_null($model->tracking_number)) {
+                $model->tracking_number = 'TRK' . strtoupper(substr(uniqid(), -8));
             }
         });
     }

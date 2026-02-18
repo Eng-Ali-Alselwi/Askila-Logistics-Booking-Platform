@@ -10,19 +10,14 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
+use App\Traits\BelongsToBranch;
 
 
 class User extends Authenticatable 
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, BelongsToBranch;
     use Billable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -33,21 +28,11 @@ class User extends Authenticatable
         'branch_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -57,8 +42,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function scopeActive($q)   { return $q->where('is_active', true); }
-    public function scopeInactive($q) { return $q->where('is_active', false); }
+    public function scopeActive($q) { 
+        return $q->where('is_active', true); 
+    }
+
+    public function scopeInactive($q) { 
+        return $q->where('is_active', false); 
+    }
+
     public function getImageUrlAttribute(): string
     {
         if ($this->image && Storage::disk('public')->exists($this->image)) {
@@ -67,28 +58,6 @@ class User extends Authenticatable
         // صورة بديلة ثابتة من الأصول عندك
         return asset('assets/images/avatar.jpg');
     }
-    // public function getAvatarUrlAttribute(): string
-    // {
-    //     if ($this->image) {
-    //         return asset('storage/avatars/'.$this->image);
-    //     }
-    //     return asset('assets/images/avatar.jpg'); // ضع صورة افتراضية عندك
-    // }
-    // public function role(): BelongsTo
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
-
-    // تحقق من التفعيل
-    // public function isActivated(): bool
-    // {
-    //     return $this->is_active;
-    // }
-
-    // public function isSuperAdmin(): bool
-    // {
-    //     return $this->hasRole('super_admin');
-    // }
 
     public function branch()
     {

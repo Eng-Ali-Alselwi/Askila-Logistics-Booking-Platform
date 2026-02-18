@@ -18,18 +18,6 @@
                     @enderror
                 </div>
 
-                <div>
-                    <label for="flight_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {{ t('Trip Number') }} <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" id="flight_number" wire:model="flight_number" 
-                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent @error('flight_number') border-red-500 @enderror"
-                           placeholder="{{ t('Enter trip number') }}">
-                    @error('flight_number')
-                        <p class="mt-1 text-sm text-red-600">{{ t($message) }}</p>
-                    @enderror
-                </div>
-
                 <!-- نوع المركبة -->
                 <div>
                     <label for="vehicle_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
